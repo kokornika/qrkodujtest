@@ -8,17 +8,6 @@ export interface PaymentPlan {
 
 export const PAYMENT_PLANS: PaymentPlan[] = [
   {
-    id: 'test',
-    name: 'Teszt csomag',
-    price: 20,
-    period: 'egyszeri',
-    features: [
-      'Teszt fizetés',
-      'Azonnal törlődik',
-      'Csak teszteléshez'
-    ]
-  },
-  {
     id: 'basic',
     name: 'Alap csomag',
     price: 9900,
