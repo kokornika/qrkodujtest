@@ -6,6 +6,18 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
 });
 
 const handler: Handler = async (event) => {
+  // Ellenőrizzük, hogy van-e Stripe secret key
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error('Missing STRIPE_SECRET_KEY environment variable');
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ 
+        error: 'Configuration error',
+        message: 'Stripe secret key is not configured'
+      }),
+    };
+  }
+
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -15,6 +27,16 @@ const handler: Handler = async (event) => {
 
   try {
     const { plan, customerData } = JSON.parse(event.body || '');
+
+    if (!plan || !customerData) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ 
+          error: 'Invalid request',
+          message: 'Missing plan or customer data'
+        }),
+      };
+    }
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -32,8 +54,8 @@ const handler: Handler = async (event) => {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.URL}/cancel`,
+      success_url: `${process.env.URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.URL || 'http://localhost:5173'}/cancel`,
       customer_email: customerData.email,
       metadata: {
         customerName: customerData.name,
@@ -49,9 +71,16 @@ const handler: Handler = async (event) => {
     };
   } catch (error) {
     console.error('Stripe session creation error:', error);
+    
+    // Részletesebb hibaüzenet
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Internal server error' }),
+      body: JSON.stringify({ 
+        error: 'Payment session creation failed',
+        message: errorMessage
+      }),
     };
   }
 };
