@@ -45,6 +45,9 @@ export class GitHubRepository {
 
       const repo = await createRepoResponse.json();
 
+      // Wait for repository creation to complete
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
       // Generate website content
       const htmlContent = await generateHTML(data);
 

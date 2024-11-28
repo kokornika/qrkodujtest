@@ -28,7 +28,8 @@
     "stripe": "^14.14.0",
     "@netlify/functions": "^2.4.1",
     "react-easy-crop": "^5.0.5",
-    "react-dropzone": "^14.2.3"
+    "react-dropzone": "^14.2.3",
+    "octokit": "^3.1.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
