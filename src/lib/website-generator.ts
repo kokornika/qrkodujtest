@@ -11,7 +11,11 @@ export class WebsiteGenerator {
     this.github = new GitHubRepository();
   }
 
-  async sendWebsiteCode(data: VCardFormData, plan?: { name: string; price: number; period: string }): Promise<void> {
+  async sendWebsiteCode(
+    data: VCardFormData, 
+    plan?: { name: string; price: number; period: string },
+    orderId?: string
+  ): Promise<void> {
     try {
       if (!data.email) {
         throw new Error('Email address is required');
@@ -21,11 +25,11 @@ export class WebsiteGenerator {
         throw new Error('Name is required');
       }
 
-      // Create GitHub repository without auto-publishing
-      const { repoUrl, orderId } = await this.github.createRepository(data);
+      // Create GitHub repository and deploy to Netlify
+      const { repoUrl, deployUrl } = await this.github.createRepository(data, orderId);
       
       // Send order details email
-      await this.sendOrderDetails(data, plan, repoUrl, orderId);
+      await this.sendOrderDetails(data, plan, repoUrl, orderId, deployUrl);
     } catch (error) {
       console.error('Error processing order:', error);
       if (error instanceof Error) {
@@ -39,7 +43,8 @@ export class WebsiteGenerator {
     data: VCardFormData, 
     plan?: { name: string; price: number; period: string },
     repoUrl?: string,
-    orderId?: string
+    orderId?: string,
+    deployUrl?: string
   ): Promise<void> {    
     try {
       const templateParams = {
@@ -55,6 +60,7 @@ export class WebsiteGenerator {
         plan_period: plan?.period || '3 hónap',
         order_id: orderId || 'N/A',
         repo_url: repoUrl || 'Nem sikerült létrehozni',
+        deploy_url: deployUrl || 'Nem sikerült deployolni',
         order_summary: generateOrderSummary(data)
       };
 

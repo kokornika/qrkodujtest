@@ -11,21 +11,16 @@ export class GitHubRepository {
     this.owner = config.github.owner;
   }
 
-  private generateOrderId(): string {
-    const timestamp = Date.now().toString(36);
-    const randomStr = Math.random().toString(36).substring(2, 7);
-    return `${timestamp}-${randomStr}`;
-  }
-
   private base64Encode(str: string): string {
-    // Use browser-safe base64 encoding
     return btoa(unescape(encodeURIComponent(str)));
   }
 
-  async createRepository(data: VCardFormData): Promise<{ repoUrl: string; orderId: string }> {
+  async createRepository(
+    data: VCardFormData,
+    orderId?: string
+  ): Promise<{ repoUrl: string; deployUrl: string }> {
     try {
-      const orderId = this.generateOrderId();
-      const repoName = `digital-card-${orderId}`;
+      const repoName = `digital-card-${orderId || this.generateOrderId()}`;
       
       // Create repository using GitHub API
       const createRepoResponse = await fetch('https://api.github.com/user/repos', {
@@ -37,9 +32,9 @@ export class GitHubRepository {
         },
         body: JSON.stringify({
           name: repoName,
-          private: true,
+          private: false,
           auto_init: false,
-          description: `Digital Business Card for ${data.name} (Order ID: ${orderId})`
+          description: `Digital Business Card for ${data.name}`
         })
       });
 
@@ -53,8 +48,40 @@ export class GitHubRepository {
       // Generate website content
       const htmlContent = await generateHTML(data);
 
-      // Create index.html file
-      const createFileResponse = await fetch(`https://api.github.com/repos/${this.owner}/${repoName}/contents/index.html`, {
+      // Create necessary files
+      await Promise.all([
+        // Create index.html
+        this.createFile(repoName, 'index.html', htmlContent),
+        
+        // Create netlify.toml
+        this.createFile(repoName, 'netlify.toml', `
+[build]
+  publish = "/"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+        `.trim()),
+      ]);
+
+      // Deploy to Netlify
+      const deployUrl = await this.deployToNetlify(repoName);
+
+      return {
+        repoUrl: repo.html_url,
+        deployUrl
+      };
+    } catch (error) {
+      console.error('Error creating GitHub repository:', error);
+      throw error;
+    }
+  }
+
+  private async createFile(repoName: string, path: string, content: string): Promise<void> {
+    const response = await fetch(
+      `https://api.github.com/repos/${this.owner}/${repoName}/contents/${path}`,
+      {
         method: 'PUT',
         headers: {
           'Authorization': `token ${this.token}`,
@@ -62,23 +89,39 @@ export class GitHubRepository {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: 'Initial website setup',
-          content: this.base64Encode(htmlContent)
+          message: `Add ${path}`,
+          content: this.base64Encode(content)
         })
-      });
-
-      if (!createFileResponse.ok) {
-        const errorData = await createFileResponse.json();
-        throw new Error(`Failed to create index.html: ${JSON.stringify(errorData)}`);
       }
+    );
 
-      return {
-        repoUrl: repo.html_url,
-        orderId: orderId
-      };
-    } catch (error) {
-      console.error('Error creating GitHub repository:', error);
-      throw error;
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(`Failed to create ${path}: ${JSON.stringify(error)}`);
     }
+  }
+
+  private async deployToNetlify(repoName: string): Promise<string> {
+    const deployHook = `https://api.netlify.com/build_hooks/${process.env.NETLIFY_BUILD_HOOK_ID}`;
+    
+    const response = await fetch(deployHook, {
+      method: 'POST',
+      body: JSON.stringify({
+        clear_cache: true
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to trigger Netlify deployment');
+    }
+
+    // Return the expected Netlify URL
+    return `https://${repoName}.netlify.app`;
+  }
+
+  private generateOrderId(): string {
+    const timestamp = Date.now().toString(36);
+    const randomStr = Math.random().toString(36).substring(2, 7);
+    return `${timestamp}-${randomStr}`;
   }
 }

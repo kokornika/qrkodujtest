@@ -7,11 +7,14 @@ const PaymentSuccess: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deployUrl, setDeployUrl] = useState<string | null>(null);
+  
   const sessionId = searchParams.get('session_id');
+  const orderId = searchParams.get('order_id');
 
   useEffect(() => {
     const processOrder = async () => {
-      if (!sessionId) {
+      if (!sessionId || !orderId) {
         setError('Érvénytelen munkamenet azonosító');
         setIsLoading(false);
         return;
@@ -28,7 +31,11 @@ const PaymentSuccess: React.FC = () => {
         
         // Generate website and send email
         const websiteGenerator = new WebsiteGenerator();
-        await websiteGenerator.sendWebsiteCode(formData, plan);
+        const result = await websiteGenerator.sendWebsiteCode(formData, plan, orderId);
+        
+        if (result?.deployUrl) {
+          setDeployUrl(result.deployUrl);
+        }
 
         // Clear session storage
         sessionStorage.removeItem('orderData');
@@ -42,7 +49,7 @@ const PaymentSuccess: React.FC = () => {
     };
 
     processOrder();
-  }, [sessionId]);
+  }, [sessionId, orderId]);
 
   return (
     <div className="max-w-2xl mx-auto pt-8 sm:pt-16">
@@ -86,7 +93,25 @@ const PaymentSuccess: React.FC = () => {
             
             <p className="text-gray-600 mb-8">
               Köszönjük a megrendelést! A digitális névjegykártyád elkészült.
-              A részleteket emailben elküldtük neked.
+              {deployUrl && (
+                <>
+                  <br />
+                  <br />
+                  A névjegykártyád elérhető a következő címen:
+                  <br />
+                  <a
+                    href={deployUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-700 font-medium"
+                  >
+                    {deployUrl}
+                  </a>
+                </>
+              )}
+              <br />
+              <br />
+              A részleteket emailben is elküldtük neked.
             </p>
           </>
         )}

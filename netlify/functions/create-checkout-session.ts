@@ -6,7 +6,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
 });
 
 const handler: Handler = async (event) => {
-  // Ellenőrizzük, hogy van-e Stripe secret key
   if (!process.env.STRIPE_SECRET_KEY) {
     console.error('Missing STRIPE_SECRET_KEY environment variable');
     return {
@@ -38,6 +37,11 @@ const handler: Handler = async (event) => {
       };
     }
 
+    // Generate order ID that will be used for both Stripe and GitHub
+    const timestamp = Date.now().toString(36);
+    const randomStr = Math.random().toString(36).substring(2, 7);
+    const orderId = `${timestamp}-${randomStr}`;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -54,10 +58,11 @@ const handler: Handler = async (event) => {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
       cancel_url: `${process.env.URL || 'http://localhost:5173'}/cancel`,
       customer_email: customerData.email,
       metadata: {
+        orderId: orderId,
         customerName: customerData.name,
         customerCompany: customerData.company || '',
         planId: plan.id,
@@ -67,12 +72,14 @@ const handler: Handler = async (event) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ id: session.id }),
+      body: JSON.stringify({ 
+        id: session.id,
+        orderId: orderId
+      }),
     };
   } catch (error) {
     console.error('Stripe session creation error:', error);
     
-    // Részletesebb hibaüzenet
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     
     return {
