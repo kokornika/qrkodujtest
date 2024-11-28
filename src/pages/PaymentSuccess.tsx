@@ -10,11 +10,11 @@ const PaymentSuccess: React.FC = () => {
   const [deployUrl, setDeployUrl] = useState<string | null>(null);
   
   const sessionId = searchParams.get('session_id');
-  const orderId = searchParams.get('order_id');
+  const paymentIntentId = searchParams.get('payment_intent');
 
   useEffect(() => {
     const processOrder = async () => {
-      if (!sessionId || !orderId) {
+      if (!sessionId || !paymentIntentId) {
         setError('Érvénytelen munkamenet azonosító');
         setIsLoading(false);
         return;
@@ -31,10 +31,10 @@ const PaymentSuccess: React.FC = () => {
         
         // Generate website and send email
         const websiteGenerator = new WebsiteGenerator();
-        await websiteGenerator.sendWebsiteCode(formData, plan, orderId, sessionId);
+        await websiteGenerator.sendWebsiteCode(formData, plan, paymentIntentId, sessionId);
         
-        // Set deploy URL based on orderId
-        setDeployUrl(`https://digital-card-${orderId}.netlify.app`);
+        // Set deploy URL based on PaymentIntent ID
+        setDeployUrl(`https://digital-card-${paymentIntentId}.netlify.app`);
 
         // Clear session storage
         sessionStorage.removeItem('orderData');
@@ -48,7 +48,7 @@ const PaymentSuccess: React.FC = () => {
     };
 
     processOrder();
-  }, [sessionId, orderId]);
+  }, [sessionId, paymentIntentId]);
 
   return (
     <div className="max-w-2xl mx-auto pt-8 sm:pt-16">

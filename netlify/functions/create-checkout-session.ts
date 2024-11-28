@@ -5,10 +5,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2023-10-16'
 });
 
-const generateRepoName = (orderId: string): string => {
-  return `digital-card-${orderId}`;
-};
-
 const handler: Handler = async (event) => {
   if (!process.env.STRIPE_SECRET_KEY) {
     console.error('Missing STRIPE_SECRET_KEY environment variable');
@@ -41,14 +37,23 @@ const handler: Handler = async (event) => {
       };
     }
 
-    // Generate order ID that will be used for both Stripe and GitHub
-    const timestamp = Date.now().toString(36);
-    const randomStr = Math.random().toString(36).substring(2, 7);
-    const orderId = `${timestamp}-${randomStr}`;
-    
-    // Generate repository name
-    const repoName = generateRepoName(orderId);
+    // Create a PaymentIntent first to get the ID
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: plan.price * 100,
+      currency: 'huf',
+      payment_method_types: ['card'],
+      metadata: {
+        customerName: customerData.name,
+        customerCompany: customerData.company || '',
+        planId: plan.id,
+        planPeriod: plan.period,
+      },
+    });
 
+    // Generate repository name using PaymentIntent ID
+    const repoName = `digital-card-${paymentIntent.id}`;
+
+    // Create Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -65,17 +70,17 @@ const handler: Handler = async (event) => {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
+      success_url: `${process.env.URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}&payment_intent=${paymentIntent.id}`,
       cancel_url: `${process.env.URL || 'http://localhost:5173'}/cancel`,
       customer_email: customerData.email,
+      payment_intent: paymentIntent.id,
       metadata: {
-        orderId: orderId,
         customerName: customerData.name,
         customerCompany: customerData.company || '',
         planId: plan.id,
         planPeriod: plan.period,
-        repoName: repoName, // Add repository name to metadata
-        deployUrl: `https://${repoName}.netlify.app` // Add expected deploy URL
+        repoName: repoName,
+        deployUrl: `https://${repoName}.netlify.app`
       },
     });
 
@@ -83,7 +88,8 @@ const handler: Handler = async (event) => {
       statusCode: 200,
       body: JSON.stringify({ 
         id: session.id,
-        orderId: orderId
+        paymentIntentId: paymentIntent.id,
+        repoName: repoName
       }),
     };
   } catch (error) {
