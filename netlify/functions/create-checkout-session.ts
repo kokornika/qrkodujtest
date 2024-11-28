@@ -5,6 +5,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2023-10-16'
 });
 
+const generateRepoName = (orderId: string): string => {
+  return `digital-card-${orderId}`;
+};
+
 const handler: Handler = async (event) => {
   if (!process.env.STRIPE_SECRET_KEY) {
     console.error('Missing STRIPE_SECRET_KEY environment variable');
@@ -41,6 +45,9 @@ const handler: Handler = async (event) => {
     const timestamp = Date.now().toString(36);
     const randomStr = Math.random().toString(36).substring(2, 7);
     const orderId = `${timestamp}-${randomStr}`;
+    
+    // Generate repository name
+    const repoName = generateRepoName(orderId);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -67,6 +74,8 @@ const handler: Handler = async (event) => {
         customerCompany: customerData.company || '',
         planId: plan.id,
         planPeriod: plan.period,
+        repoName: repoName, // Add repository name to metadata
+        deployUrl: `https://${repoName}.netlify.app` // Add expected deploy URL
       },
     });
 

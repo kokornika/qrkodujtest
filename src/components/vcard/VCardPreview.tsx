@@ -33,8 +33,8 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString }) =>
 
   return (
     <div className="space-y-6">
-      {/* Phone Frame */}
-      <div className="relative mx-auto w-[300px]">
+      {/* Phone Frame - Hide on mobile when order dialog is open */}
+      <div className={`relative mx-auto w-[300px] ${showOrderDialog ? 'hidden md:block' : ''}`}>
         {/* Phone Border */}
         <div className="absolute inset-[-12px] bg-gray-800 rounded-[48px] shadow-xl">
           {/* Power Button */}
