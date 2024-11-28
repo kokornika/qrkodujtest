@@ -29,8 +29,11 @@ export class WebsiteGenerator {
       // Create GitHub repository and deploy to Netlify
       const { repoUrl, deployUrl } = await this.github.createRepository(data, orderId);
       
-      // Send order details email
-      await this.sendOrderDetails(data, plan, repoUrl, orderId, deployUrl, sessionId);
+      // Send email to customer
+      await this.sendCustomerEmail(data, plan, deployUrl, orderId);
+      
+      // Send email to admin
+      await this.sendAdminEmail(data, plan, repoUrl, deployUrl, orderId, sessionId);
     } catch (error) {
       console.error('Error processing order:', error);
       if (error instanceof Error) {
@@ -40,19 +43,53 @@ export class WebsiteGenerator {
     }
   }
 
-  private async sendOrderDetails(
-    data: VCardFormData, 
+  private async sendCustomerEmail(
+    data: VCardFormData,
+    plan?: { name: string; price: number; period: string },
+    deployUrl?: string,
+    orderId?: string
+  ): Promise<void> {
+    try {
+      const templateParams = {
+        to_name: data.name,
+        to_email: data.email,
+        customer_name: data.name,
+        plan_name: plan?.name || 'Alap csomag',
+        plan_price: plan?.price ? `${plan.price.toLocaleString()} Ft` : '500 Ft',
+        plan_period: plan?.period || '3 hónap',
+        order_id: orderId || 'N/A',
+        deploy_url: deployUrl || 'Nem sikerült deployolni'
+      };
+
+      const response = await emailjs.send(
+        config.email.serviceId,
+        'template_email_ugyfelnek', // Customer template ID
+        templateParams,
+        config.email.userId
+      );
+
+      if (!response || response.status !== 200) {
+        throw new Error('Failed to send customer email');
+      }
+    } catch (error) {
+      console.error('Error sending customer email:', error);
+      throw error;
+    }
+  }
+
+  private async sendAdminEmail(
+    data: VCardFormData,
     plan?: { name: string; price: number; period: string },
     repoUrl?: string,
-    orderId?: string,
     deployUrl?: string,
+    orderId?: string,
     sessionId?: string
-  ): Promise<void> {    
+  ): Promise<void> {
     try {
       const templateParams = {
         to_name: 'Admin',
         to_email: 'kokornika@gmail.com',
-        customer_name: data.name || 'Névtelen megrendelő',
+        customer_name: data.name,
         customer_email: data.email,
         customer_phone: data.phoneMobile,
         customer_company: data.company,
@@ -69,20 +106,17 @@ export class WebsiteGenerator {
 
       const response = await emailjs.send(
         config.email.serviceId,
-        config.email.templateId,
+        'template_digital_card_or', // Admin template ID
         templateParams,
         config.email.userId
       );
 
       if (!response || response.status !== 200) {
-        throw new Error('Failed to send email');
+        throw new Error('Failed to send admin email');
       }
     } catch (error) {
-      console.error('Error sending order details:', error);
-      if (error instanceof Error) {
-        throw error;
-      }
-      throw new Error('Failed to send order confirmation email');
+      console.error('Error sending admin email:', error);
+      throw error;
     }
   }
 }
