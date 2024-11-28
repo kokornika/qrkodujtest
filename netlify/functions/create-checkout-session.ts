@@ -37,22 +37,6 @@ const handler: Handler = async (event) => {
       };
     }
 
-    // Create a PaymentIntent first to get the ID
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: plan.price * 100,
-      currency: 'huf',
-      payment_method_types: ['card'],
-      metadata: {
-        customerName: customerData.name,
-        customerCompany: customerData.company || '',
-        planId: plan.id,
-        planPeriod: plan.period,
-      },
-    });
-
-    // Generate repository name using PaymentIntent ID
-    const repoName = `digital-card-${paymentIntent.id}`;
-
     // Create Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -70,18 +54,28 @@ const handler: Handler = async (event) => {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}&payment_intent=${paymentIntent.id}`,
+      success_url: `${process.env.URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.URL || 'http://localhost:5173'}/cancel`,
       customer_email: customerData.email,
-      payment_intent: paymentIntent.id,
       metadata: {
         customerName: customerData.name,
         customerCompany: customerData.company || '',
         planId: plan.id,
         planPeriod: plan.period,
+      },
+    });
+
+    // After successful session creation, get the payment intent
+    const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent as string);
+    const repoName = `digital-card-${paymentIntent.id}`;
+
+    // Update session metadata with repo information
+    await stripe.checkout.sessions.update(session.id, {
+      metadata: {
+        ...session.metadata,
         repoName: repoName,
         deployUrl: `https://${repoName}.netlify.app`
-      },
+      }
     });
 
     return {

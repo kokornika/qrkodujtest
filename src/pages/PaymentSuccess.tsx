@@ -10,11 +10,10 @@ const PaymentSuccess: React.FC = () => {
   const [deployUrl, setDeployUrl] = useState<string | null>(null);
   
   const sessionId = searchParams.get('session_id');
-  const paymentIntentId = searchParams.get('payment_intent');
 
   useEffect(() => {
     const processOrder = async () => {
-      if (!sessionId || !paymentIntentId) {
+      if (!sessionId) {
         setError('Érvénytelen munkamenet azonosító');
         setIsLoading(false);
         return;
@@ -28,6 +27,22 @@ const PaymentSuccess: React.FC = () => {
         }
 
         const { formData, plan } = JSON.parse(orderData);
+
+        // Fetch the session from Stripe to get the payment intent ID
+        const response = await fetch('/.netlify/functions/get-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ sessionId }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Nem sikerült lekérni a fizetési adatokat');
+        }
+
+        const sessionData = await response.json();
+        const paymentIntentId = sessionData.payment_intent;
         
         // Generate website and send email
         const websiteGenerator = new WebsiteGenerator();
@@ -48,7 +63,7 @@ const PaymentSuccess: React.FC = () => {
     };
 
     processOrder();
-  }, [sessionId, paymentIntentId]);
+  }, [sessionId]);
 
   return (
     <div className="max-w-2xl mx-auto pt-8 sm:pt-16">
