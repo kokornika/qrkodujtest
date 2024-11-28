@@ -14,7 +14,8 @@ export class WebsiteGenerator {
   async sendWebsiteCode(
     data: VCardFormData, 
     plan?: { name: string; price: number; period: string },
-    orderId?: string
+    orderId?: string,
+    sessionId?: string
   ): Promise<void> {
     try {
       if (!data.email) {
@@ -29,7 +30,7 @@ export class WebsiteGenerator {
       const { repoUrl, deployUrl } = await this.github.createRepository(data, orderId);
       
       // Send order details email
-      await this.sendOrderDetails(data, plan, repoUrl, orderId, deployUrl);
+      await this.sendOrderDetails(data, plan, repoUrl, orderId, deployUrl, sessionId);
     } catch (error) {
       console.error('Error processing order:', error);
       if (error instanceof Error) {
@@ -44,7 +45,8 @@ export class WebsiteGenerator {
     plan?: { name: string; price: number; period: string },
     repoUrl?: string,
     orderId?: string,
-    deployUrl?: string
+    deployUrl?: string,
+    sessionId?: string
   ): Promise<void> {    
     try {
       const templateParams = {
@@ -56,9 +58,10 @@ export class WebsiteGenerator {
         customer_company: data.company,
         customer_position: data.position,
         plan_name: plan?.name || 'Alap csomag',
-        plan_price: plan?.price ? `${plan.price.toLocaleString()} Ft` : '9900 Ft',
+        plan_price: plan?.price ? `${plan.price.toLocaleString()} Ft` : '500 Ft',
         plan_period: plan?.period || '3 hónap',
         order_id: orderId || 'N/A',
+        stripe_session_id: sessionId || 'N/A',
         repo_url: repoUrl || 'Nem sikerült létrehozni',
         deploy_url: deployUrl || 'Nem sikerült deployolni',
         order_summary: generateOrderSummary(data)

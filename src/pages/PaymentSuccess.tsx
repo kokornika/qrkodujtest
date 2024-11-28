@@ -31,11 +31,10 @@ const PaymentSuccess: React.FC = () => {
         
         // Generate website and send email
         const websiteGenerator = new WebsiteGenerator();
-        const result = await websiteGenerator.sendWebsiteCode(formData, plan, orderId);
+        await websiteGenerator.sendWebsiteCode(formData, plan, orderId, sessionId);
         
-        if (result?.deployUrl) {
-          setDeployUrl(result.deployUrl);
-        }
+        // Set deploy URL based on orderId
+        setDeployUrl(`https://digital-card-${orderId}.netlify.app`);
 
         // Clear session storage
         sessionStorage.removeItem('orderData');
