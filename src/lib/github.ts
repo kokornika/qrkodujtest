@@ -45,19 +45,15 @@ export class GitHubRepository {
 
       const repo = await createRepoResponse.json();
 
-      // Wait for repository creation to complete
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      // Wait for repository initialization
+      await new Promise(resolve => setTimeout(resolve, 5000));
 
       // Generate website content
       const htmlContent = await generateHTML(data);
 
-      // Create necessary files
-      await Promise.all([
-        // Create index.html
-        this.createFile(repoName, 'index.html', htmlContent),
-        
-        // Create netlify.toml
-        this.createFile(repoName, 'netlify.toml', `
+      // Create files sequentially to avoid conflicts
+      await this.createFile(repoName, 'index.html', htmlContent);
+      await this.createFile(repoName, 'netlify.toml', `
 [build]
   publish = "/"
 
@@ -65,11 +61,7 @@ export class GitHubRepository {
   from = "/*"
   to = "/index.html"
   status = 200
-        `.trim()),
-
-        // Create _redirects
-        this.createFile(repoName, '_redirects', '/* /index.html 200'),
-      ]);
+`.trim());
 
       // Deploy to Netlify
       const deployUrl = `https://${repoName}.netlify.app`;
@@ -86,6 +78,43 @@ export class GitHubRepository {
 
   private async createFile(repoName: string, path: string, content: string): Promise<void> {
     try {
+      // Get the default branch
+      const repoResponse = await fetch(
+        `https://api.github.com/repos/${this.owner}/${repoName}`,
+        {
+          headers: {
+            'Authorization': `token ${this.token}`,
+            'Accept': 'application/vnd.github.v3+json',
+          },
+        }
+      );
+
+      if (!repoResponse.ok) {
+        throw new Error('Failed to get repository information');
+      }
+
+      const repoInfo = await repoResponse.json();
+      const defaultBranch = repoInfo.default_branch;
+
+      // Get the latest commit SHA
+      const refResponse = await fetch(
+        `https://api.github.com/repos/${this.owner}/${repoName}/git/refs/heads/${defaultBranch}`,
+        {
+          headers: {
+            'Authorization': `token ${this.token}`,
+            'Accept': 'application/vnd.github.v3+json',
+          },
+        }
+      );
+
+      if (!refResponse.ok) {
+        throw new Error('Failed to get reference');
+      }
+
+      const refData = await refResponse.json();
+      const latestCommitSha = refData.object.sha;
+
+      // Create or update file
       const response = await fetch(
         `https://api.github.com/repos/${this.owner}/${repoName}/contents/${path}`,
         {
@@ -97,7 +126,9 @@ export class GitHubRepository {
           },
           body: JSON.stringify({
             message: `Add ${path}`,
-            content: this.base64Encode(content)
+            content: this.base64Encode(content),
+            branch: defaultBranch,
+            sha: latestCommitSha
           })
         }
       );
