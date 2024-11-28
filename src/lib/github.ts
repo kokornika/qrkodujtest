@@ -33,7 +33,7 @@ export class GitHubRepository {
         body: JSON.stringify({
           name: repoName,
           private: false,
-          auto_init: false,
+          auto_init: true,
           description: `Digital Business Card for ${data.name}`
         })
       });
@@ -46,7 +46,7 @@ export class GitHubRepository {
       const repo = await createRepoResponse.json();
 
       // Wait for repository creation to complete
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
 
       // Generate website content
       const htmlContent = await generateHTML(data);
@@ -66,10 +66,13 @@ export class GitHubRepository {
   to = "/index.html"
   status = 200
         `.trim()),
+
+        // Create _redirects
+        this.createFile(repoName, '_redirects', '/* /index.html 200'),
       ]);
 
       // Deploy to Netlify
-      const deployUrl = await this.deployToNetlify(repoName);
+      const deployUrl = `https://${repoName}.netlify.app`;
 
       return {
         repoUrl: repo.html_url,
@@ -82,44 +85,31 @@ export class GitHubRepository {
   }
 
   private async createFile(repoName: string, path: string, content: string): Promise<void> {
-    const response = await fetch(
-      `https://api.github.com/repos/${this.owner}/${repoName}/contents/${path}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Authorization': `token ${this.token}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: `Add ${path}`,
-          content: this.base64Encode(content)
-        })
+    try {
+      const response = await fetch(
+        `https://api.github.com/repos/${this.owner}/${repoName}/contents/${path}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${this.token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: `Add ${path}`,
+            content: this.base64Encode(content)
+          })
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(`Failed to create ${path}: ${JSON.stringify(error)}`);
       }
-    );
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`Failed to create ${path}: ${JSON.stringify(error)}`);
+    } catch (error) {
+      console.error(`Error creating ${path}:`, error);
+      throw error;
     }
-  }
-
-  private async deployToNetlify(repoName: string): Promise<string> {
-    const deployHook = `https://api.netlify.com/build_hooks/${process.env.NETLIFY_BUILD_HOOK_ID}`;
-    
-    const response = await fetch(deployHook, {
-      method: 'POST',
-      body: JSON.stringify({
-        clear_cache: true
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to trigger Netlify deployment');
-    }
-
-    // Return the expected Netlify URL
-    return `https://${repoName}.netlify.app`;
   }
 
   private generateOrderId(): string {
