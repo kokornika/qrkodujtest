@@ -2,7 +2,8 @@ import React from 'react';
 import QRCode from 'qrcode.react';
 import { QROptions } from '../types/qr';
 import { Button } from './ui/button';
-import { Download, ArrowRight } from 'lucide-react';
+import { Download } from 'lucide-react';
+import PromotionalCard from './ui/PromotionalCard';
 
 interface QRCodePreviewProps {
   options: QROptions;
@@ -45,6 +46,9 @@ const QRCodePreview: React.FC<QRCodePreviewProps> = ({ options }) => {
 
   return (
     <div className="flex flex-col items-center space-y-6">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
+        QR kód generálása
+      </h2>
       <div 
         className="flex justify-center items-center rounded-lg p-4 sm:p-6"
         style={{
@@ -62,32 +66,22 @@ const QRCodePreview: React.FC<QRCodePreviewProps> = ({ options }) => {
         />
       </div>
       
-      <div className="flex flex-col items-center space-y-4 w-full max-w-sm">
+      <div className="flex flex-col items-center space-y-6 w-full max-w-sm">
         <Button
           onClick={handleDownload}
           disabled={!options.content}
-          className="w-full sm:w-auto px-6"
+          className="w-full sm:w-auto px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
         >
           <Download className="w-4 h-4 mr-2" />
           Letöltés
         </Button>
 
-        {/* Promotional Card */}
-        <div className="w-full p-6 bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-xl text-white text-center">
-          <h3 className="text-xl font-semibold mb-3">
-            Többet szeretne mint egy QR kód?
-          </h3>
-          <p className="text-indigo-100 mb-4">
-            Próbálja ki prémium digitális névjegykártya szolgáltatásunkat!
-          </p>
-          <Button
-            onClick={() => window.location.href = '/vcard'}
-            className="w-full bg-white text-indigo-600 hover:bg-indigo-50"
-          >
-            <span>Kipróbálom</span>
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </div>
+        <PromotionalCard
+          title="Többet szeretne mint egy QR kód?"
+          description="Próbálja ki prémium digitális névjegykártya szolgáltatásunkat!"
+          buttonText="Kipróbálom"
+          onClick={() => window.location.href = '/vcard'}
+        />
       </div>
     </div>
   );

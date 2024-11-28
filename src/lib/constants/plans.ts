@@ -4,32 +4,27 @@ export interface PaymentPlan {
   price: number;
   period: string;
   features: string[];
+  comparisonPoints: string[];
 }
 
 export const PAYMENT_PLANS: PaymentPlan[] = [
   {
-    id: 'basic',
-    name: 'Alap csomag',
-    price: 500,
-    period: '3 hónap',
-    features: [
-      'Egyedi digitális névjegykártya',
-      'QR kód generálás',
-      'Egyedi URL cím',
-      'Email támogatás'
-    ]
-  },
-  {
-    id: 'premium',
-    name: 'Prémium csomag',
-    price: 29900,
+    id: 'professional',
+    name: 'Professzionális csomag',
+    price: 5990,
     period: '1 év',
     features: [
-      'Minden az Alap csomagban',
-      'Egyedi domain név',
-      'Korlátlan módosítás',
-      'Prioritás támogatás',
-      'Látogatottsági statisztikák'
+      'Egyedi digitális névjegykártya weboldal',
+      'Professzionális QR kód generálás',
+      'Korlátlan névjegy megosztás',
+      'Azonnali adatfrissítés'
+    ],
+    comparisonPoints: [
+      'Nincs többé nyomtatási költség (évente ~15.000 Ft megtakarítás)',
+      'Elkerülhető az újranyomtatás névjegyváltozás esetén',
+      'Környezetbarát - nincs papír és festékhasználat',
+      'Nincs többé "elfogyott névjegy" probléma',
+      'Nem gyűrődik, nem szakad, nem vész el'
     ]
   }
 ];

@@ -32,7 +32,7 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString }) =>
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-12">
       {/* Phone Frame - Hide on mobile when order dialog is open */}
       <div className={`relative mx-auto w-[300px] ${showOrderDialog ? 'hidden md:block' : ''}`}>
         {/* Phone Border */}
@@ -209,10 +209,10 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString }) =>
       </div>
 
       {/* CTA Button */}
-      <div className="mt-8">
+      <div>
         <button
           onClick={() => setShowOrderDialog(true)}
-          className="w-full py-3 px-4 bg-blue-600 text-white rounded-xl flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors shadow-sm font-medium"
+          className="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl flex items-center justify-center gap-2 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
           Megrendelem a digitális névjegyet
         </button>
