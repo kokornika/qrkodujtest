@@ -22,7 +22,7 @@ const loadConfig = (): Config => {
     },
     email: {
       serviceId: 'service_onlinenevjegy',
-      templateId: 'template_digital_card_or',
+      templateId: 'template_email_ugyfelnek',
       userId: 'nipVrr0rfc15-ddLW',
     },
   };
