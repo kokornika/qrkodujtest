@@ -13,6 +13,7 @@ interface VCardPreviewProps {
 
 const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString }) => {
   const [showOrderDialog, setShowOrderDialog] = useState(false);
+  const defaultProfileImage = "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80";
 
   const getBackgroundStyle = () => {
     if (formData.backgroundType === 'gradient') {
@@ -80,17 +81,11 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString }) =>
                 {/* Profile Picture */}
                 <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2">
                   <div className="relative">
-                    {formData.profilePicture ? (
-                      <img
-                        src={formData.profilePicture}
-                        alt={formData.name || "Profilkép"}
-                        className="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover"
-                      />
-                    ) : (
-                      <div className="w-24 h-24 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center shadow-lg">
-                        <User className="w-12 h-12 text-gray-400" />
-                      </div>
-                    )}
+                    <img
+                      src={formData.profilePicture || defaultProfileImage}
+                      alt={formData.name || "Profilkép"}
+                      className="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover"
+                    />
                   </div>
                 </div>
               </div>

@@ -10,7 +10,7 @@ export const PAYMENT_PLANS: PaymentPlan[] = [
   {
     id: 'basic',
     name: 'Alap csomag',
-    price: 500,
+    price: 100,
     period: '3 hónap',
     features: [
       'Egyedi digitális névjegykártya',

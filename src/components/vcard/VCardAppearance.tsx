@@ -1,6 +1,7 @@
 import React from 'react';
 import { VCardFormData } from '../../types/vcard';
-import { ImagePlus, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
+import ImageUploader from './ImageUploader';
 
 interface VCardAppearanceProps {
   formData: VCardFormData;
@@ -19,17 +20,6 @@ const colorPresets = [
 ];
 
 const VCardAppearance: React.FC<VCardAppearanceProps> = ({ formData, onChange }) => {
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        onChange('profilePicture', reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium text-gray-700">Megjelenés</h3>
@@ -40,21 +30,10 @@ const VCardAppearance: React.FC<VCardAppearanceProps> = ({ formData, onChange })
             Profilkép
           </label>
           <div className="flex items-center gap-4">
-            <div className="relative w-24 h-24 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border-2 border-gray-200">
-              {formData.profilePicture ? (
-                <img
-                  src={formData.profilePicture}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <ImagePlus className="w-8 h-8 text-gray-400" />
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="absolute inset-0 opacity-0 cursor-pointer"
+            <div className="flex-1">
+              <ImageUploader
+                value={formData.profilePicture}
+                onChange={(value) => onChange('profilePicture', value)}
               />
             </div>
             {formData.profilePicture && (

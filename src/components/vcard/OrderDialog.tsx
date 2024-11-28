@@ -27,6 +27,9 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
         throw new ValidationError('Érvénytelen csomag kiválasztva');
       }
 
+      // Store order data in session storage
+      sessionStorage.setItem('orderData', JSON.stringify({ formData, plan }));
+
       await processOrder(formData, plan);
     } catch (err) {
       let errorMessage = 'Hiba történt a megrendelés során. Kérjük, próbálja újra később.';
