@@ -18,12 +18,14 @@ const VCardForm: React.FC = () => {
   };
 
   const generateVCardString = () => {
+    // Create vCard string with person as the main contact and company as organization
     const vcard = [
       'BEGIN:VCARD',
       'VERSION:3.0',
+      `N:${formData.name.split(' ').reverse().join(';')};`,
       `FN:${formData.name}`,
-      `ORG:${formData.company}`,
-      `TITLE:${formData.position}`,
+      formData.company && `ORG:${formData.company}`,
+      formData.position && `TITLE:${formData.position}`,
       formData.email && `EMAIL:${formData.email}`,
       formData.phoneMobile && `TEL;TYPE=CELL:${formData.phoneMobile}`,
       formData.phoneWork && `TEL;TYPE=WORK:${formData.phoneWork}`,

@@ -1,12 +1,12 @@
 import React from 'react';
 import { 
   Leaf, 
-  Pencil, 
   Share2, 
   Globe2, 
-  PieChart,
+  Shield,
   QrCode,
   BadgeCheck,
+  Pencil,
   Wallet
 } from 'lucide-react';
 
@@ -17,14 +17,9 @@ const benefits = [
     description: 'Nincs szükség papírra, festékre - védjük együtt környezetünket!'
   },
   {
-    icon: Pencil,
-    title: 'Azonnal frissíthető',
-    description: 'Változtak az elérhetőségei? Frissítse adatait másodpercek alatt!'
-  },
-  {
     icon: Share2,
-    title: 'Könnyű megosztás',
-    description: 'Ossza meg névjegyét egyetlen kattintással vagy QR kód beolvasással'
+    title: 'Azonnali megosztás',
+    description: 'Ossza meg névjegyét azonnal bárkivel, bárhol a világon!'
   },
   {
     icon: Globe2,
@@ -32,19 +27,24 @@ const benefits = [
     description: 'Névjegye a nap 24 órájában elérhető az interneten keresztül'
   },
   {
-    icon: PieChart,
-    title: 'Részletes statisztikák',
-    description: 'Kövesse nyomon névjegye megtekintéseit és a kapcsolatfelvételeket'
+    icon: Shield,
+    title: 'Biztonságos tárolás',
+    description: 'Adatai biztonságban vannak és csak Ön rendelkezik felettük'
   },
   {
     icon: QrCode,
     title: 'Beépített QR kód',
-    description: 'Egyedi QR kód a gyors és egyszerű kapcsolatfelvételhez'
+    description: 'Mutassa meg a QR kódot és az összes adat azonnal a partner telefonjába kerül'
   },
   {
     icon: BadgeCheck,
     title: 'Professzionális megjelenés',
     description: 'Modern, személyre szabható design a pozitív első benyomásért'
+  },
+  {
+    icon: Pencil,
+    title: 'Egyszerű kezelés',
+    description: 'Intuitív felület, amely nem igényel technikai szaktudást'
   },
   {
     icon: Wallet,

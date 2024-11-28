@@ -10,6 +10,7 @@ import BlogPost1 from './pages/BlogPost1';
 import BlogPost2 from './pages/BlogPost2';
 import BlogPost3 from './pages/BlogPost3';
 import BlogPost4 from './pages/BlogPost4';
+import Guide from './pages/Guide';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <main className="pt-16">
           <Routes>
             <Route path="/" element={<QRCodeGenerator />} />
+            <Route path="/guide" element={<Guide />} />
             <Route path="/vcard" element={
               <div className="max-w-7xl mx-auto py-4 sm:py-6 px-4 sm:px-6 lg:px-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">

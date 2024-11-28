@@ -1,6 +1,6 @@
 import React from 'react';
 import { QRContentType } from '../types/qr';
-import { QrCode, Globe, Type, Mail, Phone, Wifi, UserSquare2 } from 'lucide-react';
+import { Globe, Type, Mail, Phone, Wifi } from 'lucide-react';
 
 interface ContentTypeSelectorProps {
   onSelect: (type: QRContentType) => void;
@@ -12,7 +12,6 @@ const contentTypes: { value: QRContentType; label: string; icon: React.ReactNode
   { value: 'email', label: 'Email cím', icon: <Mail className="w-5 h-5 text-gray-400" /> },
   { value: 'phone', label: 'Telefonszám', icon: <Phone className="w-5 h-5 text-gray-400" /> },
   { value: 'wifi', label: 'WiFi beállítások', icon: <Wifi className="w-5 h-5 text-gray-400" /> },
-  { value: 'vcard', label: 'Névjegy (vCard)', icon: <UserSquare2 className="w-5 h-5 text-gray-400" /> },
 ];
 
 const ContentTypeSelector: React.FC<ContentTypeSelectorProps> = ({ onSelect }) => {
