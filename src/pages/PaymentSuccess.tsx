@@ -10,10 +10,11 @@ const PaymentSuccess: React.FC = () => {
   const [deployUrl, setDeployUrl] = useState<string | null>(null);
   
   const sessionId = searchParams.get('session_id');
+  const orderId = searchParams.get('order_id');
 
   useEffect(() => {
     const processOrder = async () => {
-      if (!sessionId) {
+      if (!sessionId || !orderId) {
         setError('Érvénytelen munkamenet azonosító');
         setIsLoading(false);
         return;
@@ -27,29 +28,13 @@ const PaymentSuccess: React.FC = () => {
         }
 
         const { formData, plan } = JSON.parse(orderData);
-
-        // Fetch the session from Stripe to get the payment intent ID
-        const response = await fetch('/.netlify/functions/get-session', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ sessionId }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Nem sikerült lekérni a fizetési adatokat');
-        }
-
-        const sessionData = await response.json();
-        const paymentIntentId = sessionData.payment_intent;
         
         // Generate website and send email
         const websiteGenerator = new WebsiteGenerator();
-        await websiteGenerator.sendWebsiteCode(formData, plan, paymentIntentId, sessionId);
+        await websiteGenerator.sendWebsiteCode(formData, plan, orderId, sessionId);
         
-        // Set deploy URL based on PaymentIntent ID
-        setDeployUrl(`https://digital-card-${paymentIntentId}.netlify.app`);
+        // Set deploy URL based on orderId
+        setDeployUrl(`https://digital-card-${orderId}.netlify.app`);
 
         // Clear session storage
         sessionStorage.removeItem('orderData');
@@ -63,7 +48,7 @@ const PaymentSuccess: React.FC = () => {
     };
 
     processOrder();
-  }, [sessionId]);
+  }, [sessionId, orderId]);
 
   return (
     <div className="max-w-2xl mx-auto pt-8 sm:pt-16">

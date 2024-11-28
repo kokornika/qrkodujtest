@@ -17,10 +17,10 @@ export class GitHubRepository {
 
   async createRepository(
     data: VCardFormData,
-    paymentIntentId?: string
+    orderId?: string
   ): Promise<{ repoUrl: string; deployUrl: string }> {
     try {
-      const repoName = `digital-card-${paymentIntentId || this.generateOrderId()}`;
+      const repoName = `digital-card-${orderId || this.generateOrderId()}`;
       
       // Create repository using GitHub API
       const createRepoResponse = await fetch('https://api.github.com/user/repos', {
