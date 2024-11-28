@@ -42,8 +42,6 @@ const VCardForm: React.FC = () => {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div className="space-y-8">
         <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6">Digitális névjegykártya készítése</h2>
-          
           <div className="space-y-8">
             <VCardPersonalInfo formData={formData} onChange={handleChange} />
             <VCardContactInfo formData={formData} onChange={handleChange} />
@@ -54,7 +52,7 @@ const VCardForm: React.FC = () => {
         </div>
       </div>
 
-      <div className="lg:sticky lg:top-4 h-fit">
+      <div className="lg:sticky lg:top-24 h-fit">
         <VCardPreview formData={formData} vCardString={generateVCardString()} />
       </div>
     </div>

@@ -1,39 +1,39 @@
 import React, { useState } from 'react';
 import { VCardFormData } from '../../types/vcard';
-import { Phone, Mail, Globe, User } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Phone, Mail, Globe, MapPin, Facebook, Instagram, Youtube } from 'lucide-react';
 import OrderDialog from './OrderDialog';
-import { socialIcons } from '../../lib/social-icons';
-import { socialColors } from '../../lib/social-colors';
+import QRCode from 'qrcode.react';
 
 interface VCardPreviewProps {
   formData: VCardFormData;
   vCardString: string;
 }
 
-const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString }) => {
+const VCardPreview: React.FC<VCardPreviewProps> = ({ formData }) => {
   const [showOrderDialog, setShowOrderDialog] = useState(false);
   const defaultProfileImage = "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80";
 
-  const getBackgroundStyle = () => {
-    if (formData.backgroundType === 'gradient') {
-      return `linear-gradient(135deg, ${formData.backgroundColor}, ${formData.backgroundColor}22)`;
-    }
-    return formData.backgroundColor;
-  };
+  const backgroundColor = '#6366F1';
 
-  const getIconStyle = () => {
-    return {
-      backgroundColor: formData.backgroundType === 'gradient' 
-        ? `${formData.backgroundColor}11`
-        : `${formData.backgroundColor}22`,
-      color: formData.backgroundColor,
-    };
+  const getIconStyle = () => ({
+    backgroundColor: `${backgroundColor}11`,
+    color: backgroundColor,
+  });
+
+  // Placeholder értékek
+  const placeholders = {
+    name: 'Minta Anna',
+    position: 'Marketing Vezető',
+    company: 'Minta Kft.',
+    description: 'Digitális marketing szakértő',
+    phone: '+36 30 123 4567',
+    email: 'minta.anna@minta.hu',
+    address: 'Budapest, Minta utca 1.',
   };
 
   return (
     <div className="space-y-12">
-      {/* Phone Frame - Hide on mobile when order dialog is open */}
+      {/* Phone Frame */}
       <div className={`relative mx-auto w-[300px] ${showOrderDialog ? 'hidden md:block' : ''}`}>
         {/* Phone Border */}
         <div className="absolute inset-[-12px] bg-gray-800 rounded-[48px] shadow-xl">
@@ -59,149 +59,120 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString }) =>
             </div>
           </div>
 
-          {/* Scrollable Content */}
-          <div 
-            className="h-full overflow-y-auto scrollbar-hide"
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch'
-            }}
-          >
-            {/* Header Section with Curved Design */}
-            <div className="sticky top-0 z-10">
-              <div
-                className="relative h-[240px]"
-                style={{
-                  background: getBackgroundStyle()
-                }}
-              >
-                <div className="absolute bottom-0 left-0 right-0 h-24 bg-white rounded-t-[32px]" />
-                
-                {/* Profile Picture */}
-                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2">
-                  <div className="relative">
-                    <img
-                      src={formData.profilePicture || defaultProfileImage}
-                      alt={formData.name || "Profilkép"}
-                      className="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover"
-                    />
-                  </div>
-                </div>
+          {/* Card Content */}
+          <div className="h-full overflow-y-auto scrollbar-hide">
+            {/* Header with Background */}
+            <div 
+              className="h-[200px] relative"
+              style={{ background: `linear-gradient(135deg, ${backgroundColor}, ${backgroundColor}22)` }}
+            >
+              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
+                <img
+                  src={defaultProfileImage}
+                  alt="Profilkép"
+                  className="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover"
+                />
               </div>
             </div>
 
-            {/* Content Section */}
-            <div className="px-6 pt-14 pb-6 space-y-6">
-              {/* Name and Title */}
+            {/* Profile Info */}
+            <div className="pt-16 px-6 pb-6 space-y-6">
               <div className="text-center">
-                <h3 className="text-xl font-bold text-gray-800">
-                  {formData.name || "Az Ön neve"}
-                </h3>
+                <h1 className="text-xl font-bold text-gray-900">
+                  {formData.name || placeholders.name}
+                </h1>
                 <p className="text-sm text-gray-600">
-                  {formData.position && formData.company
+                  {formData.position && formData.company 
                     ? `${formData.position} - ${formData.company}`
-                    : formData.position || formData.company || "Pozíció - Cég neve"}
+                    : `${placeholders.position} - ${placeholders.company}`}
                 </p>
               </div>
 
-              {/* Description */}
-              {(formData.description || !formData.name) && (
-                <p className="text-sm text-gray-600 text-center">
-                  {formData.description || "Rövid bemutatkozó szöveg helye"}
-                </p>
-              )}
+              <p className="text-sm text-gray-600 text-center">
+                {formData.description || placeholders.description}
+              </p>
 
-              {/* Contact Buttons */}
+              {/* Quick Actions */}
               <div className="grid grid-cols-3 gap-3">
-                <a 
-                  href={formData.phoneMobile ? `tel:${formData.phoneMobile}` : "#"} 
-                  className="flex flex-col items-center p-3 rounded-xl bg-white shadow-sm"
-                  style={getIconStyle()}
-                >
+                <div className="flex flex-col items-center p-3 rounded-xl" style={getIconStyle()}>
                   <Phone className="w-5 h-5 mb-1" />
                   <span className="text-xs">Telefon</span>
-                </a>
-                <a 
-                  href={formData.email ? `mailto:${formData.email}` : "#"}
-                  className="flex flex-col items-center p-3 rounded-xl bg-white shadow-sm"
-                  style={getIconStyle()}
-                >
+                </div>
+                <div className="flex flex-col items-center p-3 rounded-xl" style={getIconStyle()}>
                   <Mail className="w-5 h-5 mb-1" />
                   <span className="text-xs">Email</span>
-                </a>
-                <a 
-                  href={formData.website || "#"}
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex flex-col items-center p-3 rounded-xl bg-white shadow-sm"
-                  style={getIconStyle()}
-                >
+                </div>
+                <div className="flex flex-col items-center p-3 rounded-xl" style={getIconStyle()}>
                   <Globe className="w-5 h-5 mb-1" />
                   <span className="text-xs">Web</span>
-                </a>
+                </div>
               </div>
 
               {/* Contact Details */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-3 p-3 bg-white rounded-xl shadow-sm">
-                  <div 
-                    className="w-8 h-8 rounded-full flex items-center justify-center"
-                    style={getIconStyle()}
-                  >
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={getIconStyle()}>
                     <Phone className="w-4 h-4" />
                   </div>
-                  <div className="flex-1">
-                    <div className="text-sm text-gray-600">
-                      {formData.phoneMobile || "+36 XX XXX XXXX"}
+                  <div>
+                    <div className="text-sm text-gray-900">
+                      {formData.phoneMobile || placeholders.phone}
                     </div>
-                    <div className="text-xs text-gray-400">Mobil</div>
+                    <div className="text-xs text-gray-500">Mobil</div>
                   </div>
                 </div>
 
-                {/* Address Information */}
-                {(formData.street || formData.city || formData.country || !formData.name) && (
-                  <div className="p-3 bg-white rounded-xl shadow-sm space-y-1">
-                    <div className="text-sm font-medium text-gray-700">Cím</div>
-                    <div className="text-sm text-gray-600">
-                      {[
-                        formData.street || "Utca, házszám",
-                        formData.city && formData.zipcode ? `${formData.city}, ${formData.zipcode}` : (formData.city || formData.zipcode || "Város, irányítószám"),
-                        formData.state || "Megye",
-                        formData.country || "Ország"
-                      ].filter(Boolean).join(', ')}
-                    </div>
+                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={getIconStyle()}>
+                    <Mail className="w-4 h-4" />
                   </div>
-                )}
+                  <div>
+                    <div className="text-sm text-gray-900">
+                      {formData.email || placeholders.email}
+                    </div>
+                    <div className="text-xs text-gray-500">Email</div>
+                  </div>
+                </div>
 
-                {/* Social Links */}
-                {formData.socialLinks.length > 0 && (
-                  <div className="p-3 bg-white rounded-xl shadow-sm space-y-2">
-                    <div className="text-sm font-medium text-gray-700">Közösségi média</div>
-                    <div className="flex flex-wrap justify-center gap-3">
-                      {formData.socialLinks.map((link, index) => {
-                        const IconComponent = socialIcons[link.platform];
-                        const brandColor = socialColors[link.platform];
-                        return IconComponent ? (
-                          <a
-                            key={index}
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity"
-                            style={{
-                              backgroundColor: `${brandColor}22`,
-                              color: brandColor
-                            }}
-                            title={link.platform}
-                          >
-                            <IconComponent className="w-5 h-5" />
-                          </a>
-                        ) : null;
-                      })}
-                    </div>
+                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={getIconStyle()}>
+                    <MapPin className="w-4 h-4" />
                   </div>
-                )}
+                  <div>
+                    <div className="text-sm text-gray-900">
+                      {formData.street && formData.city 
+                        ? `${formData.city}, ${formData.street}`
+                        : placeholders.address}
+                    </div>
+                    <div className="text-xs text-gray-500">Cím</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Social Links */}
+              <div className="flex justify-center gap-3">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#1877F222', color: '#1877F2' }}>
+                  <Facebook className="w-5 h-5" />
+                </div>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#E4405F22', color: '#E4405F' }}>
+                  <Instagram className="w-5 h-5" />
+                </div>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FF000022', color: '#FF0000' }}>
+                  <Youtube className="w-5 h-5" />
+                </div>
+              </div>
+
+              {/* Sample QR Code */}
+              <div className="flex flex-col items-center">
+                <div className="bg-white p-4 rounded-xl shadow-sm">
+                  <QRCode
+                    value="https://example.com/preview"
+                    size={128}
+                    level="M"
+                    includeMargin={true}
+                  />
+                </div>
+                <p className="text-sm text-gray-500 mt-2">Minta QR kód</p>
               </div>
             </div>
           </div>
@@ -212,7 +183,7 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString }) =>
       <div>
         <button
           onClick={() => setShowOrderDialog(true)}
-          className="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl flex items-center justify-center gap-2 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl flex items-center justify-center gap-2 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
           Megrendelem a digitális névjegyet
         </button>

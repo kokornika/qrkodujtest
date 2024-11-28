@@ -17,17 +17,17 @@ const contentTypes: { value: QRContentType; label: string; icon: React.ReactNode
 
 const ContentTypeSelector: React.FC<ContentTypeSelectorProps> = ({ onSelect }) => {
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-2 gap-4">
       {contentTypes.map((type) => (
         <button
           key={type.value}
           onClick={() => onSelect(type.value)}
-          className="w-full p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-4 text-left hover:scale-[1.02] border border-gray-100"
+          className="p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col items-center gap-3 text-center hover:scale-[1.02] border border-gray-100"
         >
           <div className="w-12 h-12 rounded-lg bg-gray-50 flex items-center justify-center">
             {type.icon}
           </div>
-          <span className="text-base sm:text-lg text-gray-700 font-medium">
+          <span className="text-sm font-medium text-gray-700">
             {type.label}
           </span>
         </button>
