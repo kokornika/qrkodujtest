@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, CreditCard } from 'lucide-react';
+import { CreditCard } from 'lucide-react';
 import BlogCTA from '../components/blog/BlogCTA';
 
 const BlogPost1 = () => {
@@ -17,6 +16,12 @@ const BlogPost1 = () => {
         </div>
 
         <div className="prose prose-lg max-w-none">
+          <img
+            src="https://images.unsplash.com/photo-1586769852044-692d6e3703f0?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Digitális névjegykártya QR kóddal"
+            className="w-full rounded-xl mb-8"
+          />
+
           <h2>Környezetbarát megoldás a modern üzleti életben</h2>
           <p>
             A digitális névjegykártyák forradalmasítják az üzleti kapcsolattartást. 
@@ -24,6 +29,12 @@ const BlogPost1 = () => {
             számos előnnyel rendelkezik, amelyek nem csak környezetbarátabbá, de 
             hatékonyabbá is teszik a networking folyamatát.
           </p>
+
+          <img
+            src="https://images.unsplash.com/photo-1611162618758-2a29a995354b?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Azonnali frissítés digitális eszközökön"
+            className="w-full rounded-xl my-8"
+          />
 
           <h3>1. Azonnali frissíthetőség</h3>
           <p>
@@ -39,6 +50,12 @@ const BlogPost1 = () => {
             módosítható extra költségek nélkül.
           </p>
 
+          <img
+            src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Környezettudatos választás"
+            className="w-full rounded-xl my-8"
+          />
+
           <h3>3. Környezettudatos választás</h3>
           <p>
             A papírmentes megoldás nem csak költséghatékony, de környezetbarát is. 
@@ -50,6 +67,12 @@ const BlogPost1 = () => {
             QR kód vagy link segítségével másodpercek alatt megoszthatja 
             névjegykártyáját bárkivel, akár személyesen, akár online találkozók során.
           </p>
+
+          <img
+            src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Részletes analitika"
+            className="w-full rounded-xl my-8"
+          />
 
           <h3>5. Részletes analitika</h3>
           <p>

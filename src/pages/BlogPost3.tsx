@@ -16,6 +16,12 @@ const BlogPost3 = () => {
         </div>
 
         <div className="prose prose-lg max-w-none">
+          <img
+            src="https://images.unsplash.com/photo-1517292987719-0369a794ec0f?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Modern digitális technológiák"
+            className="w-full rounded-xl mb-8"
+          />
+
           <h2>A digitális forradalom hatása a névjegykártyákra</h2>
           <p>
             Az üzleti kapcsolattartás folyamatosan fejlődik, és vele együtt a névjegykártyák is 
@@ -23,65 +29,48 @@ const BlogPost3 = () => {
             vezető út számos innovatív technológiát és trendet hozott magával.
           </p>
 
+          <img
+            src="https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Augmented Reality technológia"
+            className="w-full rounded-xl my-8"
+          />
+
           <h3>Augmented Reality (AR) integráció</h3>
           <p>
             Az AR technológia lehetővé teszi, hogy névjegykártyánk "életre keljen". Képzelje el, 
             hogy üzleti partnere telefonjával rámutat névjegyére, és azonnal megjelenik egy 
-            interaktív bemutatkozó videó vagy 3D-s portfólió. Ez már nem a jövő - a technológia 
-            itt van, és forradalmasítja a kapcsolatépítést.
+            interaktív bemutatkozó videó vagy 3D-s portfólió.
           </p>
+
+          <img
+            src="https://images.unsplash.com/photo-1557187666-4fd70cf76254?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="NFC technológia és okos névjegykártyák"
+            className="w-full rounded-xl my-8"
+          />
 
           <h3>NFC technológia és okos névjegykártyák</h3>
           <p>
-            Az NFC (Near Field Communication) chipekkel ellátott névjegykártyák egyetlen 
-            érintéssel megoszthatók okostelefonokkal. Ez a technológia nem csak gyors és 
-            kényelmes, de környezetbarát is, hiszen nincs szükség papírra vagy nyomtatásra.
+            Az NFC chipekkel ellátott névjegykártyák egyetlen érintéssel megoszthatók 
+            okostelefonokkal. Ez a technológia nem csak gyors és kényelmes, de környezetbarát is.
           </p>
 
-          <h3>Dinamikus tartalom és valós idejű frissítések</h3>
-          <p>
-            A modern digitális névjegykártyák egyik legnagyobb előnye, hogy tartalmuk 
-            dinamikusan változtatható. Frissítse social media profiljait, változtassa meg 
-            pozícióját vagy adjon hozzá új elérhetőségeket - minden kapcsolata azonnal 
-            látni fogja a változásokat.
-          </p>
+          <img
+            src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Mesterséges intelligencia alkalmazása"
+            className="w-full rounded-xl my-8"
+          />
 
           <h2>Mesterséges intelligencia a névjegykártyákban</h2>
           <p>
             Az AI nem csak a névjegykártyák tervezésében segít, de a kapcsolatok kezelésében is. 
-            Intelligens algoritmusok elemzik a kapcsolati hálót, javaslatokat tesznek a 
-            networking optimalizálására, és automatikusan kategorizálják üzleti kapcsolatainkat.
-          </p>
-
-          <h3>Személyre szabott élmények</h3>
-          <p>
-            A jövő névjegykártyái nem statikus információhordozók, hanem interaktív platformok. 
-            A látogató érdeklődési körének megfelelően más-más tartalom jelenhet meg, 
-            maximalizálva a kapcsolatépítés hatékonyságát.
-          </p>
-
-          <h2>Biztonsági innovációk</h2>
-          <p>
-            A digitális névjegykártyák fejlődésével a biztonsági megoldások is evolválódnak. 
-            A blockchain technológia és a titkosítási módszerek garantálják, hogy személyes 
-            adataink biztonságban maradjanak, miközben könnyen megoszthatók maradnak.
-          </p>
-
-          <h3>Környezettudatos megoldások</h3>
-          <p>
-            A jövő névjegykártyái nem csak digitálisak, de környezettudatosak is. 
-            A papírmentes megoldások mellett olyan innovációk jelennek meg, amelyek 
-            minimalizálják a digitális lábnyomot is, például energiahatékony 
-            megjelenítési technológiák révén.
+            Intelligens algoritmusok elemzik a kapcsolati hálót és javaslatokat tesznek a 
+            networking optimalizálására.
           </p>
 
           <h2>Konklúzió</h2>
           <p>
             A névjegykártyák evolúciója nem áll meg - a technológia fejlődésével 
-            újabb és újabb lehetőségek nyílnak meg a professzionális kapcsolatépítésben. 
-            A kérdés már nem az, hogy digitális vagy hagyományos névjegykártyát 
-            használjunk, hanem hogy hogyan maximalizálhatjuk a digitális megoldások 
-            előnyeit.
+            újabb és újabb lehetőségek nyílnak meg a professzionális kapcsolatépítésben.
           </p>
         </div>
 

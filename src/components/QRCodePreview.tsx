@@ -45,28 +45,29 @@ const QRCodePreview: React.FC<QRCodePreviewProps> = ({ options }) => {
   `.trim();
 
   return (
-    <div className="flex flex-col items-center space-y-6">
+    <div className="flex flex-col space-y-8">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
         QR kód generálása
       </h2>
-      <div 
-        className="flex justify-center items-center rounded-lg p-4 sm:p-6"
-        style={{
-          background: options.backgroundColor === 'transparent' 
-            ? `url(${checkerboardPattern}) repeat`
-            : options.backgroundColor
-        }}
-      >
-        <QRCode
-          value={options.content || ' '}
-          size={options.size}
-          level="M"
-          bgColor={options.backgroundColor === 'transparent' ? 'transparent' : options.backgroundColor}
-          fgColor={options.foregroundColor}
-        />
-      </div>
       
-      <div className="flex flex-col items-center space-y-6 w-full max-w-sm">
+      <div className="flex flex-col items-center space-y-6">
+        <div 
+          className="flex justify-center items-center rounded-lg p-4 sm:p-6"
+          style={{
+            background: options.backgroundColor === 'transparent' 
+              ? `url(${checkerboardPattern}) repeat`
+              : options.backgroundColor
+          }}
+        >
+          <QRCode
+            value={options.content || ' '}
+            size={options.size}
+            level="M"
+            bgColor={options.backgroundColor === 'transparent' ? 'transparent' : options.backgroundColor}
+            fgColor={options.foregroundColor}
+          />
+        </div>
+        
         <Button
           onClick={handleDownload}
           disabled={!options.content}
@@ -75,7 +76,9 @@ const QRCodePreview: React.FC<QRCodePreviewProps> = ({ options }) => {
           <Download className="w-4 h-4 mr-2" />
           Letöltés
         </Button>
+      </div>
 
+      <div className="w-full mt-8">
         <PromotionalCard
           title="Többet szeretne mint egy QR kód?"
           description="Próbálja ki prémium digitális névjegykártya szolgáltatásunkat!"

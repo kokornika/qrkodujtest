@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, QrCode } from 'lucide-react';
+import { QrCode } from 'lucide-react';
 import BlogCTA from '../components/blog/BlogCTA';
 
 const BlogPost2 = () => {
@@ -17,12 +16,24 @@ const BlogPost2 = () => {
         </div>
 
         <div className="prose prose-lg max-w-none">
+          <img
+            src="https://images.unsplash.com/photo-1622151834677-70f982c9adef?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="QR kód használata üzleti környezetben"
+            className="w-full rounded-xl mb-8"
+          />
+
           <h2>A QR kódok evolúciója az üzleti világban</h2>
           <p>
             A QR kódok forradalmasították az információmegosztást és a digitális 
             marketing világát. Az egyszerű vonalkódból kiindulva mára komplex 
             üzleti megoldássá fejlődtek.
           </p>
+
+          <img
+            src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Digitális névjegykártyák QR kóddal"
+            className="w-full rounded-xl my-8"
+          />
 
           <h3>Digitális névjegykártyák és QR kódok</h3>
           <p>
@@ -37,6 +48,12 @@ const BlogPost2 = () => {
             vagy akciók megosztására. Könnyen beilleszthetők nyomtatott 
             anyagokba és online felületekre egyaránt.
           </p>
+
+          <img
+            src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Analitika és követés"
+            className="w-full rounded-xl my-8"
+          />
 
           <h3>Követhető eredmények</h3>
           <p>
@@ -53,6 +70,12 @@ const BlogPost2 = () => {
             <li>Mobilfizetési megoldások</li>
             <li>Vendéglátóipari menük</li>
           </ul>
+
+          <img
+            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="A jövő technológiái"
+            className="w-full rounded-xl my-8"
+          />
 
           <h2>A jövő lehetőségei</h2>
           <p>

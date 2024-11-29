@@ -16,6 +16,12 @@ const BlogPost4 = () => {
         </div>
 
         <div className="prose prose-lg max-w-none">
+          <img
+            src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Digitális névjegy használata"
+            className="w-full rounded-xl mb-8"
+          />
+
           <h2>Optimalizálja digitális névjegyét a maximális hatékonyságért</h2>
           <p>
             A digitális névjegykártya hatékony használata több mint egyszerű 
@@ -23,6 +29,12 @@ const BlogPost4 = () => {
             maximalizálhatja digitális névjegye hatékonyságát és professzionális 
             megjelenését.
           </p>
+
+          <img
+            src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Profi megjelenés kialakítása"
+            className="w-full rounded-xl my-8"
+          />
 
           <h3>1. Profi megjelenés kialakítása</h3>
           <ul>
@@ -40,39 +52,17 @@ const BlogPost4 = () => {
             </li>
           </ul>
 
+          <img
+            src="https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Tartalom optimalizálás"
+            className="w-full rounded-xl my-8"
+          />
+
           <h3>2. Tartalom optimalizálás</h3>
           <p>
             A digitális névjegy tartalmának optimalizálása kulcsfontosságú a 
-            hatékony kapcsolatépítéshez. Néhány fontos szempont:
+            hatékony kapcsolatépítéshez.
           </p>
-          <ul>
-            <li>Tömör, de informatív bemutatkozó szöveg</li>
-            <li>Naprakész elérhetőségi adatok</li>
-            <li>Releváns social media profilok integrálása</li>
-            <li>Szakmai eredmények és referenciák feltüntetése</li>
-          </ul>
-
-          <h3>3. Megosztási stratégiák</h3>
-          <p>
-            A digitális névjegy megosztásának több hatékony módja is van:
-          </p>
-          <ul>
-            <li>QR kód nyomtatása hagyományos névjegykártyára</li>
-            <li>Email aláírásba ágyazott link</li>
-            <li>Social media profilokban elhelyezett hivatkozás</li>
-            <li>Prezentációk és dokumentumok láblécében való megjelenítés</li>
-          </ul>
-
-          <h3>4. Analitika és követés</h3>
-          <p>
-            Használja ki a digitális névjegy nyújtotta analitikai lehetőségeket:
-          </p>
-          <ul>
-            <li>Kövesse a megtekintések számát</li>
-            <li>Elemezze a látogatók földrajzi eloszlását</li>
-            <li>Figyelje a kapcsolatfelvételi arányokat</li>
-            <li>Optimalizálja tartalmát a statisztikák alapján</li>
-          </ul>
 
           <h2>Gyakorlati tanácsok a mindennapi használathoz</h2>
           <div className="bg-gray-50 p-6 rounded-lg my-8">
@@ -85,6 +75,12 @@ const BlogPost4 = () => {
               <li>✓ Social media integráció frissítése</li>
             </ul>
           </div>
+
+          <img
+            src="https://images.unsplash.com/photo-1553484771-371a605b060b?auto=format&fit=crop&q=80&w=1200&h=600"
+            alt="Analitika és követés"
+            className="w-full rounded-xl my-8"
+          />
 
           <h2>Összegzés</h2>
           <p>

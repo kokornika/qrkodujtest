@@ -35,12 +35,20 @@ const encryptionTypes: { value: WifiEncryption; label: string }[] = [
 ];
 
 const contentTypeLabels: Record<string, string> = {
-  url: 'Weboldal URL',
-  text: 'Szöveg',
-  email: 'Email cím',
-  phone: 'Telefonszám',
-  wifi: 'WiFi beállítások',
-  vcard: 'Névjegy (vCard)',
+  url: 'Weboldal URL átalakítása QR kóddá',
+  text: 'Szöveg átalakítása QR kóddá',
+  email: 'Email cím átalakítása QR kóddá',
+  phone: 'Telefonszám átalakítása QR kóddá',
+  wifi: 'WiFi beállítások átalakítása QR kóddá',
+  vcard: 'Névjegy átalakítása QR kóddá',
+};
+
+const placeholderTexts: Record<string, string> = {
+  url: 'Add meg a weboldal címét (pl. https://pelda.hu)...',
+  text: 'Írd be a szöveget, amit QR kóddá szeretnél alakítani...',
+  email: 'Add meg az email címet...',
+  phone: 'Add meg a telefonszámot...',
+  wifi: 'Add meg a WiFi hálózat nevét...',
 };
 
 const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
@@ -72,7 +80,7 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
         <div className="space-y-3 sm:space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Hálózat neve (SSID)
+              WiFi hálózat neve (SSID) QR kódhoz
             </label>
             <input
               type="text"
@@ -85,7 +93,7 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Titkosítás típusa
+              WiFi titkosítás típusa
             </label>
             <select
               value={options.wifiSettings?.encryption || 'WPA'}
@@ -103,7 +111,7 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
           {options.wifiSettings?.encryption !== 'nopass' && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Jelszó
+                WiFi jelszó QR kódhoz
               </label>
               <input
                 type="password"
@@ -119,7 +127,7 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
         <div>
           <div className="flex justify-between items-center mb-2">
             <label className="block text-sm font-medium text-gray-700">
-              Méret
+              QR kód mérete
             </label>
             <span className="text-sm text-gray-600">{options.size}px</span>
           </div>
@@ -134,7 +142,7 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
 
         <div className="space-y-3 sm:space-y-4">
           <label className="block text-sm font-medium text-gray-700">
-            Színek
+            QR kód színek
           </label>
           <ColorPicker
             label="Háttér"
@@ -164,14 +172,14 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
           value={options.content}
           onChange={(e) => onChange({ ...options, content: e.target.value })}
           className="w-full p-2 sm:p-2.5 border border-gray-300 rounded-md text-sm sm:text-base"
-          placeholder={`Add meg a ${contentTypeLabels[options.contentType].toLowerCase()}et...`}
+          placeholder={placeholderTexts[options.contentType]}
         />
       </div>
 
       <div>
         <div className="flex justify-between items-center mb-2">
           <label className="block text-sm font-medium text-gray-700">
-            Méret
+            QR kód mérete
           </label>
           <span className="text-sm text-gray-600">{options.size}px</span>
         </div>
@@ -186,7 +194,7 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
 
       <div className="space-y-3 sm:space-y-4">
         <label className="block text-sm font-medium text-gray-700">
-          Színek
+          QR kód színek
         </label>
         <ColorPicker
           label="Háttér"
