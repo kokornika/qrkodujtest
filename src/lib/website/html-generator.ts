@@ -5,19 +5,21 @@ import { socialColors } from '../social-colors';
 import QRCode from 'qrcode';
 
 export async function generateHTML(data: VCardFormData): Promise<string> {
-  // Generate vCard string for QR code
+  // Generate vCard string for QR code - módosított verzió
   const vcard = `BEGIN:VCARD
 VERSION:3.0
+N:${data.name.split(' ').reverse().join(';')};
 FN:${data.name}
-ORG:${data.company}
-TITLE:${data.position}
-TEL;TYPE=CELL:${data.phoneMobile}
-TEL;TYPE=WORK:${data.phoneWork}
-TEL;TYPE=HOME:${data.phonePrivate}
-EMAIL:${data.email}
-URL:${data.website}
-ADR:;;${data.street};${data.city};${data.state};${data.zipcode};${data.country}
-NOTE:${data.description}
+${data.company ? `ORG:${data.company}` : ''}
+${data.position ? `TITLE:${data.position}` : ''}
+${data.phoneMobile ? `TEL;TYPE=CELL:${data.phoneMobile}` : ''}
+${data.phoneWork ? `TEL;TYPE=WORK:${data.phoneWork}` : ''}
+${data.phonePrivate ? `TEL;TYPE=HOME:${data.phonePrivate}` : ''}
+${data.email ? `EMAIL:${data.email}` : ''}
+${data.website ? `URL:${data.website}` : ''}
+${data.street && data.city ? `ADR:;;${data.street};${data.city};${data.state};${data.zipcode};${data.country}` : ''}
+${data.description ? `NOTE:${data.description}` : ''}
+${data.socialLinks.map(link => `URL;type=${link.platform}:${link.url}`).join('\n')}
 END:VCARD`;
 
   // Generate QR code as data URL
