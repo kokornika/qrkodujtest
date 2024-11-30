@@ -5,9 +5,17 @@ import { Input } from '../ui/Input';
 interface VCardContactInfoProps {
   formData: VCardFormData;
   onChange: (field: keyof VCardFormData, value: any) => void;
+  errors: {
+    email?: string;
+    phoneMobile?: string;
+  };
 }
 
-const VCardContactInfo: React.FC<VCardContactInfoProps> = ({ formData, onChange }) => {
+const VCardContactInfo: React.FC<VCardContactInfoProps> = ({ 
+  formData, 
+  onChange,
+  errors
+}) => {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium text-gray-700">Elérhetőségek</h3>
@@ -19,10 +27,12 @@ const VCardContactInfo: React.FC<VCardContactInfoProps> = ({ formData, onChange 
           onChange={(e) => onChange('phoneMobile', e.target.value)}
           placeholder="+36 ..."
           type="tel"
+          error={errors.phoneMobile}
+          required
         />
 
         <Input
-          label="Munkahelyi telefonszám"
+          label="Munkahelyi telefonszám (opcionális)"
           value={formData.phoneWork}
           onChange={(e) => onChange('phoneWork', e.target.value)}
           placeholder="+36 ..."
@@ -30,17 +40,9 @@ const VCardContactInfo: React.FC<VCardContactInfoProps> = ({ formData, onChange 
         />
 
         <Input
-          label="Privát telefonszám"
+          label="Privát telefonszám (opcionális)"
           value={formData.phonePrivate}
           onChange={(e) => onChange('phonePrivate', e.target.value)}
-          placeholder="+36 ..."
-          type="tel"
-        />
-
-        <Input
-          label="Fax"
-          value={formData.fax}
-          onChange={(e) => onChange('fax', e.target.value)}
           placeholder="+36 ..."
           type="tel"
         />
@@ -52,6 +54,8 @@ const VCardContactInfo: React.FC<VCardContactInfoProps> = ({ formData, onChange 
           onChange={(e) => onChange('email', e.target.value)}
           placeholder="pelda@email.com"
           type="email"
+          error={errors.email}
+          required
         />
       </div>
     </div>

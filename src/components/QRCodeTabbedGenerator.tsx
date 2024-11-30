@@ -81,51 +81,54 @@ const QRCodeTabbedGenerator: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
           Ingyenes QR Kód Készítés
         </h2>
-        <p className="text-lg text-gray-600">
+        <p className="text-base sm:text-lg text-gray-600">
           Válassza ki a kívánt QR kód típust és készítse el QR kódját azonnal, teljesen ingyen
         </p>
       </div>
 
-      {/* Tabs */}
-      <div className="border-b border-gray-200 mb-8">
-        <nav className="-mb-px flex space-x-4 sm:space-x-8 overflow-x-auto scrollbar-hide">
-          {tabs.map((tab) => (
-            <button
-              key={tab.type}
-              onClick={() => handleTabChange(tab.type)}
-              className={`
-                whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm sm:text-base
-                ${activeTab === tab.type
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }
-                flex items-center gap-2 transition-colors
-              `}
-            >
-              {tab.icon}
-              {tab.label}
-            </button>
-          ))}
-        </nav>
+      {/* Tabs - Scrollable on mobile */}
+      <div className="border-b border-gray-200 mb-8 -mx-4 sm:mx-0">
+        <div className="px-4 sm:px-0">
+          <nav className="-mb-px flex space-x-4 sm:space-x-8 overflow-x-auto scrollbar-hide py-2 sm:py-0">
+            {tabs.map((tab) => (
+              <button
+                key={tab.type}
+                onClick={() => handleTabChange(tab.type)}
+                className={`
+                  whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm sm:text-base
+                  flex-shrink-0
+                  ${activeTab === tab.type
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }
+                  flex items-center gap-2 transition-colors
+                `}
+              >
+                {tab.icon}
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+        </div>
       </div>
 
       {/* Content */}
       <div className="flex flex-col space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left side - Options */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-5 order-2 lg:order-1">
             <QRCodeOptions options={options} onChange={setOptions} />
           </div>
 
           {/* Right side - Preview */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 order-1 lg:order-2">
             <div className="sticky top-24">
               <div className="flex flex-col items-center space-y-6">
                 <div 
-                  className="inline-flex rounded-lg p-2"
+                  className="inline-flex rounded-lg p-4 bg-white"
                   style={{
                     background: options.backgroundColor === 'transparent' 
                       ? `url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC) repeat`

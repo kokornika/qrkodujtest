@@ -1,6 +1,7 @@
 import React from 'react';
 import { VCardFormData } from '../../types/vcard';
 import { Input } from '../ui/Input';
+import { MapPin } from 'lucide-react';
 
 interface VCardAddressInfoProps {
   formData: VCardFormData;
@@ -10,43 +11,42 @@ interface VCardAddressInfoProps {
 const VCardAddressInfo: React.FC<VCardAddressInfoProps> = ({ formData, onChange }) => {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium text-gray-700">Cím</h3>
+      <div className="flex items-start gap-3">
+        <h3 className="text-lg font-medium text-gray-700">Cím (opcionális)</h3>
+        <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
+          Ajánlott megadni az egy kattintásos útvonaltervezéshez
+        </div>
+      </div>
+      
+      <div className="bg-blue-50 p-4 rounded-lg flex items-start gap-3">
+        <MapPin className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+        <p className="text-sm text-blue-600">
+          A megadott címre a névjegykártyán egy kattintással elindítható a navigáció 
+          Google Maps vagy Apple Maps alkalmazással.
+        </p>
+      </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input
-          label="Ország"
-          value={formData.country}
-          onChange={(e) => onChange('country', e.target.value)}
-          placeholder="Magyarország"
+          label="Irányítószám (opcionális)"
+          value={formData.zipcode}
+          onChange={(e) => onChange('zipcode', e.target.value)}
+          placeholder="1234"
         />
 
         <Input
-          label="Megye"
-          value={formData.state}
-          onChange={(e) => onChange('state', e.target.value)}
-          placeholder="Pest"
-        />
-
-        <Input
-          className="sm:col-span-2"
-          label="Utca, házszám"
-          value={formData.street}
-          onChange={(e) => onChange('street', e.target.value)}
-          placeholder="Példa utca 123."
-        />
-
-        <Input
-          label="Város"
+          label="Város (opcionális)"
           value={formData.city}
           onChange={(e) => onChange('city', e.target.value)}
           placeholder="Budapest"
         />
 
         <Input
-          label="Irányítószám"
-          value={formData.zipcode}
-          onChange={(e) => onChange('zipcode', e.target.value)}
-          placeholder="1234"
+          className="sm:col-span-2"
+          label="Utca, házszám (opcionális)"
+          value={formData.street}
+          onChange={(e) => onChange('street', e.target.value)}
+          placeholder="Példa utca 123."
         />
       </div>
     </div>

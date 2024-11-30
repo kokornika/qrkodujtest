@@ -6,13 +6,10 @@ export interface VCardFormData {
   phoneMobile: string;
   phoneWork: string;
   phonePrivate: string;
-  fax: string;
   email: string;
-  country: string;
-  state: string;
-  street: string;
-  city: string;
   zipcode: string;
+  city: string;
+  street: string;
   description: string;
   profilePicture?: string;
   backgroundColor: string;
@@ -31,16 +28,13 @@ export const defaultVCardData: VCardFormData = {
   phoneMobile: '',
   phoneWork: '',
   phonePrivate: '',
-  fax: '',
   email: '',
-  country: '',
-  state: '',
-  street: '',
-  city: '',
   zipcode: '',
+  city: '',
+  street: '',
   description: '',
   profilePicture: '',
-  backgroundColor: '#6366F1', // Modern indigo szín
-  backgroundType: 'gradient', // Alapértelmezetten gradient
+  backgroundColor: '#6366F1',
+  backgroundType: 'gradient',
   socialLinks: []
 };

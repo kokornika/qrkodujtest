@@ -5,9 +5,14 @@ import { Input } from '../ui/Input';
 interface VCardPersonalInfoProps {
   formData: VCardFormData;
   onChange: (field: keyof VCardFormData, value: any) => void;
+  error?: string;
 }
 
-const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({ formData, onChange }) => {
+const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({ 
+  formData, 
+  onChange,
+  error 
+}) => {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium text-gray-700">Személyes adatok</h3>
@@ -18,24 +23,26 @@ const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({ formData, onChang
           value={formData.name}
           onChange={(e) => onChange('name', e.target.value)}
           placeholder="Add meg a teljes neved..."
+          error={error}
+          required
         />
 
         <Input
-          label="Cég neve"
+          label="Cég neve (opcionális)"
           value={formData.company}
           onChange={(e) => onChange('company', e.target.value)}
           placeholder="Add meg a cég nevét..."
         />
 
         <Input
-          label="Pozíció"
+          label="Pozíció (opcionális)"
           value={formData.position}
           onChange={(e) => onChange('position', e.target.value)}
           placeholder="Add meg a pozíciód..."
         />
 
         <Input
-          label="Weboldal"
+          label="Weboldal (opcionális)"
           value={formData.website}
           onChange={(e) => onChange('website', e.target.value)}
           placeholder="https://"
@@ -44,7 +51,7 @@ const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({ formData, onChang
 
         <div className="sm:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Bemutatkozás
+            Bemutatkozás (opcionális)
           </label>
           <textarea
             value={formData.description}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { QROptions, WifiEncryption } from '../types/qr';
 import ColorPicker from './ui/ColorPicker';
 import { Slider } from './ui/Slider';
@@ -52,6 +52,14 @@ const placeholderTexts: Record<string, string> = {
 };
 
 const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
+  useEffect(() => {
+    // Set initial QR code size based on screen width
+    const isMobile = window.innerWidth < 640;
+    if (isMobile && options.size === 256) {
+      onChange({ ...options, size: 128 });
+    }
+  }, []);
+
   const handleWifiSettingChange = (
     field: keyof WifiSettings,
     value: string

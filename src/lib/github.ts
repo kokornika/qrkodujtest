@@ -22,7 +22,6 @@ export class GitHubRepository {
     try {
       const repoName = `digital-card-${orderId || this.generateOrderId()}`;
       
-      // Create repository using GitHub API
       const createRepoResponse = await fetch('https://api.github.com/user/repos', {
         method: 'POST',
         headers: {
@@ -45,13 +44,10 @@ export class GitHubRepository {
 
       const repo = await createRepoResponse.json();
 
-      // Wait for repository initialization
       await new Promise(resolve => setTimeout(resolve, 5000));
 
-      // Generate website content
       const htmlContent = await generateHTML(data);
 
-      // Create files sequentially to avoid conflicts
       await this.createFile(repoName, 'index.html', htmlContent);
       await this.createFile(repoName, 'netlify.toml', `
 [build]
@@ -63,8 +59,7 @@ export class GitHubRepository {
   status = 200
 `.trim());
 
-      // Deploy to Netlify
-      const deployUrl = `https://${repoName}.netlify.app`;
+      const deployUrl = `https://${repoName}.qrnevjegy.hu`;
 
       return {
         repoUrl: repo.html_url,
@@ -78,7 +73,6 @@ export class GitHubRepository {
 
   private async createFile(repoName: string, path: string, content: string): Promise<void> {
     try {
-      // Get the default branch
       const repoResponse = await fetch(
         `https://api.github.com/repos/${this.owner}/${repoName}`,
         {
@@ -96,7 +90,6 @@ export class GitHubRepository {
       const repoInfo = await repoResponse.json();
       const defaultBranch = repoInfo.default_branch;
 
-      // Get the latest commit SHA
       const refResponse = await fetch(
         `https://api.github.com/repos/${this.owner}/${repoName}/git/refs/heads/${defaultBranch}`,
         {
@@ -114,7 +107,6 @@ export class GitHubRepository {
       const refData = await refResponse.json();
       const latestCommitSha = refData.object.sha;
 
-      // Create or update file
       const response = await fetch(
         `https://api.github.com/repos/${this.owner}/${repoName}/contents/${path}`,
         {

@@ -37,7 +37,6 @@ const handler: Handler = async (event) => {
       };
     }
 
-    // Generate order ID that will be used for both Stripe and GitHub
     const timestamp = Date.now().toString(36);
     const randomStr = Math.random().toString(36).substring(2, 7);
     const orderId = `${timestamp}-${randomStr}`;
@@ -52,14 +51,14 @@ const handler: Handler = async (event) => {
               name: plan.name,
               description: `Digitális névjegykártya - ${plan.period}`,
             },
-            unit_amount: plan.price * 100, // Convert to smallest currency unit (fillér)
+            unit_amount: plan.price * 100,
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
-      cancel_url: `${process.env.URL || 'http://localhost:5173'}/cancel`,
+      success_url: `https://qrnevjegy.hu/success?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
+      cancel_url: `https://qrnevjegy.hu/cancel`,
       customer_email: customerData.email,
       metadata: {
         orderId: orderId,
