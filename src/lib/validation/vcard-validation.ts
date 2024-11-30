@@ -10,17 +10,38 @@ export function validatePhone(phone: string): boolean {
 }
 
 export function formatPhone(phone: string): string {
-  // Remove all spaces and special characters
+  // Remove all non-digit characters except + at the start
   const cleaned = phone.replace(/[^\d+]/g, '');
+  
+  // If the string is empty after cleaning, return empty string
+  if (!cleaned) return '';
+  
+  // Handle backspace and deletion by checking length
+  if (cleaned.length <= 2) return cleaned;
   
   // Format based on the input pattern
   if (cleaned.startsWith('+36')) {
-    return `+36 ${cleaned.slice(3, 5)} ${cleaned.slice(5, 8)} ${cleaned.slice(8)}`;
+    // Split into groups: +36 XX XXX XXXX
+    const groups = [
+      '+36',
+      cleaned.slice(3, 5),
+      cleaned.slice(5, 8),
+      cleaned.slice(8, 12)
+    ].filter(group => group.length > 0);
+    return groups.join(' ');
   } else if (cleaned.startsWith('06')) {
-    return `06 ${cleaned.slice(2, 4)} ${cleaned.slice(4, 7)} ${cleaned.slice(7)}`;
+    // Split into groups: 06 XX XXX XXXX
+    const groups = [
+      '06',
+      cleaned.slice(2, 4),
+      cleaned.slice(4, 7),
+      cleaned.slice(7, 11)
+    ].filter(group => group.length > 0);
+    return groups.join(' ');
   }
   
-  return phone;
+  // If no pattern matches, return the cleaned input as is
+  return cleaned;
 }
 
 export function validateEmail(email: string): boolean {

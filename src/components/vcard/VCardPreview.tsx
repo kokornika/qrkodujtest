@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { VCardFormData } from '../../types/vcard';
-import { Phone, Mail, Globe, MapPin } from 'lucide-react';
+import { Phone, Mail, Globe, MapPin, Share2, Download, AlertCircle } from 'lucide-react';
 import OrderDialog from './OrderDialog';
 import QRCode from 'qrcode.react';
 import { socialIcons } from '../../lib/social-icons';
 import { socialColors } from '../../lib/social-colors';
+import { Button } from '../ui/button';
 
 interface VCardPreviewProps {
   formData: VCardFormData;
@@ -88,7 +89,7 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
             </div>
           </div>
 
-          {/* Card Content with smooth scrolling */}
+          {/* Card Content */}
           <div className="h-[calc(100%-3rem)] overflow-y-auto scrollbar-hide">
             {/* Header with Background */}
             <div 
@@ -166,6 +167,30 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
                   </div>
                 )}
 
+                {formData.phoneWork && (
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl transition-all hover:bg-gray-100">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center" style={getThemeStyles(0.1)}>
+                      <Phone className="w-4 h-4" style={{ color: themeColor }} />
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-900">{formData.phoneWork}</div>
+                      <div className="text-xs text-gray-500">Munkahelyi</div>
+                    </div>
+                  </div>
+                )}
+
+                {formData.phonePrivate && (
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl transition-all hover:bg-gray-100">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center" style={getThemeStyles(0.1)}>
+                      <Phone className="w-4 h-4" style={{ color: themeColor }} />
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-900">{formData.phonePrivate}</div>
+                      <div className="text-xs text-gray-500">Privát</div>
+                    </div>
+                  </div>
+                )}
+
                 {formData.email && (
                   <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl transition-all hover:bg-gray-100">
                     <div className="w-8 h-8 rounded-full flex items-center justify-center" style={getThemeStyles(0.1)}>
@@ -238,25 +263,32 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
       </div>
 
       {/* CTA Button */}
-      <div>
-        <button
+      <div className="space-y-4">
+        {!isValid && (
+          <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl">
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+            <p className="text-sm text-red-600">
+              Töltse ki a kötelező mezőket a folytatáshoz (név, email, mobil telefonszám)
+            </p>
+          </div>
+        )}
+        
+        <Button
           onClick={() => setShowOrderDialog(true)}
           disabled={!isValid}
           className={`
-            w-full py-4 px-6 rounded-xl flex items-center justify-center gap-2 
-            transition-all duration-300 font-medium shadow-lg hover:shadow-xl 
-            transform hover:-translate-y-0.5
+            w-full py-6 text-base
             ${isValid 
-              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white'
-              : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl'
+              : 'bg-gray-100 text-gray-400 cursor-not-allowed border border-red-200'
             }
           `}
         >
           {isValid 
             ? 'Megrendelem a digitális névjegyet'
-            : 'Töltse ki a kötelező mezőket a folytatáshoz'
+            : 'Töltse ki a kötelező mezőket'
           }
-        </button>
+        </Button>
       </div>
 
       <OrderDialog 

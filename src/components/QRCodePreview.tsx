@@ -11,33 +11,54 @@ interface QRCodePreviewProps {
 
 const QRCodePreview: React.FC<QRCodePreviewProps> = ({ options }) => {
   const handleDownload = () => {
-    const canvas = document.querySelector('canvas');
-    if (!canvas) return;
+    try {
+      // Get the QR code canvas
+      const canvas = document.querySelector('canvas');
+      if (!canvas) return;
 
-    const newCanvas = document.createElement('canvas');
-    newCanvas.width = options.size;
-    newCanvas.height = options.size;
-    const context = newCanvas.getContext('2d', { willReadFrequently: true });
-    
-    if (context) {
-      if (options.backgroundColor === 'transparent') {
-        context.clearRect(0, 0, newCanvas.width, newCanvas.height);
-      } else {
-        context.fillStyle = options.backgroundColor;
-        context.fillRect(0, 0, newCanvas.width, newCanvas.height);
-      }
+      // Create a new canvas with the correct size and background
+      const newCanvas = document.createElement('canvas');
+      newCanvas.width = options.size;
+      newCanvas.height = options.size;
+      const context = newCanvas.getContext('2d');
       
-      const qrCanvas = canvas.getContext('2d', { willReadFrequently: true });
-      if (qrCanvas) {
-        const imageData = qrCanvas.getImageData(0, 0, canvas.width, canvas.height);
-        context.putImageData(imageData, 0, 0);
-      }
-    }
+      if (context) {
+        // Fill background
+        if (options.backgroundColor === 'transparent') {
+          context.clearRect(0, 0, newCanvas.width, newCanvas.height);
+        } else {
+          context.fillStyle = options.backgroundColor;
+          context.fillRect(0, 0, newCanvas.width, newCanvas.height);
+        }
+        
+        // Copy QR code onto new canvas
+        const qrContext = canvas.getContext('2d');
+        if (qrContext) {
+          const imageData = qrContext.getImageData(0, 0, canvas.width, canvas.height);
+          context.putImageData(imageData, 0, 0);
+        }
 
-    const link = document.createElement('a');
-    link.download = 'qrcode.png';
-    link.href = newCanvas.toDataURL('image/png');
-    link.click();
+        // For mobile devices, create a temporary link and trigger download
+        const dataUrl = newCanvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = 'qrcode.png';
+        link.href = dataUrl;
+        
+        // Create a blob for better mobile compatibility
+        fetch(dataUrl)
+          .then(res => res.blob())
+          .then(blob => {
+            const blobUrl = window.URL.createObjectURL(blob);
+            link.href = blobUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(blobUrl);
+          });
+      }
+    } catch (error) {
+      console.error('Error downloading QR code:', error);
+    }
   };
 
   const checkerboardPattern = `

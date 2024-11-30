@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calculator, TrendingUp, PiggyBank, Printer } from 'lucide-react';
+import { Slider } from '../ui/Slider';
 
 const ROICalculator = () => {
   const [employees, setEmployees] = useState(1);
@@ -44,31 +45,35 @@ const ROICalculator = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Kalkulátor */}
           <div className="bg-gray-50 p-6 rounded-xl">
-            <div className="space-y-6">
+            <div className="space-y-12">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-base font-medium text-gray-700 mb-8">
                   Hány munkatársnak van szüksége névjegykártyára?
                 </label>
-                <input
-                  type="number"
-                  min="1"
-                  value={employees}
-                  onChange={(e) => setEmployees(Math.max(1, parseInt(e.target.value) || 1))}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                />
+                <div className="px-4 pt-6">
+                  <Slider
+                    value={employees}
+                    min={1}
+                    max={50}
+                    step={1}
+                    onChange={(value) => setEmployees(value)}
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-base font-medium text-gray-700 mb-8">
                   Átlagosan hány névjegykártyára van szükség évente személyenként?
                 </label>
-                <input
-                  type="number"
-                  min="1"
-                  value={cardsPerYear}
-                  onChange={(e) => setCardsPerYear(Math.max(1, parseInt(e.target.value) || 1))}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                />
+                <div className="px-4 pt-6">
+                  <Slider
+                    value={cardsPerYear}
+                    min={50}
+                    max={500}
+                    step={50}
+                    onChange={(value) => setCardsPerYear(value)}
+                  />
+                </div>
               </div>
             </div>
           </div>
