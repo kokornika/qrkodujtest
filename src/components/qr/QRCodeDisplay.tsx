@@ -8,17 +8,13 @@ interface QRCodeDisplayProps {
 }
 
 const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ options, qrRef }) => {
-  const checkerboardPattern = `
-    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC
-  `.trim();
-
   return (
     <div 
       ref={qrRef}
-      className="flex justify-center items-center rounded-lg p-4 sm:p-6"
+      className="inline-flex rounded-lg overflow-hidden"
       style={{
         background: options.backgroundColor === 'transparent' 
-          ? `url(${checkerboardPattern}) repeat`
+          ? `url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC) repeat`
           : options.backgroundColor
       }}
     >
@@ -28,8 +24,8 @@ const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ options, qrRef }) => {
         level="M"
         bgColor={options.backgroundColor === 'transparent' ? 'transparent' : options.backgroundColor}
         fgColor={options.foregroundColor}
-        includeMargin={true}
-        renderAs="canvas" // Changed to canvas for better mobile performance
+        includeMargin={false}
+        renderAs="canvas"
       />
     </div>
   );

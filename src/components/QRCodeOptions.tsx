@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { QROptions, WifiEncryption } from '../types/qr';
 import ColorPicker from './ui/ColorPicker';
 import { Slider } from './ui/Slider';
-import { ArrowRight } from 'lucide-react';
-import { Button } from './ui/button';
 
 interface QRCodeOptionsProps {
   options: QROptions;
@@ -40,7 +38,6 @@ const contentTypeLabels: Record<string, string> = {
   email: 'Email cím átalakítása QR kóddá',
   phone: 'Telefonszám átalakítása QR kóddá',
   wifi: 'WiFi beállítások átalakítása QR kóddá',
-  vcard: 'Névjegy átalakítása QR kóddá',
 };
 
 const placeholderTexts: Record<string, string> = {
@@ -54,9 +51,10 @@ const placeholderTexts: Record<string, string> = {
 const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
   useEffect(() => {
     const handleResize = () => {
-      const maxSize = Math.min(window.innerWidth - 48, 512);
-      if (window.innerWidth < 640) {
-        onChange({ ...options, size: Math.min(options.size, maxSize) });
+      const containerWidth = window.innerWidth < 640 ? window.innerWidth - 32 : 512;
+      const newSize = Math.min(containerWidth, options.size);
+      if (newSize !== options.size) {
+        onChange({ ...options, size: newSize });
       }
     };
 
@@ -67,12 +65,12 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
   }, [options, onChange]);
 
   const handleSizeChange = (newSize: number) => {
-    const maxSize = window.innerWidth < 640 ? Math.min(window.innerWidth - 48, 512) : 512;
-    onChange({ ...options, size: Math.min(newSize, maxSize) });
+    const containerWidth = window.innerWidth < 640 ? window.innerWidth - 32 : 512;
+    onChange({ ...options, size: Math.min(newSize, containerWidth) });
   };
 
   const handleWifiSettingChange = (
-    field: keyof WifiSettings,
+    field: keyof typeof options.wifiSettings,
     value: string
   ) => {
     const newWifiSettings = {
@@ -95,53 +93,51 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
 
   if (options.contentType === 'wifi') {
     return (
-      <div className="space-y-4 sm:space-y-6">
-        <div className="space-y-3 sm:space-y-4">
+      <div className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            WiFi hálózat neve (SSID)
+          </label>
+          <input
+            type="text"
+            value={options.wifiSettings?.ssid || ''}
+            onChange={(e) => handleWifiSettingChange('ssid', e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg text-base"
+            placeholder="Add meg a hálózat nevét..."
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            WiFi titkosítás típusa
+          </label>
+          <select
+            value={options.wifiSettings?.encryption || 'WPA'}
+            onChange={(e) => handleWifiSettingChange('encryption', e.target.value as WifiEncryption)}
+            className="w-full p-3 border border-gray-300 rounded-lg text-base bg-white"
+          >
+            {encryptionTypes.map((type) => (
+              <option key={type.value} value={type.value}>
+                {type.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {options.wifiSettings?.encryption !== 'nopass' && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              WiFi hálózat neve (SSID) QR kódhoz
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              WiFi jelszó
             </label>
             <input
-              type="text"
-              value={options.wifiSettings?.ssid || ''}
-              onChange={(e) => handleWifiSettingChange('ssid', e.target.value)}
-              className="w-full p-2 sm:p-2.5 border border-gray-300 rounded-md text-sm sm:text-base"
-              placeholder="Add meg a hálózat nevét..."
+              type="password"
+              value={options.wifiSettings?.password || ''}
+              onChange={(e) => handleWifiSettingChange('password', e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-lg text-base"
+              placeholder="Add meg a jelszót..."
             />
           </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              WiFi titkosítás típusa
-            </label>
-            <select
-              value={options.wifiSettings?.encryption || 'WPA'}
-              onChange={(e) => handleWifiSettingChange('encryption', e.target.value as WifiEncryption)}
-              className="w-full p-2 sm:p-2.5 border border-gray-300 rounded-md text-sm sm:text-base"
-            >
-              {encryptionTypes.map((type) => (
-                <option key={type.value} value={type.value}>
-                  {type.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {options.wifiSettings?.encryption !== 'nopass' && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                WiFi jelszó QR kódhoz
-              </label>
-              <input
-                type="password"
-                value={options.wifiSettings?.password || ''}
-                onChange={(e) => handleWifiSettingChange('password', e.target.value)}
-                className="w-full p-2 sm:p-2.5 border border-gray-300 rounded-md text-sm sm:text-base"
-                placeholder="Add meg a jelszót..."
-              />
-            </div>
-          )}
-        </div>
+        )}
 
         <div>
           <div className="flex justify-between items-center mb-2">
@@ -152,14 +148,14 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
           </div>
           <Slider
             value={options.size}
-            min={128}
-            max={window.innerWidth < 640 ? Math.min(window.innerWidth - 48, 512) : 512}
+            min={256}
+            max={window.innerWidth < 640 ? Math.min(window.innerWidth - 32, 512) : 512}
             step={32}
             onChange={handleSizeChange}
           />
         </div>
 
-        <div className="space-y-3 sm:space-y-4">
+        <div className="space-y-4">
           <label className="block text-sm font-medium text-gray-700">
             QR kód színek
           </label>
@@ -181,16 +177,16 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
           {contentTypeLabels[options.contentType]}
         </label>
         <input
           type={options.contentType === 'email' ? 'email' : options.contentType === 'url' ? 'url' : 'text'}
           value={options.content}
           onChange={(e) => onChange({ ...options, content: e.target.value })}
-          className="w-full p-2 sm:p-2.5 border border-gray-300 rounded-md text-sm sm:text-base"
+          className="w-full p-3 border border-gray-300 rounded-lg text-base"
           placeholder={placeholderTexts[options.contentType]}
         />
       </div>
@@ -204,14 +200,14 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
         </div>
         <Slider
           value={options.size}
-          min={128}
-          max={window.innerWidth < 640 ? Math.min(window.innerWidth - 48, 512) : 512}
+          min={256}
+          max={window.innerWidth < 640 ? Math.min(window.innerWidth - 32, 512) : 512}
           step={32}
           onChange={handleSizeChange}
         />
       </div>
 
-      <div className="space-y-3 sm:space-y-4">
+      <div className="space-y-4">
         <label className="block text-sm font-medium text-gray-700">
           QR kód színek
         </label>

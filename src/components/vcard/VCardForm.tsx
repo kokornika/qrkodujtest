@@ -96,7 +96,7 @@ const VCardForm: React.FC = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr,400px] gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8">
         <div className="space-y-4 sm:space-y-6 lg:space-y-8">
           <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:p-8">
             <div className="space-y-6 sm:space-y-8">

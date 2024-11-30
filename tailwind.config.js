@@ -5,6 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      'sm': '320px',    // Mobile phones
+      'md': '768px',    // Tablets
+      'lg': '1024px',   // Laptops
+      'xl': '1440px',   // Desktop monitors
+    },
     extend: {
       typography: {
         DEFAULT: {
@@ -31,6 +37,18 @@ export default {
             },
           },
         },
+      },
+      maxWidth: {
+        'screen-sm': '480px',
+        'screen-md': '1024px',
+        'screen-lg': '1440px',
+        'screen-xl': '1920px',
+      },
+      padding: {
+        'screen-sm': '1rem',
+        'screen-md': '2rem',
+        'screen-lg': '3rem',
+        'screen-xl': '4rem',
       },
     },
   },

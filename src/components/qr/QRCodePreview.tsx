@@ -4,8 +4,6 @@ import QRCode from 'qrcode.react';
 import { Button } from '../ui/button';
 import { Download } from 'lucide-react';
 import PromotionalCard from '../ui/PromotionalCard';
-import html2canvas from 'html2canvas';
-import { saveAs } from 'file-saver';
 
 interface QRCodePreviewProps {
   options: QROptions;
@@ -14,31 +12,31 @@ interface QRCodePreviewProps {
 const QRCodePreview: React.FC<QRCodePreviewProps> = ({ options }) => {
   const qrRef = useRef<HTMLDivElement>(null);
 
-  const handleDownload = async () => {
+  const handleDownload = () => {
     if (!qrRef.current) return;
 
     try {
-      // Convert QR code div to canvas
-      const canvas = await html2canvas(qrRef.current, {
-        backgroundColor: null,
-        scale: 2, // Higher quality
-        logging: false,
-      });
+      const canvas = qrRef.current.querySelector('canvas');
+      if (!canvas) return;
 
-      // Convert canvas to blob
+      const link = document.createElement('a');
+      link.download = 'qrkod.png';
+      
       canvas.toBlob((blob) => {
         if (blob) {
-          saveAs(blob, 'qrcode.png');
+          const url = URL.createObjectURL(blob);
+          link.href = url;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
         }
       }, 'image/png');
+      
     } catch (error) {
-      console.error('Error downloading QR code:', error);
+      console.error('Hiba a QR kód letöltése közben:', error);
     }
   };
-
-  const checkerboardPattern = `
-    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC
-  `.trim();
 
   return (
     <div className="flex flex-col space-y-8">
@@ -49,10 +47,10 @@ const QRCodePreview: React.FC<QRCodePreviewProps> = ({ options }) => {
       <div className="flex flex-col items-center space-y-6">
         <div 
           ref={qrRef}
-          className="flex justify-center items-center rounded-lg p-4 sm:p-6"
+          className="inline-flex rounded-lg overflow-hidden"
           style={{
             background: options.backgroundColor === 'transparent' 
-              ? `url(${checkerboardPattern}) repeat`
+              ? `url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC) repeat`
               : options.backgroundColor
           }}
         >
@@ -62,8 +60,8 @@ const QRCodePreview: React.FC<QRCodePreviewProps> = ({ options }) => {
             level="M"
             bgColor={options.backgroundColor === 'transparent' ? 'transparent' : options.backgroundColor}
             fgColor={options.foregroundColor}
-            includeMargin={true}
-            renderAs="svg"
+            includeMargin={false}
+            renderAs="canvas"
           />
         </div>
 
