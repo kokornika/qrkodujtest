@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X, Loader2, Check, CreditCard, Shield, AlertCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { VCardFormData } from '../../types/vcard';
 import { PAYMENT_PLANS } from '../../lib/constants/plans';
@@ -16,9 +17,15 @@ interface OrderDialogProps {
 const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const plan = PAYMENT_PLANS[0];
 
   const handleOrder = async () => {
+    if (!acceptTerms) {
+      setError('Kérjük, fogadja el az Általános Szerződési Feltételeket a folytatáshoz');
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 
@@ -104,10 +111,44 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
               </div>
             </div>
 
+            {/* Terms Acceptance Checkbox */}
+            <div className="flex items-start gap-3">
+              <div className="flex items-center h-5 mt-1">
+                <input
+                  type="checkbox"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+              </div>
+              <div className="text-sm">
+                <p className="text-gray-600">
+                  Elolvastam és elfogadom az{' '}
+                  <Link
+                    to="/terms"
+                    target="_blank"
+                    className="text-blue-600 hover:text-blue-700 underline"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Általános Szerződési Feltételeket
+                  </Link>
+                  {' '}és az{' '}
+                  <Link
+                    to="/privacy"
+                    target="_blank"
+                    className="text-blue-600 hover:text-blue-700 underline"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Adatkezelési tájékoztatót
+                  </Link>
+                </p>
+              </div>
+            </div>
+
             <Button
               onClick={handleOrder}
               className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
-              disabled={isLoading}
+              disabled={isLoading || !acceptTerms}
             >
               {isLoading ? (
                 <>

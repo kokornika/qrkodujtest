@@ -20,8 +20,41 @@ export class GitHubRepository {
     orderId?: string
   ): Promise<{ repoUrl: string; deployUrl: string }> {
     try {
-      const repoName = `digital-card-${orderId || this.generateOrderId()}`;
-      
+      const baseRepoName = `digital-card-${orderId || this.generateOrderId()}`;
+      let repoName = baseRepoName;
+      let attempt = 1;
+
+      // Try to create repository with unique name
+      while (attempt <= 5) {
+        try {
+          const checkRepoResponse = await fetch(
+            `https://api.github.com/repos/${this.owner}/${repoName}`,
+            {
+              headers: {
+                'Authorization': `token ${this.token}`,
+                'Accept': 'application/vnd.github.v3+json',
+              },
+            }
+          );
+
+          if (checkRepoResponse.status === 404) {
+            // Repository name is available
+            break;
+          }
+
+          // Repository exists, try next name
+          repoName = `${baseRepoName}-${attempt}`;
+          attempt++;
+        } catch (error) {
+          console.error('Error checking repository existence:', error);
+          throw error;
+        }
+      }
+
+      if (attempt > 5) {
+        throw new Error('Failed to generate unique repository name after 5 attempts');
+      }
+
       const createRepoResponse = await fetch('https://api.github.com/user/repos', {
         method: 'POST',
         headers: {

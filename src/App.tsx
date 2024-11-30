@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import CookieBanner from './components/CookieBanner';
 import QRCodeGenerator from './components/QRCodeGenerator';
 import VCardForm from './components/vcard/VCardForm';
 import PaymentSuccess from './pages/PaymentSuccess';
@@ -11,13 +13,15 @@ import BlogPost2 from './pages/BlogPost2';
 import BlogPost3 from './pages/BlogPost3';
 import BlogPost4 from './pages/BlogPost4';
 import Guide from './pages/Guide';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 flex flex-col">
         <Header />
-        <main className="pt-16">
+        <main className="flex-grow pt-16">
           <Routes>
             <Route path="/" element={<QRCodeGenerator />} />
             <Route path="/guide" element={<Guide />} />
@@ -36,8 +40,12 @@ function App() {
             <Route path="/blog/4" element={<BlogPost4 />} />
             <Route path="/success" element={<PaymentSuccess />} />
             <Route path="/cancel" element={<PaymentCancel />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
           </Routes>
         </main>
+        <Footer />
+        <CookieBanner />
       </div>
     </BrowserRouter>
   );
