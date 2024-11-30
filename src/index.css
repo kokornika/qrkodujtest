@@ -11,6 +11,20 @@ body {
   @apply antialiased;
 }
 
+/* Fix mobile input zoom */
+@media (max-width: 640px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="url"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
 /* QR Code Scanning Animation */
 @keyframes scanSteps {
   0%, 30% {
