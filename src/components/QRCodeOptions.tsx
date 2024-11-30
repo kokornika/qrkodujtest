@@ -53,12 +53,23 @@ const placeholderTexts: Record<string, string> = {
 
 const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
   useEffect(() => {
-    // Set initial QR code size based on screen width
-    const isMobile = window.innerWidth < 640;
-    if (isMobile && options.size === 256) {
-      onChange({ ...options, size: 128 });
-    }
-  }, []);
+    const handleResize = () => {
+      const maxSize = Math.min(window.innerWidth - 48, 512);
+      if (window.innerWidth < 640) {
+        onChange({ ...options, size: Math.min(options.size, maxSize) });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [options, onChange]);
+
+  const handleSizeChange = (newSize: number) => {
+    const maxSize = window.innerWidth < 640 ? Math.min(window.innerWidth - 48, 512) : 512;
+    onChange({ ...options, size: Math.min(newSize, maxSize) });
+  };
 
   const handleWifiSettingChange = (
     field: keyof WifiSettings,
@@ -142,9 +153,9 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
           <Slider
             value={options.size}
             min={128}
-            max={512}
+            max={window.innerWidth < 640 ? Math.min(window.innerWidth - 48, 512) : 512}
             step={32}
-            onChange={(value) => onChange({ ...options, size: value })}
+            onChange={handleSizeChange}
           />
         </div>
 
@@ -194,9 +205,9 @@ const QRCodeOptions: React.FC<QRCodeOptionsProps> = ({ options, onChange }) => {
         <Slider
           value={options.size}
           min={128}
-          max={512}
+          max={window.innerWidth < 640 ? Math.min(window.innerWidth - 48, 512) : 512}
           step={32}
-          onChange={(value) => onChange({ ...options, size: value })}
+          onChange={handleSizeChange}
         />
       </div>
 

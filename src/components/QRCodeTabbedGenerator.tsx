@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import { QRContentType, QROptions } from '../types/qr';
 import QRCodeOptions from './QRCodeOptions';
@@ -22,13 +22,27 @@ const QRCodeTabbedGenerator: React.FC = () => {
     content: '',
     backgroundColor: '#ffffff',
     foregroundColor: '#000000',
-    size: 256,
+    size: window.innerWidth < 640 ? 128 : 256,
     wifiSettings: {
       ssid: '',
       password: '',
       encryption: 'WPA',
     },
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      const maxSize = Math.min(window.innerWidth - 48, options.size);
+      if (window.innerWidth < 640 && options.size > maxSize) {
+        setOptions(prev => ({ ...prev, size: maxSize }));
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [options.size]);
 
   const handleTabChange = (type: QRContentType) => {
     if (type === 'vcard') {
@@ -89,7 +103,6 @@ const QRCodeTabbedGenerator: React.FC = () => {
         </p>
       </div>
 
-      {/* Tabs - Scrollable on mobile */}
       <div className="border-b border-gray-200 mb-8 -mx-4 sm:mx-0">
         <div className="px-4 sm:px-0">
           <nav className="-mb-px flex space-x-4 sm:space-x-8 overflow-x-auto scrollbar-hide py-2 sm:py-0">
@@ -115,20 +128,17 @@ const QRCodeTabbedGenerator: React.FC = () => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="flex flex-col space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left side - Options */}
           <div className="lg:col-span-5 order-2 lg:order-1">
             <QRCodeOptions options={options} onChange={setOptions} />
           </div>
 
-          {/* Right side - Preview */}
           <div className="lg:col-span-7 order-1 lg:order-2">
             <div className="sticky top-24">
               <div className="flex flex-col items-center space-y-6">
                 <div 
-                  className="inline-flex rounded-lg p-4 bg-white"
+                  className="inline-flex rounded-lg p-4 bg-white max-w-full overflow-hidden"
                   style={{
                     background: options.backgroundColor === 'transparent' 
                       ? `url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC) repeat`
@@ -156,7 +166,6 @@ const QRCodeTabbedGenerator: React.FC = () => {
           </div>
         </div>
 
-        {/* Promotional Card - Full width */}
         <div className="w-full mt-8">
           <PromotionalCard
             title="Többet szeretne mint egy QR kód?"
