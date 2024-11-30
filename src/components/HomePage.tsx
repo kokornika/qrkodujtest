@@ -5,7 +5,7 @@ import HeroSection from './home/HeroSection';
 import BusinessAdvantages from './home/BusinessAdvantages';
 import ComparisonSection from './home/ComparisonSection';
 import BenefitsSection from './BenefitsSection';
-import QRCodeTabbedGenerator from './QRCodeTabbedGenerator';
+import QRCodeGenerator from './qr/QRCodeGenerator';
 import FAQSection from './home/FAQSection';
 import ROICalculator from './home/ROICalculator';
 
@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
       
       {/* QR Code Generator Section */}
       <section className="py-16 bg-white">
-        <QRCodeTabbedGenerator />
+        <QRCodeGenerator />
       </section>
 
       <BusinessAdvantages />
