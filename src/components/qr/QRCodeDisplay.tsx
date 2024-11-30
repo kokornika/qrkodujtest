@@ -29,7 +29,7 @@ const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ options, qrRef }) => {
         bgColor={options.backgroundColor === 'transparent' ? 'transparent' : options.backgroundColor}
         fgColor={options.foregroundColor}
         includeMargin={true}
-        renderAs="svg"
+        renderAs="canvas" // Changed to canvas for better mobile performance
       />
     </div>
   );

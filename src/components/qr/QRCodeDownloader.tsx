@@ -1,7 +1,6 @@
 import React from 'react';
 import { Download } from 'lucide-react';
 import { Button } from '../ui/button';
-import { saveAs } from 'file-saver';
 
 interface QRCodeDownloaderProps {
   qrRef: React.RefObject<HTMLDivElement>;
@@ -9,23 +8,25 @@ interface QRCodeDownloaderProps {
 }
 
 const QRCodeDownloader: React.FC<QRCodeDownloaderProps> = ({ qrRef, disabled }) => {
-  const handleDownload = async () => {
+  const handleDownload = () => {
     if (!qrRef.current) return;
 
     try {
-      // Convert QR code div to canvas
-      const canvas = await html2canvas(qrRef.current, {
-        backgroundColor: null,
-        scale: 2, // Higher quality
-        logging: false,
-      });
+      // Get the canvas element directly
+      const canvas = qrRef.current.querySelector('canvas');
+      if (!canvas) return;
 
-      // Convert canvas to blob
-      canvas.toBlob((blob) => {
-        if (blob) {
-          saveAs(blob, 'qrcode.png');
-        }
-      }, 'image/png');
+      // Create a temporary link element
+      const link = document.createElement('a');
+      link.download = 'qrcode.png';
+      
+      // Convert canvas to data URL
+      link.href = canvas.toDataURL('image/png');
+      
+      // Programmatically click the link to trigger download
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } catch (error) {
       console.error('Error downloading QR code:', error);
     }
