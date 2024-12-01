@@ -72,6 +72,7 @@ const handler: Handler = async (event) => {
       statusCode: 200,
       body: JSON.stringify({ 
         id: session.id,
+        url: session.url,
         orderId: orderId
       }),
     };
