@@ -2,7 +2,6 @@ import { VCardFormData } from '../types/vcard';
 import emailjs from 'emailjs-com';
 import { generateOrderSummary } from './website/order-summary';
 import { GitHubRepository } from './github';
-import { config } from './config';
 
 export class WebsiteGenerator {
   private github: GitHubRepository;
@@ -49,6 +48,15 @@ export class WebsiteGenerator {
     deployUrl?: string,
     orderId?: string
   ): Promise<void> {
+    const serviceId = import.meta.env.VITE_EMAIL_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
+    const userId = import.meta.env.VITE_EMAIL_USER_ID;
+
+    if (!serviceId || !templateId || !userId) {
+      console.warn('Email service not configured');
+      return;
+    }
+
     try {
       const templateParams = {
         to_name: data.name,
@@ -62,10 +70,10 @@ export class WebsiteGenerator {
       };
 
       const response = await emailjs.send(
-        config.email.serviceId,
-        'template_email_ugyfelnek', // Customer template ID
+        serviceId,
+        'template_email_ugyfelnek',
         templateParams,
-        config.email.userId
+        userId
       );
 
       if (!response || response.status !== 200) {
@@ -85,6 +93,15 @@ export class WebsiteGenerator {
     orderId?: string,
     sessionId?: string
   ): Promise<void> {
+    const serviceId = import.meta.env.VITE_EMAIL_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
+    const userId = import.meta.env.VITE_EMAIL_USER_ID;
+
+    if (!serviceId || !templateId || !userId) {
+      console.warn('Email service not configured');
+      return;
+    }
+
     try {
       const templateParams = {
         to_name: 'Admin',
@@ -105,10 +122,10 @@ export class WebsiteGenerator {
       };
 
       const response = await emailjs.send(
-        config.email.serviceId,
-        'template_digital_card_or', // Admin template ID
+        serviceId,
+        'template_digital_card_or',
         templateParams,
-        config.email.userId
+        userId
       );
 
       if (!response || response.status !== 200) {
