@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { VCardFormData } from '../../types/vcard';
 import { PAYMENT_PLANS } from '../../lib/constants/plans';
-import { processOrder } from '../../lib/services/order-service';
+import { stripeService } from '../../lib/services/stripe-service';
 import { OrderError, ValidationError } from '../../lib/errors/order-errors';
 
 interface OrderDialogProps {
@@ -30,7 +30,19 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
     setError(null);
 
     try {
-      await processOrder(formData, plan);
+      // Store form data in session storage
+      sessionStorage.setItem('orderData', JSON.stringify({
+        formData,
+        plan
+      }));
+
+      // Create Stripe checkout session
+      await stripeService.createPaymentSession({
+        name: formData.name,
+        email: formData.email,
+        company: formData.company
+      }, plan);
+
     } catch (err) {
       let errorMessage = 'Hiba történt a megrendelés során. Kérjük, próbálja újra később.';
       

@@ -14,9 +14,6 @@
     "@radix-ui/react-slider": "^1.1.2",
     "@radix-ui/react-tabs": "^1.0.4",
     "@stripe/stripe-js": "^2.4.0",
-    "@supabase/supabase-js": "^2.39.7",
-    "@supabase/auth-ui-react": "^0.4.7",
-    "@supabase/auth-ui-shared": "^0.1.8",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -33,7 +30,6 @@
     "@netlify/functions": "^2.4.1",
     "react-easy-crop": "^5.0.5",
     "react-dropzone": "^14.2.3",
-    "octokit": "^3.1.2",
     "html2canvas": "^1.4.1",
     "file-saver": "^2.0.5"
   },

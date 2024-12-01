@@ -7,7 +7,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
 
 const handler: Handler = async (event) => {
   if (!process.env.STRIPE_SECRET_KEY) {
-    console.error('Missing STRIPE_SECRET_KEY environment variable');
     return {
       statusCode: 500,
       body: JSON.stringify({ 
@@ -57,8 +56,8 @@ const handler: Handler = async (event) => {
         },
       ],
       mode: 'payment',
-      success_url: `https://qrnevjegy.hu/success?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
-      cancel_url: `https://qrnevjegy.hu/cancel`,
+      success_url: `${process.env.URL || 'http://localhost:8888'}/success?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
+      cancel_url: `${process.env.URL || 'http://localhost:8888'}/cancel`,
       customer_email: customerData.email,
       metadata: {
         orderId: orderId,

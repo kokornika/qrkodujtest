@@ -48,10 +48,16 @@ class StripeService {
         throw new Error('Invalid session response');
       }
 
-      return {
-        id: session.id,
-        url: `https://checkout.stripe.com/pay/${session.id}`
-      };
+      // Redirect to checkout using Stripe's redirectToCheckout
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id
+      });
+
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+
+      return session;
     } catch (error) {
       console.error('Payment session creation error:', error);
       throw error;
@@ -75,11 +81,3 @@ class StripeService {
 }
 
 export const stripeService = new StripeService();
-
-export const createPaymentSession = (customerData: CustomerData, plan: PaymentPlan) => {
-  return stripeService.createPaymentSession(customerData, plan);
-};
-
-export const getSession = (sessionId: string) => {
-  return stripeService.getSession(sessionId);
-};
