@@ -3,8 +3,7 @@ import { PaymentPlan } from '../constants/plans';
 import { stripeService } from './stripe-service';
 import { EmailService } from './email-service';
 import { GitHubRepository } from './github-service';
-import { OrderError, ValidationError } from '../errors/order-errors';
-import { validateOrderData } from '../validation/order-validation';
+import { OrderError } from '../errors/order-errors';
 
 export class OrderService {
   private emailService: EmailService;

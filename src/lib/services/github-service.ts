@@ -84,14 +84,6 @@ export class GitHubRepository {
     Referrer-Policy = "strict-origin-when-cross-origin"
 `.trim());
 
-      // Create Netlify configuration
-      await this.createFile(repoName, '.netlify/state.json', JSON.stringify({
-        siteId: repoName,
-        settings: {
-          continuous_deployment: true
-        }
-      }, null, 2));
-
       return {
         repoUrl: repo.html_url,
         deployUrl: `https://${repoName}.netlify.app`
