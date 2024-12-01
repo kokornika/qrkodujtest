@@ -1,16 +1,17 @@
 import { loadStripe, Stripe } from '@stripe/stripe-js';
-import { env, isConfigured } from './config/env';
 
 let stripePromise: Promise<Stripe | null>;
 
 export const getStripe = () => {
-  if (!isConfigured.stripe()) {
-    console.warn('Stripe is not configured. Please set VITE_STRIPE_PUBLISHABLE_KEY in your environment.');
+  const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+  
+  if (!publishableKey) {
+    console.error('Stripe publishable key is not configured');
     return Promise.resolve(null);
   }
 
   if (!stripePromise) {
-    stripePromise = loadStripe(env.stripe.publishableKey);
+    stripePromise = loadStripe(publishableKey);
   }
   return stripePromise;
 };
@@ -32,12 +33,10 @@ export interface PaymentPlan {
 
 export async function createPaymentSession(customerData: CustomerData, plan: PaymentPlan) {
   try {
-    if (!isConfigured.stripe()) {
-      throw new Error('Stripe is not configured. Payment features are disabled.');
-    }
-
     const stripe = await getStripe();
-    if (!stripe) throw new Error('Stripe failed to initialize');
+    if (!stripe) {
+      throw new Error('Stripe is not configured');
+    }
 
     const response = await fetch('/.netlify/functions/create-checkout-session', {
       method: 'POST',
@@ -51,7 +50,8 @@ export async function createPaymentSession(customerData: CustomerData, plan: Pay
     });
 
     if (!response.ok) {
-      throw new Error('A fizetési munkamenet létrehozása sikertelen');
+      const error = await response.json();
+      throw new Error(error.message || 'A fizetési munkamenet létrehozása sikertelen');
     }
 
     const session = await response.json();
