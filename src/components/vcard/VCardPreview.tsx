@@ -33,13 +33,15 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
           <div 
             className="h-24 w-full relative"
             style={{
-              background: formData.backgroundType === 'gradient'
-                ? `linear-gradient(135deg, ${formData.backgroundColor}, ${formData.backgroundColor}22)`
-                : formData.backgroundColor
+              background: formData.backgroundType === 'gradient' 
+                ? `linear-gradient(135deg, ${formData.backgroundColor}, ${formData.backgroundColor}22)` 
+                : formData.backgroundColor,
+              borderBottomLeftRadius: '2rem',
+              borderBottomRightRadius: '2rem'
             }}
           >
             {/* Profile Circle - Positioned absolutely within header */}
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2">
+            <div className="absolute left-1/2 -translate-x-1/2 top-full -translate-y-1/2">
               {formData.profilePicture ? (
                 <div className="w-20 h-20 rounded-full bg-white shadow-lg overflow-hidden">
                   <img 
@@ -69,28 +71,81 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
             </div>
 
             {/* Quick Actions */}
-            {!hasAnyData && (
+            {(formData.phoneMobile || formData.email || formData.website || !hasAnyData) && (
               <div className="flex justify-center gap-4 mb-8">
-                <div className="w-16 h-16 bg-blue-50 rounded-xl flex flex-col items-center justify-center">
-                  <Phone className="w-5 h-5 text-blue-600 mb-1" />
-                  <span className="text-xs text-blue-600">Telefon</span>
-                </div>
-                <div className="w-16 h-16 bg-blue-50 rounded-xl flex flex-col items-center justify-center">
-                  <Mail className="w-5 h-5 text-blue-600 mb-1" />
-                  <span className="text-xs text-blue-600">Email</span>
-                </div>
-                <div className="w-16 h-16 bg-blue-50 rounded-xl flex flex-col items-center justify-center">
-                  <Globe className="w-5 h-5 text-blue-600 mb-1" />
-                  <span className="text-xs text-blue-600">Web</span>
-                </div>
+                {(formData.phoneMobile || !hasAnyData) && (
+                  <div 
+                    className="w-16 h-16 rounded-xl flex flex-col items-center justify-center"
+                    style={{
+                      backgroundColor: `${formData.backgroundColor}11`
+                    }}
+                  >
+                    <Phone 
+                      className="w-5 h-5 mb-1" 
+                      style={{ color: formData.backgroundColor }}
+                    />
+                    <span 
+                      className="text-xs"
+                      style={{ color: formData.backgroundColor }}
+                    >
+                      Telefon
+                    </span>
+                  </div>
+                )}
+                {(formData.email || !hasAnyData) && (
+                  <div 
+                    className="w-16 h-16 rounded-xl flex flex-col items-center justify-center"
+                    style={{
+                      backgroundColor: `${formData.backgroundColor}11`
+                    }}
+                  >
+                    <Mail 
+                      className="w-5 h-5 mb-1"
+                      style={{ color: formData.backgroundColor }}
+                    />
+                    <span 
+                      className="text-xs"
+                      style={{ color: formData.backgroundColor }}
+                    >
+                      Email
+                    </span>
+                  </div>
+                )}
+                {(formData.website || !hasAnyData) && (
+                  <div 
+                    className="w-16 h-16 rounded-xl flex flex-col items-center justify-center"
+                    style={{
+                      backgroundColor: `${formData.backgroundColor}11`
+                    }}
+                  >
+                    <Globe 
+                      className="w-5 h-5 mb-1"
+                      style={{ color: formData.backgroundColor }}
+                    />
+                    <span 
+                      className="text-xs"
+                      style={{ color: formData.backgroundColor }}
+                    >
+                      Web
+                    </span>
+                  </div>
+                )}
               </div>
             )}
 
             {/* Contact Details */}
             <div className="space-y-4">
               {formData.phoneMobile && (
-                <div className="flex items-center gap-3 hover:bg-blue-50/50 p-3 rounded-lg transition-colors">
-                  <Phone className="w-5 h-5 text-blue-600" />
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: `${formData.backgroundColor}11`
+                  }}
+                >
+                  <Phone 
+                    className="w-5 h-5"
+                    style={{ color: formData.backgroundColor }}
+                  />
                   <div>
                     <div className="text-sm">{formData.phoneMobile}</div>
                     <div className="text-xs text-gray-500">Mobil</div>
@@ -98,8 +153,16 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
                 </div>
               )}
               {!hasAnyData && !formData.phoneMobile && (
-                <div className="flex items-center gap-3 hover:bg-blue-50/50 p-3 rounded-lg transition-colors">
-                  <Phone className="w-5 h-5 text-blue-600" />
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: `${formData.backgroundColor}11`
+                  }}
+                >
+                  <Phone 
+                    className="w-5 h-5"
+                    style={{ color: formData.backgroundColor }}
+                  />
                   <div>
                     <div className="text-sm">+36 30 123 4567</div>
                     <div className="text-xs text-gray-500">Mobil</div>
@@ -107,8 +170,16 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
                 </div>
               )}
               {formData.phoneWork && (
-                <div className="flex items-center gap-3 hover:bg-blue-50/50 p-3 rounded-lg transition-colors">
-                  <Phone className="w-5 h-5 text-blue-600" />
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: `${formData.backgroundColor}11`
+                  }}
+                >
+                  <Phone 
+                    className="w-5 h-5"
+                    style={{ color: formData.backgroundColor }}
+                  />
                   <div>
                     <div className="text-sm">{formData.phoneWork}</div>
                     <div className="text-xs text-gray-500">Munkahelyi</div>
@@ -116,8 +187,16 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
                 </div>
               )}
               {!hasAnyData && !formData.phoneWork && (
-                <div className="flex items-center gap-3 hover:bg-blue-50/50 p-3 rounded-lg transition-colors">
-                  <Phone className="w-5 h-5 text-blue-600" />
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: `${formData.backgroundColor}11`
+                  }}
+                >
+                  <Phone 
+                    className="w-5 h-5"
+                    style={{ color: formData.backgroundColor }}
+                  />
                   <div>
                     <div className="text-sm">+36 1 234 5678</div>
                     <div className="text-xs text-gray-500">Munkahelyi</div>
@@ -125,8 +204,16 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
                 </div>
               )}
               {formData.email && (
-                <div className="flex items-center gap-3 hover:bg-blue-50/50 p-3 rounded-lg transition-colors">
-                  <Mail className="w-5 h-5 text-blue-600" />
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: `${formData.backgroundColor}11`
+                  }}
+                >
+                  <Mail 
+                    className="w-5 h-5"
+                    style={{ color: formData.backgroundColor }}
+                  />
                   <div>
                     <div className="text-sm">{formData.email}</div>
                     <div className="text-xs text-gray-500">Email</div>
@@ -134,8 +221,16 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
                 </div>
               )}
               {!hasAnyData && !formData.email && (
-                <div className="flex items-center gap-3 hover:bg-blue-50/50 p-3 rounded-lg transition-colors">
-                  <Mail className="w-5 h-5 text-blue-600" />
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: `${formData.backgroundColor}11`
+                  }}
+                >
+                  <Mail 
+                    className="w-5 h-5"
+                    style={{ color: formData.backgroundColor }}
+                  />
                   <div>
                     <div className="text-sm">minta@minta.hu</div>
                     <div className="text-xs text-gray-500">Email</div>
@@ -143,8 +238,16 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
                 </div>
               )}
               {(formData.street || formData.city) && (
-                <div className="flex items-center gap-3 hover:bg-blue-50/50 p-3 rounded-lg transition-colors">
-                  <MapPin className="w-5 h-5 text-blue-600" />
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: `${formData.backgroundColor}11`
+                  }}
+                >
+                  <MapPin 
+                    className="w-5 h-5"
+                    style={{ color: formData.backgroundColor }}
+                  />
                   <div>
                     <div className="text-sm">
                       {[formData.street, formData.city].filter(Boolean).join(', ')}
@@ -154,8 +257,16 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
                 </div>
               )}
               {!hasAnyData && !formData.street && !formData.city && (
-                <div className="flex items-center gap-3 hover:bg-blue-50/50 p-3 rounded-lg transition-colors">
-                  <MapPin className="w-5 h-5 text-blue-600" />
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: `${formData.backgroundColor}11`
+                  }}
+                >
+                  <MapPin 
+                    className="w-5 h-5"
+                    style={{ color: formData.backgroundColor }}
+                  />
                   <div>
                     <div className="text-sm">Budapest, Minta u. 1</div>
                     <div className="text-xs text-gray-500">Cím</div>
