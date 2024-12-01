@@ -8,11 +8,13 @@ import VCardSocialLinks from './VCardSocialLinks';
 import VCardPreview from './VCardPreview';
 import { ValidationError, validateVCardForm, formatPhone } from '../../lib/validation/vcard-validation';
 import { ArrowDown } from 'lucide-react';
+import OrderDialog from './OrderDialog';
 
 const VCardForm: React.FC = () => {
   const [formData, setFormData] = useState<VCardFormData>(defaultVCardData);
   const [errors, setErrors] = useState<ValidationError[]>([]);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [showOrderDialog, setShowOrderDialog] = useState(false);
 
   const handleChange = (field: keyof VCardFormData, value: any) => {
     let processedValue = value;
@@ -84,12 +86,11 @@ const VCardForm: React.FC = () => {
   return (
     <>
       {/* Mobile Empty Form Message */}
-      {isFormEmpty && (
+      {isFormEmpty && window.innerWidth < 1024 && (
         <div className="lg:hidden bg-blue-50 border border-blue-100 rounded-lg p-4 mb-4 mx-4">
           <div className="flex flex-col items-center text-center">
             <p className="text-blue-700 mb-2">
-              Kezdje el kitölteni az adatlapot, és az elkészült digitális névjegykártyája 
-              előnézete megjelenik lent a telefonos nézetben
+              Kezdje el kitölteni az adatlapot, és az elkészült digitális névjegykártyája előnézete lent fog megjelenni
             </p>
             <ArrowDown className="w-5 h-5 text-blue-500 animate-bounce" />
           </div>
@@ -117,12 +118,20 @@ const VCardForm: React.FC = () => {
               <VCardAppearance formData={formData} onChange={handleChange} />
               <VCardSocialLinks formData={formData} onChange={handleChange} />
             </div>
+            <div className="mt-8 text-center">
+              <button
+                onClick={() => setShowOrderDialog(true)}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Megrendelem a digitális névjegyet
+              </button>
+            </div>
           </div>
         </div>
 
         <div className="lg:sticky lg:top-24 h-fit">
           {/* Desktop Empty Form Message */}
-          {isFormEmpty && (
+          {isFormEmpty && window.innerWidth >= 1024 && (
             <div className="hidden lg:block bg-blue-50 border border-blue-100 rounded-lg p-4 mb-4">
               <p className="text-blue-700 text-center">
                 Kezdje el kitölteni az adatlapot a bal oldalon, és itt azonnal megjelenik 
@@ -137,6 +146,11 @@ const VCardForm: React.FC = () => {
           />
         </div>
       </div>
+      <OrderDialog 
+        isOpen={showOrderDialog}
+        onClose={() => setShowOrderDialog(false)}
+        formData={formData}
+      />
     </>
   );
 };

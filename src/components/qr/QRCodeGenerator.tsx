@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QRContentType, QROptions } from '../../types/qr';
 import QRCodeTypeSelector from './QRCodeTypeSelector';
 import QRCodeForm from './QRCodeForm';
@@ -21,13 +21,20 @@ const QRCodeGenerator: React.FC = () => {
     content: '',
     backgroundColor: '#ffffff',
     foregroundColor: '#000000',
-    size: window.innerWidth < 640 ? 128 : 256,
+    size: window.innerWidth < 640 ? 128 : 256, // Start with smaller size on mobile
     wifiSettings: {
       ssid: '',
       password: '',
       encryption: 'WPA',
     },
   });
+
+  // Ensure mobile starts with minimum size
+  useEffect(() => {
+    if (window.innerWidth < 640 && options.size > 128) {
+      setOptions(prev => ({ ...prev, size: 128 }));
+    }
+  }, []);
 
   const handleTabChange = (value: string) => {
     if (value === 'vcard') {

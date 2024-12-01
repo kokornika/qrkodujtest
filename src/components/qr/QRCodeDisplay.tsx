@@ -1,5 +1,5 @@
 import React from 'react';
-import QRCode from 'qrcode.react';
+import { QRCodeSVG } from 'qrcode.react';
 import { QROptions } from '../../types/qr';
 
 interface QRCodeDisplayProps {
@@ -18,14 +18,13 @@ const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ options, qrRef }) => {
           : options.backgroundColor
       }}
     >
-      <QRCode
+      <QRCodeSVG
         value={options.content || ' '}
         size={options.size}
         level="M"
         bgColor={options.backgroundColor === 'transparent' ? 'transparent' : options.backgroundColor}
         fgColor={options.foregroundColor}
         includeMargin={false}
-        renderAs="canvas"
       />
     </div>
   );

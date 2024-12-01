@@ -1,8 +1,19 @@
-import { loadStripe } from '@stripe/stripe-js';
-import { PaymentPlan } from './constants/plans';
-import { stripeConfig } from './config/stripe';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { env, isConfigured } from './config/env';
 
-const stripePromise = loadStripe(stripeConfig.publishableKey);
+let stripePromise: Promise<Stripe | null>;
+
+export const getStripe = () => {
+  if (!isConfigured.stripe()) {
+    console.warn('Stripe is not configured. Please set VITE_STRIPE_PUBLISHABLE_KEY in your environment.');
+    return Promise.resolve(null);
+  }
+
+  if (!stripePromise) {
+    stripePromise = loadStripe(env.stripe.publishableKey);
+  }
+  return stripePromise;
+};
 
 interface CustomerData {
   name: string;
@@ -10,12 +21,24 @@ interface CustomerData {
   company?: string;
 }
 
+export interface PaymentPlan {
+  id: string;
+  name: string;
+  price: number;
+  period: string;
+  features: string[];
+  comparisonPoints: string[];
+}
+
 export async function createPaymentSession(customerData: CustomerData, plan: PaymentPlan) {
   try {
-    const stripe = await stripePromise;
-    if (!stripe) throw new Error('A fizetési szolgáltatás nem érhető el');
+    if (!isConfigured.stripe()) {
+      throw new Error('Stripe is not configured. Payment features are disabled.');
+    }
 
-    // Create checkout session through Netlify function
+    const stripe = await getStripe();
+    if (!stripe) throw new Error('Stripe failed to initialize');
+
     const response = await fetch('/.netlify/functions/create-checkout-session', {
       method: 'POST',
       headers: {
@@ -37,7 +60,6 @@ export async function createPaymentSession(customerData: CustomerData, plan: Pay
       throw new Error(session.error);
     }
 
-    // Redirect to Stripe checkout
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,
     });
@@ -50,5 +72,3 @@ export async function createPaymentSession(customerData: CustomerData, plan: Pay
     throw error;
   }
 }
-
-export type { PaymentPlan };

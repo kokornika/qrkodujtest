@@ -2,7 +2,7 @@ import { VCardFormData } from '../../types/vcard';
 import { generateCSS } from './css-generator';
 import { socialIcons } from '../social-icons';
 import { socialColors } from '../social-colors';
-import QRCode from 'qrcode';
+import * as QRCode from 'qrcode';
 
 export async function generateHTML(data: VCardFormData): Promise<string> {
   // Generate vCard string for QR code - módosított verzió
