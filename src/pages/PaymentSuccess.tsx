@@ -7,7 +7,6 @@ const PaymentSuccess: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [deployUrl, setDeployUrl] = useState<string | null>(null);
   
   const sessionId = searchParams.get('session_id');
   const orderId = searchParams.get('order_id');
@@ -22,7 +21,6 @@ const PaymentSuccess: React.FC = () => {
 
       try {
         await orderService.completeOrder(sessionId, orderId);
-        setDeployUrl(`https://card-${orderId}.netlify.app`);
       } catch (error) {
         console.error('Order processing error:', error);
         setError(error instanceof Error ? error.message : 'Hiba történt a megrendelés feldolgozása során');
@@ -75,26 +73,9 @@ const PaymentSuccess: React.FC = () => {
             </h1>
             
             <p className="text-gray-600 mb-8">
-              Köszönjük a megrendelést! A digitális névjegykártyád elkészült.
-              {deployUrl && (
-                <>
-                  <br />
-                  <br />
-                  A névjegykártyád elérhető a következő címen:
-                  <br />
-                  <a
-                    href={deployUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-700 font-medium"
-                  >
-                    {deployUrl}
-                  </a>
-                </>
-              )}
-              <br />
-              <br />
-              A részleteket emailben is elküldtük neked.
+              Köszönjük a megrendelést! Kollégáink 24 órán belül elkészítik és emailben elküldik 
+              a digitális névjegykártyád weboldalát. Amennyiben bármilyen kérdésed lenne, 
+              kérjük írj a következő email címre: kokornika@gmail.com
             </p>
           </>
         )}
