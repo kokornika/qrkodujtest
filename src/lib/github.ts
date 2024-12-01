@@ -20,40 +20,10 @@ export class GitHubRepository {
     orderId?: string
   ): Promise<{ repoUrl: string; deployUrl: string }> {
     try {
-      const baseRepoName = `digital-card-${orderId || this.generateOrderId()}`;
+      const timestamp = Date.now().toString(36);
+      const randomStr = Math.random().toString(36).substring(2, 7);
+      const baseRepoName = `card-${timestamp}-${randomStr}`;
       let repoName = baseRepoName;
-      let attempt = 1;
-
-      // Try to create repository with unique name
-      while (attempt <= 5) {
-        try {
-          const checkRepoResponse = await fetch(
-            `https://api.github.com/repos/${this.owner}/${repoName}`,
-            {
-              headers: {
-                'Authorization': `token ${this.token}`,
-                'Accept': 'application/vnd.github.v3+json',
-              },
-            }
-          );
-
-          if (checkRepoResponse.status === 404) {
-            // Repository name is available
-            break;
-          }
-
-          // Repository exists, try next name
-          repoName = `${baseRepoName}-${attempt}`;
-          attempt++;
-        } catch (error) {
-          console.error('Error checking repository existence:', error);
-          throw error;
-        }
-      }
-
-      if (attempt > 5) {
-        throw new Error('Failed to generate unique repository name after 5 attempts');
-      }
 
       const createRepoResponse = await fetch('https://api.github.com/user/repos', {
         method: 'POST',
@@ -77,7 +47,7 @@ export class GitHubRepository {
 
       const repo = await createRepoResponse.json();
 
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
       const htmlContent = await generateHTML(data);
 
@@ -93,7 +63,7 @@ export class GitHubRepository {
 `.trim());
 
       const deployUrl = `https://${repoName}.qrnevjegy.hu`;
-
+      
       return {
         repoUrl: repo.html_url,
         deployUrl
@@ -103,6 +73,7 @@ export class GitHubRepository {
       throw error;
     }
   }
+
 
   private async createFile(repoName: string, path: string, content: string): Promise<void> {
     try {
