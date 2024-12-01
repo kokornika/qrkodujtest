@@ -1,15 +1,42 @@
 import emailjs from 'emailjs-com';
-import { Environment } from '../config/environment';
 import { VCardFormData } from '../../types/vcard';
 import { generateOrderSummary } from '../website/order-summary';
 
 export class EmailService {
   private serviceId: string;
+  private templateId: string;
   private userId: string;
 
-  constructor(env: Environment) {
-    this.serviceId = env.email.serviceId;
-    this.userId = env.email.userId;
+  constructor() {
+    this.serviceId = import.meta.env.VITE_EMAIL_SERVICE_ID || '';
+    this.templateId = import.meta.env.VITE_EMAIL_TEMPLATE_ID || '';
+    this.userId = import.meta.env.VITE_EMAIL_USER_ID || '';
+  }
+
+  private validateConfig() {
+    if (!this.serviceId || !this.templateId || !this.userId) {
+      throw new Error('Email service configuration is missing');
+    }
+  }
+
+  private async sendEmail(templateId: string, templateParams: any): Promise<void> {
+    try {
+      this.validateConfig();
+
+      const response = await emailjs.send(
+        this.serviceId,
+        templateId,
+        templateParams,
+        this.userId
+      );
+
+      if (!response || response.status !== 200) {
+        throw new Error(`Email sending failed with status: ${response?.status}`);
+      }
+    } catch (error) {
+      console.error('Email sending error:', error);
+      throw new Error(error instanceof Error ? error.message : 'Failed to send email');
+    }
   }
 
   async sendCustomerEmail(
@@ -18,6 +45,10 @@ export class EmailService {
     deployUrl: string,
     orderId: string
   ): Promise<void> {
+    if (!data.email) {
+      throw new Error('Customer email is required');
+    }
+
     const templateParams = {
       to_name: data.name,
       to_email: data.email,
@@ -29,12 +60,7 @@ export class EmailService {
       deploy_url: deployUrl
     };
 
-    await emailjs.send(
-      this.serviceId,
-      'template_email_ugyfelnek',
-      templateParams,
-      this.userId
-    );
+    await this.sendEmail('template_email_ugyfelnek', templateParams);
   }
 
   async sendAdminEmail(
@@ -51,8 +77,8 @@ export class EmailService {
       customer_name: data.name,
       customer_email: data.email,
       customer_phone: data.phoneMobile,
-      customer_company: data.company,
-      customer_position: data.position,
+      customer_company: data.company || 'Nincs megadva',
+      customer_position: data.position || 'Nincs megadva',
       plan_name: plan.name,
       plan_price: `${plan.price.toLocaleString()} Ft`,
       plan_period: plan.period,
@@ -63,11 +89,6 @@ export class EmailService {
       order_summary: generateOrderSummary(data)
     };
 
-    await emailjs.send(
-      this.serviceId,
-      'template_digital_card_or',
-      templateParams,
-      this.userId
-    );
+    await this.sendEmail('template_digital_card_or', templateParams);
   }
 }

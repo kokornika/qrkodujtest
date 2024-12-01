@@ -1,61 +1,72 @@
-import { Environment } from '../config/environment';
 import { VCardFormData } from '../../types/vcard';
 import { generateHTML } from '../website/html-generator';
 
-export class GitHubService {
+export class GitHubRepository {
   private token: string;
   private owner: string;
 
-  constructor(env: Environment) {
-    this.token = env.github.token;
-    this.owner = env.github.owner;
+  constructor() {
+    this.token = import.meta.env.VITE_GITHUB_TOKEN || '';
+    this.owner = import.meta.env.VITE_GITHUB_OWNER || '';
+  }
+
+  private validateConfig() {
+    if (!this.token || !this.owner) {
+      throw new Error('GitHub configuration is missing');
+    }
   }
 
   private base64Encode(str: string): string {
     return btoa(unescape(encodeURIComponent(str)));
   }
 
-  async createRepository(data: VCardFormData): Promise<{ repoUrl: string; deployUrl: string }> {
-    const timestamp = Date.now().toString(36);
-    const randomStr = Math.random().toString(36).substring(2, 7);
-    const repoName = `card-${timestamp}-${randomStr}`;
+  async createRepository(
+    data: VCardFormData,
+    orderId: string
+  ): Promise<{ repoUrl: string; deployUrl: string }> {
+    try {
+      this.validateConfig();
 
-    const repo = await this.createGitHubRepo(repoName, data.name);
-    await this.createWebsiteFiles(repoName, data);
+      const repoName = `card-${orderId}`;
+      console.log('Creating repository with name:', repoName);
 
-    return {
-      repoUrl: repo.html_url,
-      deployUrl: `https://${repoName}.netlify.app`
-    };
-  }
+      // Create repository
+      const createRepoResponse = await fetch('https://api.github.com/user/repos', {
+        method: 'POST',
+        headers: {
+          'Authorization': `token ${this.token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: repoName,
+          private: false,
+          auto_init: true,
+          description: `Digital Business Card for ${data.name}`
+        })
+      });
 
-  private async createGitHubRepo(name: string, ownerName: string) {
-    const response = await fetch('https://api.github.com/user/repos', {
-      method: 'POST',
-      headers: {
-        'Authorization': `token ${this.token}`,
-        'Accept': 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        private: false,
-        auto_init: true,
-        description: `Digital Business Card for ${ownerName}`
-      })
-    });
+      if (!createRepoResponse.ok) {
+        const errorData = await createRepoResponse.json();
+        console.error('GitHub API Error:', {
+          status: createRepoResponse.status,
+          statusText: createRepoResponse.statusText,
+          error: errorData
+        });
+        throw new Error(`Failed to create repository: ${JSON.stringify(errorData)}`);
+      }
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`Failed to create repository: ${JSON.stringify(error)}`);
-    }
+      const repo = await createRepoResponse.json();
 
-    return response.json();
-  }
+      // Wait for repository initialization
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
-  private async createWebsiteFiles(repoName: string, data: VCardFormData) {
-    const htmlContent = await generateHTML(data);
-    const netlifyConfig = `
+      // Generate website content
+      const htmlContent = await generateHTML(data);
+
+      // Create necessary files
+      await this.createFile(repoName, 'index.html', htmlContent);
+      await this.createFile(repoName, 'netlify.toml', `
 [build]
   publish = "/"
 
@@ -63,34 +74,49 @@ export class GitHubService {
   from = "/*"
   to = "/index.html"
   status = 200
-`.trim();
+`.trim());
 
-    await Promise.all([
-      this.createFile(repoName, 'index.html', htmlContent),
-      this.createFile(repoName, 'netlify.toml', netlifyConfig)
-    ]);
+      return {
+        repoUrl: repo.html_url,
+        deployUrl: `https://${repoName}.netlify.app`
+      };
+    } catch (error) {
+      console.error('Error creating GitHub repository:', error);
+      throw new Error(
+        error instanceof Error 
+          ? `Failed to create repository: ${error.message}`
+          : 'An unexpected error occurred while creating the repository'
+      );
+    }
   }
 
   private async createFile(repoName: string, path: string, content: string): Promise<void> {
-    const response = await fetch(
-      `https://api.github.com/repos/${this.owner}/${repoName}/contents/${path}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Authorization': `token ${this.token}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: `Add ${path}`,
-          content: this.base64Encode(content),
-        })
-      }
-    );
+    try {
+      this.validateConfig();
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`Failed to create ${path}: ${error.message}`);
+      const response = await fetch(
+        `https://api.github.com/repos/${this.owner}/${repoName}/contents/${path}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${this.token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: `Add ${path}`,
+            content: this.base64Encode(content),
+          })
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(`Failed to create ${path}: ${error.message}`);
+      }
+    } catch (error) {
+      console.error(`Error creating ${path}:`, error);
+      throw error;
     }
   }
 }

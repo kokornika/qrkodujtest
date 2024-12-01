@@ -6,7 +6,7 @@ import { Button } from '../ui/button';
 import { VCardFormData } from '../../types/vcard';
 import { PAYMENT_PLANS } from '../../lib/constants/plans';
 import { processOrder } from '../../lib/services/order-service';
-import { OrderError, ValidationError, PaymentError } from '../../lib/errors/order-errors';
+import { OrderError, ValidationError } from '../../lib/errors/order-errors';
 
 interface OrderDialogProps {
   isOpen: boolean;
@@ -30,22 +30,18 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
     setError(null);
 
     try {
-      sessionStorage.setItem('orderData', JSON.stringify({ formData, plan }));
       await processOrder(formData, plan);
     } catch (err) {
       let errorMessage = 'Hiba történt a megrendelés során. Kérjük, próbálja újra később.';
       
       if (err instanceof ValidationError) {
         errorMessage = err.message;
-      } else if (err instanceof PaymentError) {
-        errorMessage = 'Hiba történt a fizetés során. Kérjük, próbálja újra később.';
       } else if (err instanceof OrderError) {
         errorMessage = err.message;
       }
 
       setError(errorMessage);
       console.error('Order error:', err);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -111,7 +107,6 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
               </div>
             </div>
 
-            {/* Terms Acceptance Checkbox */}
             <div className="flex items-start gap-3">
               <div className="flex items-center h-5 mt-1">
                 <input

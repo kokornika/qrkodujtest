@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { CheckCircle2, ArrowLeft, Loader2 } from 'lucide-react';
-import { WebsiteGenerator } from '../lib/website-generator';
+import { orderService } from '../lib/services/order-service';
 
 const PaymentSuccess: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -21,24 +21,8 @@ const PaymentSuccess: React.FC = () => {
       }
 
       try {
-        // Retrieve session data from local storage
-        const orderData = sessionStorage.getItem('orderData');
-        if (!orderData) {
-          throw new Error('Nem található megrendelési adat');
-        }
-
-        const { formData, plan } = JSON.parse(orderData);
-        
-        // Generate website and send email
-        const websiteGenerator = new WebsiteGenerator();
-        await websiteGenerator.sendWebsiteCode(formData, plan, orderId, sessionId);
-        
-        // Set deploy URL based on orderId
-        setDeployUrl(`https://digital-card-${orderId}.netlify.app`);
-
-        // Clear session storage
-        sessionStorage.removeItem('orderData');
-        
+        await orderService.completeOrder(sessionId, orderId);
+        setDeployUrl(`https://card-${orderId}.netlify.app`);
       } catch (error) {
         console.error('Order processing error:', error);
         setError(error instanceof Error ? error.message : 'Hiba történt a megrendelés feldolgozása során');

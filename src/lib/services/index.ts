@@ -1,12 +1,13 @@
-import { loadEnvironment } from '../config/environment';
-import { GitHubService } from './github-service';
 import { EmailService } from './email-service';
-import { StripeService } from './stripe-service';
-
-const env = loadEnvironment();
+import { GitHubRepository } from './github-service';
+import { OrderService } from './order-service';
 
 export const services = {
-  github: new GitHubService(env),
-  email: new EmailService(env),
-  stripe: new StripeService(env),
+  email: new EmailService(),
+  github: new GitHubRepository(),
+  order: new OrderService()
 };
+
+export { EmailService } from './email-service';
+export { GitHubRepository } from './github-service';
+export { OrderService } from './order-service';
