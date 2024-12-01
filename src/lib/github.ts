@@ -6,8 +6,23 @@ export class GitHubRepository {
   private owner: string;
 
   constructor() {
+    // Get environment variables directly
     this.token = import.meta.env.VITE_GITHUB_TOKEN || '';
     this.owner = import.meta.env.VITE_GITHUB_OWNER || '';
+
+    // Log environment status (for debugging)
+    if (!this.token || !this.owner) {
+      console.warn('GitHub configuration incomplete:', {
+        hasToken: !!this.token,
+        hasOwner: !!this.owner
+      });
+    }
+  }
+
+  private validateCredentials() {
+    if (!this.token || !this.owner) {
+      throw new Error('GitHub credentials are not configured');
+    }
   }
 
   private base64Encode(str: string): string {
@@ -19,19 +34,20 @@ export class GitHubRepository {
     orderId?: string
   ): Promise<{ repoUrl: string; deployUrl: string }> {
     try {
-      if (!this.token || !this.owner) {
-        throw new Error('GitHub credentials are not configured');
-      }
+      // Validate credentials before making any API calls
+      this.validateCredentials();
 
       const timestamp = Date.now().toString(36);
       const randomStr = Math.random().toString(36).substring(2, 7);
       const repoName = `card-${timestamp}-${randomStr}`;
 
+      console.log('Creating repository with name:', repoName);
+
       // Create repository
       const createRepoResponse = await fetch('https://api.github.com/user/repos', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.token}`,
+          'Authorization': `token ${this.token}`,
           'Accept': 'application/vnd.github.v3+json',
           'Content-Type': 'application/json',
         },
@@ -45,8 +61,12 @@ export class GitHubRepository {
 
       if (!createRepoResponse.ok) {
         const errorData = await createRepoResponse.json();
-        console.error('GitHub API Error:', errorData);
-        throw new Error(`Failed to create repository: ${errorData.message}`);
+        console.error('GitHub API Error:', {
+          status: createRepoResponse.status,
+          statusText: createRepoResponse.statusText,
+          error: errorData
+        });
+        throw new Error(`Failed to create repository: ${JSON.stringify(errorData)}`);
       }
 
       const repo = await createRepoResponse.json();
@@ -77,22 +97,23 @@ export class GitHubRepository {
       };
     } catch (error) {
       console.error('Error creating GitHub repository:', error);
-      throw error;
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('An unexpected error occurred while creating the repository');
     }
   }
 
   private async createFile(repoName: string, path: string, content: string): Promise<void> {
     try {
-      if (!this.token || !this.owner) {
-        throw new Error('GitHub credentials are not configured');
-      }
+      this.validateCredentials();
 
       // Get repository information
       const repoResponse = await fetch(
         `https://api.github.com/repos/${this.owner}/${repoName}`,
         {
           headers: {
-            'Authorization': `Bearer ${this.token}`,
+            'Authorization': `token ${this.token}`,
             'Accept': 'application/vnd.github.v3+json',
           },
         }
@@ -106,31 +127,13 @@ export class GitHubRepository {
       const repoInfo = await repoResponse.json();
       const defaultBranch = repoInfo.default_branch;
 
-      // Get reference
-      const refResponse = await fetch(
-        `https://api.github.com/repos/${this.owner}/${repoName}/git/refs/heads/${defaultBranch}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${this.token}`,
-            'Accept': 'application/vnd.github.v3+json',
-          },
-        }
-      );
-
-      if (!refResponse.ok) {
-        const error = await refResponse.json();
-        throw new Error(`Failed to get reference: ${error.message}`);
-      }
-
-      const refData = await refResponse.json();
-
       // Create file
       const response = await fetch(
         `https://api.github.com/repos/${this.owner}/${repoName}/contents/${path}`,
         {
           method: 'PUT',
           headers: {
-            'Authorization': `Bearer ${this.token}`,
+            'Authorization': `token ${this.token}`,
             'Accept': 'application/vnd.github.v3+json',
             'Content-Type': 'application/json',
           },
