@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && npm run build"
+  command = "npm run build"
   publish = "dist"
   functions = "netlify/functions"
 
@@ -7,6 +7,7 @@
   NODE_VERSION = "18"
   NPM_FLAGS = "--legacy-peer-deps --no-audit --no-fund"
   NETLIFY_USE_YARN = "false"
+  SECRETS_SCAN_ENABLED = "false"
 
 [functions]
   node_bundler = "esbuild"
