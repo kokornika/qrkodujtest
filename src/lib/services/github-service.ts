@@ -74,7 +74,23 @@ export class GitHubRepository {
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
 `.trim());
+
+      // Create Netlify configuration
+      await this.createFile(repoName, '.netlify/state.json', JSON.stringify({
+        siteId: repoName,
+        settings: {
+          continuous_deployment: true
+        }
+      }, null, 2));
 
       return {
         repoUrl: repo.html_url,
@@ -106,6 +122,7 @@ export class GitHubRepository {
           body: JSON.stringify({
             message: `Add ${path}`,
             content: this.base64Encode(content),
+            branch: 'main'
           })
         }
       );

@@ -15,44 +15,6 @@ export class OrderService {
     this.githubRepo = new GitHubRepository();
   }
 
-  async processOrder(formData: VCardFormData, plan: PaymentPlan): Promise<void> {
-    try {
-      // Validate order data
-      validateOrderData(formData);
-
-      // Create payment session
-      const session = await stripeService.createPaymentSession({
-        name: formData.name,
-        email: formData.email,
-        company: formData.company,
-      }, plan);
-
-      if (!session?.id) {
-        throw new Error('Failed to create payment session');
-      }
-
-      // Store order data in session storage for later use
-      sessionStorage.setItem('orderData', JSON.stringify({
-        formData,
-        plan,
-        sessionId: session.id
-      }));
-
-      // Redirect to Stripe checkout
-      window.location.href = session.url;
-    } catch (error) {
-      console.error('Order processing error:', error);
-      
-      if (error instanceof ValidationError) {
-        throw error;
-      }
-      
-      throw new OrderError(
-        error instanceof Error ? error.message : 'Unexpected error during order processing'
-      );
-    }
-  }
-
   async completeOrder(sessionId: string, orderId: string): Promise<void> {
     try {
       // Retrieve stored order data
@@ -65,6 +27,9 @@ export class OrderService {
 
       // Create GitHub repository and get URLs
       const { repoUrl, deployUrl } = await this.githubRepo.createRepository(formData, orderId);
+
+      // Wait for a moment to allow Netlify to start the deployment
+      await new Promise(resolve => setTimeout(resolve, 5000));
 
       // Send confirmation emails
       await Promise.all([
@@ -85,8 +50,3 @@ export class OrderService {
 
 // Create and export a singleton instance
 export const orderService = new OrderService();
-
-// Export the processOrder function
-export const processOrder = (formData: VCardFormData, plan: PaymentPlan): Promise<void> => {
-  return orderService.processOrder(formData, plan);
-};
