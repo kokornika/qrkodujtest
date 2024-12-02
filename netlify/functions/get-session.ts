@@ -24,12 +24,14 @@ export const handler: Handler = async (event) => {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ['payment_intent']
+      expand: ['payment_intent', 'payment_intent.payment_method']
     });
 
     return {
       statusCode: 200,
-      body: JSON.stringify(session)
+      body: JSON.stringify({
+        payment_intent: session.payment_intent
+      })
     };
   } catch (error) {
     console.error('Error retrieving session:', error);

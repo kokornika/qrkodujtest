@@ -47,7 +47,7 @@ export class GitHubRepository {
       const createRepoResponse = await fetch('https://api.github.com/user/repos', {
         method: 'POST',
         headers: {
-          'Authorization': `token ${this.token}`,
+          'Authorization': `Bearer ${this.token}`,
           'Accept': 'application/vnd.github.v3+json',
           'Content-Type': 'application/json',
         },
@@ -113,7 +113,7 @@ export class GitHubRepository {
         `https://api.github.com/repos/${this.owner}/${repoName}`,
         {
           headers: {
-            'Authorization': `token ${this.token}`,
+            'Authorization': `Bearer ${this.token}`,
             'Accept': 'application/vnd.github.v3+json',
           },
         }
@@ -133,7 +133,7 @@ export class GitHubRepository {
         {
           method: 'PUT',
           headers: {
-            'Authorization': `token ${this.token}`,
+            'Authorization': `Bearer ${this.token}`,
             'Accept': 'application/vnd.github.v3+json',
             'Content-Type': 'application/json',
           },
