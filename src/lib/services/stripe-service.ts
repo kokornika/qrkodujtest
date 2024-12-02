@@ -66,13 +66,19 @@ class StripeService {
 
   async getSession(sessionId: string) {
     try {
-      const response = await fetch(`/.netlify/functions/get-session?session_id=${sessionId}`);
+      const response = await fetch(`/.netlify/functions/get-session?session_id=${sessionId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       
       if (!response.ok) {
         throw new Error('Failed to retrieve session');
       }
 
-      return response.json();
+      const data = await response.json();
+      return data;
     } catch (error) {
       console.error('Error retrieving session:', error);
       throw error;

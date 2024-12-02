@@ -16,6 +16,10 @@ export class OrderService {
 
   async completeOrder(sessionId: string, orderId: string): Promise<void> {
     try {
+      // Get session details from Stripe to get payment intent
+      const session = await stripeService.getSession(sessionId);
+      const paymentIntentId = session.payment_intent;
+
       // Retrieve stored order data
       const orderDataStr = sessionStorage.getItem('orderData');
       if (!orderDataStr) {
@@ -33,7 +37,7 @@ export class OrderService {
       // Send confirmation emails
       await Promise.all([
         this.emailService.sendCustomerEmail(formData, plan, deployUrl, orderId),
-        this.emailService.sendAdminEmail(formData, plan, repoUrl, deployUrl, orderId, sessionId)
+        this.emailService.sendAdminEmail(formData, plan, repoUrl, deployUrl, orderId, paymentIntentId)
       ]);
 
       // Clear session storage
