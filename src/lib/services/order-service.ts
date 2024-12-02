@@ -17,8 +17,12 @@ export class OrderService {
   async completeOrder(sessionId: string, orderId: string): Promise<void> {
     try {
       // Get session details from Stripe to get payment intent
-      const { payment_intent } = await stripeService.getSession(sessionId);
-      const paymentIntentId = typeof payment_intent === 'string' ? payment_intent : payment_intent.id;
+      const sessionData = await stripeService.getSession(sessionId);
+      const paymentIntentId = sessionData.payment_intent?.id;
+      
+      if (!paymentIntentId) {
+        throw new Error('Payment intent ID not found');
+      }
 
       // Retrieve stored order data
       const orderDataStr = sessionStorage.getItem('orderData');

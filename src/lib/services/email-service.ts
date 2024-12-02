@@ -69,7 +69,7 @@ export class EmailService {
     repoUrl: string,
     deployUrl: string,
     orderId: string,
-    sessionId: string
+    paymentIntentId: string
   ): Promise<void> {
     const templateParams = {
       to_name: 'Admin',
@@ -83,7 +83,7 @@ export class EmailService {
       plan_price: `${plan.price.toLocaleString()} Ft`,
       plan_period: plan.period,
       order_id: orderId,
-      stripe_session_id: sessionId,
+      payment_intent_id: paymentIntentId,
       repo_url: repoUrl,
       deploy_url: deployUrl,
       order_summary: generateOrderSummary(data)
