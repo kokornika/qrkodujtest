@@ -1,7 +1,17 @@
 import React from 'react';
 import QRCode from 'qrcode.react';
 import { VCardFormData } from '../../types/vcard';
-import { Phone, Mail, Globe, MapPin } from 'lucide-react';
+import { Phone, Mail, Globe, MapPin, Facebook, Instagram, Twitter, Linkedin, Github, Music2 } from 'lucide-react';
+import { socialColors } from '../../lib/social-colors';
+
+const socialIcons: Record<string, any> = {
+  'Facebook': Facebook,
+  'Instagram': Instagram,
+  'Twitter': Twitter,
+  'LinkedIn': Linkedin,
+  'GitHub': Github,
+  'TikTok': Music2,
+};
 
 interface VCardPreviewProps {
   formData: VCardFormData;
@@ -274,6 +284,58 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
                 </div>
               )}
             </div>
+
+            {/* Social Media Links */}
+            {(formData.socialLinks.length > 0 || !hasAnyData) && (
+              <div className="flex flex-wrap justify-center gap-3 mt-6">
+                {formData.socialLinks.length > 0 ? (
+                  formData.socialLinks.map((link, index) => {
+                    const Icon = socialIcons[link.platform] || Globe;
+                    const color = socialColors[link.platform] || '#374151';
+                    
+                    return (
+                      <a
+                        key={index}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-lg flex items-center justify-center transition-transform hover:scale-110"
+                        style={{
+                          backgroundColor: `${color}22`,
+                          color: color
+                        }}
+                      >
+                        <Icon className="w-5 h-5" />
+                      </a>
+                    );
+                  })
+                ) : (
+                  <>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center"
+                         style={{
+                           backgroundColor: `${socialColors['LinkedIn']}22`,
+                           color: socialColors['LinkedIn']
+                         }}>
+                      <Linkedin className="w-5 h-5" />
+                    </div>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center"
+                         style={{
+                           backgroundColor: `${socialColors['Facebook']}22`,
+                           color: socialColors['Facebook']
+                         }}>
+                      <Facebook className="w-5 h-5" />
+                    </div>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center"
+                         style={{
+                           backgroundColor: `${socialColors['Instagram']}22`,
+                           color: socialColors['Instagram']
+                         }}>
+                      <Instagram className="w-5 h-5" />
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
 
             {/* QR Code */}
             <div className="mt-6 flex flex-col items-center">

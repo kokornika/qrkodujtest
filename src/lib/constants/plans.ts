@@ -20,7 +20,7 @@ export const PAYMENT_PLANS: PaymentPlan[] = [
       'Azonnali adatfrissítés'
     ],
     comparisonPoints: [
-      'Nincs többé nyomtatási költség (évente ~15.000 Ft megtakarítás)',
+      'Nincs többé nyomtatási költség',
       'Elkerülhető az újranyomtatás névjegyváltozás esetén',
       'Környezetbarát - nincs papír és festékhasználat',
       'Nincs többé "elfogyott névjegy" probléma',

@@ -55,7 +55,7 @@ export class GitHubRepository {
           name: repoName,
           private: false,
           auto_init: true,
-          description: `Digital Business Card for ${data.name}`
+          description: `QRNevjegy - Digitális névjegykártya: ${data.name}`
         })
       });
 

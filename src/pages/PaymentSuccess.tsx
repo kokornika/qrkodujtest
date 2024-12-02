@@ -72,18 +72,38 @@ const PaymentSuccess: React.FC = () => {
               Sikeres fizetés!
             </h1>
             
-            <p className="text-gray-600 mb-8">
-              Köszönjük a megrendelést! Kollégáink 24 órán belül elkészítik és emailben elküldik 
-              a digitális névjegykártyád weboldalát. Amennyiben bármilyen kérdésed lenne, 
-              kérjük írj a következő email címre: kokornika@gmail.com
-            </p>
+            <div className="space-y-4 text-center">
+              <p className="text-lg text-gray-700">
+                Köszönjük a megrendelést!
+              </p>
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <p className="text-gray-700">
+                  Kollégáink <span className="font-semibold">24 órán belül</span> elkészítik és emailben elküldik 
+                  a digitális névjegykártyád weboldalát.
+                </p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-gray-700 mb-2">
+                  Amennyiben bármilyen kérdésed lenne, írj nekünk az alábbi címre:
+                </p>
+                <a 
+                  href="mailto:info@qrnevjegy.hu"
+                  className="text-blue-600 hover:text-blue-700 font-medium inline-flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  info@qrnevjegy.hu
+                </a>
+              </div>
+            </div>
           </>
         )}
 
         <div className="space-y-4">
           <Link
             to="/"
-            className="inline-flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700"
+            className="inline-flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700 font-medium mt-6"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Vissza a főoldalra</span>

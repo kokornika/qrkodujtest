@@ -159,7 +159,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, onChange }) => {
       <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
-          <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-xl shadow-xl p-6">
+          <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-xl shadow-xl p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <Dialog.Title className="text-xl font-semibold">
                 Kép szerkesztése
@@ -169,7 +169,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, onChange }) => {
               </Dialog.Close>
             </div>
 
-            <div className="relative w-full aspect-square mb-6">
+            <div className="relative w-full aspect-square mb-6" style={{ height: '400px' }}>
               {image && (
                 <Cropper
                   image={image}
@@ -203,7 +203,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, onChange }) => {
               />
             </div>
 
-            <div className="flex justify-end gap-3">
+            <div className="flex justify-end gap-3 sticky bottom-0 bg-white pt-4">
               <Button
                 variant="outline"
                 onClick={() => {

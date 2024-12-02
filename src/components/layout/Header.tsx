@@ -39,7 +39,7 @@ const Header = () => {
             <Link to="/" className="flex items-center">
               <QrCode className="h-8 w-8 text-indigo-600" />
               <span className="ml-2 text-xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
-                DigiCard
+                QRNevjegy
               </span>
             </Link>
             <div className="hidden ml-10 space-x-8 lg:block">
