@@ -122,8 +122,21 @@ const TermsOfService: React.FC = () => {
               Az ÁSZF-fel kapcsolatos kérdéseivel forduljon hozzánk bizalommal az alábbi 
               elérhetőségeken:
             </p>
+            <h2>12. A szolgáltatás korlátozása vagy szüneteltetése</h2>
+            <p>
+              Az Adatkezelő fenntartja a jogot, hogy a szolgáltatást technikai karbantartás vagy vis 
+              maior események miatt ideiglenesen szüneteltesse. Az ilyen események esetén az Adatkezelő
+              értesíti a felhasználókat a szünetelés okáról és várható időtartamáról.
+            </p>
+<h2>13. Az ÁSZF és az Adatkezelési Tájékoztató elfogadása</h2>
+<p>A szolgáltatás megrendelésének leadásakor a felhasználó köteles az <strong>Általános Szerződési
+  Feltételek</strong> (ÁSZF) és az <strong>Adatkezelési Tájékoztató</strong> tartalmát megismerni és
+  elfogadni. Az elfogadás a megrendelés során megjelenő checkbox kipipálásával történik.</p>
+<p>A checkbox kipipálása joghatással jár, és azt jelenti, hogy a felhasználó a szerződési feltételeket elfogadta, az adatkezelés feltételeibe beleegyezett, és ezek tartalmát magára nézve kötelezőnek ismeri el.</p>
+<p>Amennyiben a felhasználó nem fogadja el az ÁSZF-et és az Adatkezelési Tájékoztatót, a megrendelési folyamatot nem tudja véglegesíteni.</p>
+
             <ul>
-              <li>Email: ideiglenes@qr.hu</li>
+              <li>Email: kokornika@gmail.com</li>
               <li>Telefon: +36303551793</li>
               <li>Levelezési cím: 7171 Sióagárd, Deák u. 6.</li>
             </ul>
