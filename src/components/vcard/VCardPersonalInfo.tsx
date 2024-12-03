@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { VCardFormData } from '../../types/vcard';
 import { Input } from '../ui/Input';
+import { formatWebsiteUrl, formatWebsiteDisplay } from '../../lib/utils/url-utils';
 
 interface VCardPersonalInfoProps {
   formData: VCardFormData;
@@ -13,6 +14,29 @@ const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({
   onChange,
   error 
 }) => {
+  const [websiteInput, setWebsiteInput] = useState(formatWebsiteDisplay(formData.website));
+
+  const handleWebsiteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setWebsiteInput(value);
+    
+    // Only format and update the main form data when input is valid
+    if (value.includes('.')) {
+      const formattedUrl = formatWebsiteUrl(value);
+      onChange('website', formattedUrl);
+    } else {
+      onChange('website', value);
+    }
+  };
+
+  const handleWebsiteBlur = () => {
+    if (websiteInput) {
+      const formattedUrl = formatWebsiteUrl(websiteInput);
+      onChange('website', formattedUrl);
+      setWebsiteInput(formatWebsiteDisplay(formattedUrl));
+    }
+  };
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium text-gray-700">Személyes adatok</h3>
@@ -43,10 +67,11 @@ const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({
 
         <Input
           label="Weboldal (opcionális)"
-          value={formData.website}
-          onChange={(e) => onChange('website', e.target.value)}
-          placeholder="https://"
-          type="url"
+          value={websiteInput}
+          onChange={handleWebsiteChange}
+          onBlur={handleWebsiteBlur}
+          placeholder="www.pelda.hu"
+          type="text"
         />
 
         <div className="sm:col-span-2">
