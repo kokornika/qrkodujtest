@@ -6,7 +6,9 @@ import { generateHungarianMonogram, splitHungarianName } from '../utils/name-uti
 import * as QRCode from 'qrcode';
 
 export async function generateHTML(data: VCardFormData): Promise<string> {
-  // Generate vCard string with proper Hungarian name format
+  // Generate vCard string for QR code
+  // In Hungarian format, we keep the original name order for display
+  // but reverse it for the vCard format as per the standard
   const { familyName, givenNames } = splitHungarianName(data.name);
   
   const vcard = `BEGIN:VCARD
@@ -59,22 +61,6 @@ END:VCARD`;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${data.name} - Digitális Névjegykártya</title>
     <meta name="description" content="${data.description || `${data.name} digitális névjegykártyája`}">
-    
-    <!-- PWA Support -->
-    <link rel="manifest" href="data:application/json;base64,${btoa(JSON.stringify({
-      name: `${data.name} - Digitális Névjegykártya`,
-      short_name: data.name,
-      start_url: '.',
-      display: 'standalone',
-      background_color: '#ffffff',
-      theme_color: data.backgroundColor,
-      icons: [{
-        src: data.profilePicture || qrCodeDataUrl,
-        sizes: '192x192',
-        type: 'image/png'
-      }]
-    }))}">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -162,7 +148,7 @@ END:VCARD`;
                 <div class="section qr-section">
                     <h2>Névjegykártya QR kód</h2>
                     <div class="qr-code">
-                        <img src="${qrCodeDataUrl}" alt="QR kód" id="qr-code">
+                        <img src="${qrCodeDataUrl}" alt="QR kód">
                     </div>
                     <p>Olvassa be a QR kódot a névjegy mentéséhez</p>
                 </div>
@@ -182,65 +168,6 @@ END:VCARD`;
     </div>
 
     <script>
-    // Service Worker Registration
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('data:application/javascript;base64,${btoa(`
-        const CACHE_NAME = '${data.name}-v1';
-        const urlsToCache = [
-          '/',
-          '${data.profilePicture || ''}',
-          '${qrCodeDataUrl}',
-          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
-          'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
-        ].filter(Boolean);
-
-        self.addEventListener('install', (event) => {
-          event.waitUntil(
-            caches.open(CACHE_NAME)
-              .then((cache) => cache.addAll(urlsToCache))
-          );
-        });
-
-        self.addEventListener('fetch', (event) => {
-          event.respondWith(
-            caches.match(event.request)
-              .then((response) => response || fetch(event.request))
-          );
-        });
-      `)}')
-        .then(registration => console.log('ServiceWorker registered'))
-        .catch(error => console.log('ServiceWorker registration failed:', error));
-    }
-
-    // Save vCard data to IndexedDB
-    const dbName = 'DigitalBusinessCard';
-    const storeName = 'vcard';
-    const vCardData = \`${vcard}\`;
-    const request = indexedDB.open(dbName, 1);
-
-    request.onerror = (event) => {
-      console.error('IndexedDB error:', event.target.error);
-    };
-
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
-      if (!db.objectStoreNames.contains(storeName)) {
-        db.createObjectStore(storeName, { keyPath: 'id' });
-      }
-    };
-
-    request.onsuccess = (event) => {
-      const db = event.target.result;
-      const transaction = db.transaction([storeName], 'readwrite');
-      const store = transaction.objectStore(storeName);
-      
-      store.put({
-        id: '${data.name}',
-        vcard: vCardData,
-        timestamp: new Date().toISOString()
-      });
-    };
-
     function downloadVCard() {
         const vcard = \`${vcard}\`;
         const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
@@ -272,25 +199,6 @@ END:VCARD`;
         } catch (err) {
             console.error('Megosztás sikertelen:', err);
         }
-    }
-
-    // Download QR code as PNG
-    const qrImg = document.getElementById('qr-code');
-    if (qrImg) {
-      qrImg.addEventListener('click', () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = qrImg.width;
-        canvas.height = qrImg.height;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(qrImg, 0, 0);
-        
-        const link = document.createElement('a');
-        link.download = '${data.name.replace(/\\s+/g, '_')}_qr.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      });
     }
     </script>
 </body>
