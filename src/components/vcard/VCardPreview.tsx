@@ -218,23 +218,6 @@ END:VCARD`;
                   </div>
                 </div>
               )}
-              {!hasAnyData && !formData.phoneWork && (
-                <div 
-                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
-                  style={{
-                    backgroundColor: `${formData.backgroundColor}11`
-                  }}
-                >
-                  <Phone 
-                    className="w-5 h-5"
-                    style={{ color: formData.backgroundColor }}
-                  />
-                  <div>
-                    <div className="text-sm">+36 1 234 5678</div>
-                    <div className="text-xs text-gray-500">Munkahelyi</div>
-                  </div>
-                </div>
-              )}
               {formData.email && (
                 <div 
                   className="flex items-center gap-3 p-3 rounded-lg transition-colors"
@@ -252,20 +235,37 @@ END:VCARD`;
                   </div>
                 </div>
               )}
-              {!hasAnyData && !formData.email && (
+              {formData.website && (
                 <div 
                   className="flex items-center gap-3 p-3 rounded-lg transition-colors"
                   style={{
                     backgroundColor: `${formData.backgroundColor}11`
                   }}
                 >
-                  <Mail 
+                  <Globe 
                     className="w-5 h-5"
                     style={{ color: formData.backgroundColor }}
                   />
                   <div>
-                    <div className="text-sm">minta@minta.hu</div>
-                    <div className="text-xs text-gray-500">Email</div>
+                    <div className="text-sm">{formData.website}</div>
+                    <div className="text-xs text-gray-500">Weboldal</div>
+                  </div>
+                </div>
+              )}
+              {!hasAnyData && !formData.website && (
+                <div 
+                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
+                  style={{
+                    backgroundColor: `${formData.backgroundColor}11`
+                  }}
+                >
+                  <Globe 
+                    className="w-5 h-5"
+                    style={{ color: formData.backgroundColor }}
+                  />
+                  <div>
+                    <div className="text-sm">www.qrnevjegy.hu</div>
+                    <div className="text-xs text-gray-500">Weboldal</div>
                   </div>
                 </div>
               )}
@@ -284,23 +284,6 @@ END:VCARD`;
                     <div className="text-sm">
                       {[formData.street, formData.city].filter(Boolean).join(', ')}
                     </div>
-                    <div className="text-xs text-gray-500">Cím</div>
-                  </div>
-                </div>
-              )}
-              {!hasAnyData && !formData.street && !formData.city && (
-                <div 
-                  className="flex items-center gap-3 p-3 rounded-lg transition-colors"
-                  style={{
-                    backgroundColor: `${formData.backgroundColor}11`
-                  }}
-                >
-                  <MapPin 
-                    className="w-5 h-5"
-                    style={{ color: formData.backgroundColor }}
-                  />
-                  <div>
-                    <div className="text-sm">Budapest, Minta u. 1</div>
                     <div className="text-xs text-gray-500">Cím</div>
                   </div>
                 </div>
