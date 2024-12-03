@@ -172,23 +172,23 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
             </div>
 
             <div className="sticky bottom-0 bg-white pt-4 border-t">
-            <Button
-              onClick={handleOrder}
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
-              disabled={isLoading || !acceptTerms}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Feldolgozás...
-                </>
-              ) : (
-                <>
-                  <CreditCard className="w-4 h-4 mr-2" />
-                  Megrendelem
-                </>
-              )}
-            </Button>
+              <Button
+                onClick={handleOrder}
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+                disabled={isLoading || !acceptTerms}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Feldolgozás...
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-4 h-4 mr-2" />
+                    Megrendelem
+                  </>
+                )}
+              </Button>
             </div>
 
             <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
