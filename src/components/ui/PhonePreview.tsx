@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, Globe, MapPin, Save } from 'lucide-react';
+import { Phone, Mail, Globe, MapPin, Save, Share2 } from 'lucide-react';
 import QRCode from 'qrcode.react';
 import { Button } from './button';
 
@@ -26,17 +26,17 @@ END:VCARD`;
       {/* Desktop Try It Message */}
       <div className="hidden lg:block text-center bg-blue-50 border border-blue-100 rounded-xl p-4">
         <p className="text-blue-700 font-medium mb-2">
-         Próbáld ki te is! Görgess le a QR kódig és szkenneld be telefonoddal
+         Próbáld ki te is! Görgess le a QR kódig és szkenneld be telefonoddal!
         </p>
         <p className="text-blue-600 text-sm">
-          Nyisd meg a telefon kameráját és irányítsd a QR kódra
+          Nyisd meg a telefon kameráját és irányítsd a QR kódra.
         </p>
       </div>
 
       {/* Mobile Try It Message */}
       <div className="lg:hidden text-center bg-blue-50 border border-blue-100 rounded-xl p-4 mb-4">
         <p className="text-blue-700 font-medium">
-        Próbáld ki te is! Kattints a "Mentem a névjegyzékbe" gombra és máris a telefonkönyvedben lesz a névjegy!
+        Próbáld ki te is! Kattints a telefon alján lévő "Mentem a névjegyzékbe" gombra és máris a telefonkönyvedben lesz a névjegy!
         </p>
       </div>
 
@@ -140,6 +140,27 @@ END:VCARD`;
                   <p className="text-xs text-gray-500 mt-2 mb-4">
                     Szkenneld be a névjegyem
                   </p>
+
+                  {/* Share Button */}
+                  <Button 
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 mb-4"
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: 'Minta János - Digitális Névjegykártya',
+                          text: 'Minta János digitális névjegykártyája',
+                          url: window.location.href
+                        }).catch(console.error);
+                      } else {
+                        navigator.clipboard.writeText(window.location.href)
+                          .then(() => alert('Link másolva a vágólapra!'))
+                          .catch(console.error);
+                      }
+                    }}
+                  >
+                    <Share2 className="w-4 h-4 mr-2" />
+                    Megosztás
+                  </Button>
 
                   {/* Mobile Save Button */}
                   <div className="lg:hidden w-full">

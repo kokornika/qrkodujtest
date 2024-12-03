@@ -34,7 +34,7 @@ const Guide = () => {
               Hogyan működik a digitális névjegykártya?
             </h1>
             <p className="text-lg text-gray-600 mb-8">
-              Ismerje meg a modern névjegykezelés két egyszerű módját
+              Ismerje meg a modern névjegykezelés két egyszerű módját!
             </p>
             <div className="flex justify-center gap-4">
               
@@ -44,8 +44,15 @@ const Guide = () => {
       </section>
 
       {/* Two Methods Section */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Hogyan osztható meg a digitális névjegykártya?
+            </h2>
+           
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Personal Meeting Method */}
             <div className="space-y-8">
@@ -54,7 +61,7 @@ const Guide = () => {
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                     <Users className="w-6 h-6 text-blue-600" />
                   </div>
-                  <h3 className="text-xl font-semibold">Személyes találkozón</h3>
+                  <h3 className="text-xl font-semibold">1. Személyes találkozón</h3>
                 </div>
 
                 <div className="space-y-6">
@@ -66,7 +73,7 @@ const Guide = () => {
                       <div>
                         <h4 className="font-medium mb-2">Mutassa meg QR kódját</h4>
                         <p className="text-gray-600 text-sm">
-                          Nyissa meg digitális névjegyét és mutassa meg a QR kódot partnerének
+                          Nyissa meg digitális névjegyét és mutassa meg a QR kódot partnerének.
                         </p>
                       </div>
                     </div>
@@ -78,9 +85,9 @@ const Guide = () => {
                         <Smartphone className="w-5 h-5 text-green-600" />
                       </div>
                       <div>
-                        <h4 className="font-medium mb-2">Partner beolvassa</h4>
+                        <h4 className="font-medium mb-2">Ügyfele/Partnere beolvassa azt</h4>
                         <p className="text-gray-600 text-sm">
-                          Partnere telefonja kamerájával beolvassa a QR kódot
+                          Partnere telefonja kamerájával beolvassa a QR kódot.
                         </p>
                       </div>
                     </div>
@@ -94,7 +101,7 @@ const Guide = () => {
                       <div>
                         <h4 className="font-medium mb-2">Azonnali mentés</h4>
                         <p className="text-gray-600 text-sm">
-                          Egy kattintással elmenti névjegyét a telefonkönyvébe
+                          Egy kattintással elmenti névjegyét a telefonkönyvébe.
                         </p>
                       </div>
                     </div>
@@ -108,7 +115,7 @@ const Guide = () => {
                   <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
                     <Globe className="w-6 h-6 text-indigo-600" />
                   </div>
-                  <h3 className="text-xl font-semibold">Online küldés</h3>
+                  <h3 className="text-xl font-semibold">2. Online megosztás</h3>
                 </div>
 
                 <div className="space-y-6">
@@ -118,7 +125,7 @@ const Guide = () => {
                         <Share2 className="w-5 h-5 text-indigo-600" />
                       </div>
                       <div>
-                        <h4 className="font-medium mb-2">Válasszon csatornát</h4>
+                        <h4 className="font-medium mb-2">Válasszon csatornát (Megosztás gomb)</h4>
                         <div className="grid grid-cols-3 gap-3 mt-3">
                           <div className="text-center">
                             <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-1">
@@ -149,9 +156,9 @@ const Guide = () => {
                         <Globe className="w-5 h-5 text-green-600" />
                       </div>
                       <div>
-                        <h4 className="font-medium mb-2">Partner megnyitja</h4>
+                        <h4 className="font-medium mb-2">Partner megnyitja a kapott linket</h4>
                         <p className="text-gray-600 text-sm">
-                          A kapott linkre kattintva megnyílik digitális névjegye
+                          A kapott linkre kattintva megnyílik digitális névjegye.
                         </p>
                       </div>
                     </div>
@@ -165,7 +172,7 @@ const Guide = () => {
                       <div>
                         <h4 className="font-medium mb-2">Egy kattintásos mentés</h4>
                         <p className="text-gray-600 text-sm">
-                          Partnere azonnal elmentheti névjegyét a telefonkönyvébe
+                          Partnere azonnal elmentheti névjegyét a telefonkönyvébe.
                         </p>
                       </div>
                     </div>

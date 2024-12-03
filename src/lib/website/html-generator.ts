@@ -22,7 +22,7 @@ ${data.phoneWork ? `TEL;TYPE=WORK:${data.phoneWork}` : ''}
 ${data.phonePrivate ? `TEL;TYPE=HOME:${data.phonePrivate}` : ''}
 ${data.email ? `EMAIL:${data.email}` : ''}
 ${data.website ? `URL:${data.website}` : ''}
-${data.street && data.city ? `ADR:;;${data.street};${data.city};${data.state};${data.zipcode};${data.country}` : ''}
+${data.street && data.city ? `ADR:;;${data.street};${data.city};${data.state || ''};${data.zipcode};Magyarország` : ''}
 ${data.description ? `NOTE:${data.description}` : ''}
 ${data.socialLinks.map(link => `URL;type=${link.platform}:${link.url}`).join('\n')}
 END:VCARD`;
