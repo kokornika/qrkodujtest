@@ -170,13 +170,16 @@ END:VCARD`;
     <script>
     function downloadVCard() {
         const vcard = \`${vcard}\`;
-        const blob = new Blob([vcard], { type: 'text/vcard' });
+        const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
+        a.style.display = 'none';
         a.href = url;
-        a.download = '${data.name.replace(/\s+/g, '_')}.vcf';
+        a.download = '${data.name.replace(/\\s+/g, '_')}.vcf';
+        document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
     }
 
     async function shareCard() {
@@ -190,7 +193,7 @@ END:VCARD`;
             if (navigator.share) {
                 await navigator.share(shareData);
             } else {
-                navigator.clipboard.writeText(window.location.href);
+                await navigator.clipboard.writeText(window.location.href);
                 alert('A névjegykártya linkje a vágólapra másolva!');
             }
         } catch (err) {

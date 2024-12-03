@@ -20,14 +20,33 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
   const [acceptTerms, setAcceptTerms] = useState(false);
   const plan = PAYMENT_PLANS[0];
 
-  const handleOrder = async () => {
+  const validateForm = () => {
+    if (!formData.email?.trim()) {
+      setError('Az email cím megadása kötelező a megrendeléshez');
+      return false;
+    }
+
+    if (!formData.name?.trim()) {
+      setError('A név megadása kötelező a megrendeléshez');
+      return false;
+    }
+
     if (!acceptTerms) {
       setError('Kérjük, fogadja el az Általános Szerződési Feltételeket a folytatáshoz');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleOrder = async () => {
+    setError(null);
+
+    if (!validateForm()) {
       return;
     }
 
     setIsLoading(true);
-    setError(null);
 
     try {
       // Store form data in session storage
