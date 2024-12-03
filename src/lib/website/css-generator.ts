@@ -81,6 +81,12 @@ export function generateCSS(data: VCardFormData): string {
       color: var(--text-secondary);
     }
 
+    .monogram {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
     .profile-section h1 {
       font-size: 2rem;
       font-weight: 600;
@@ -255,6 +261,10 @@ export function generateCSS(data: VCardFormData): string {
         height: 140px;
       }
 
+      .monogram {
+        font-size: 2rem;
+      }
+
       .profile-section h1 {
         font-size: 1.75rem;
       }
@@ -279,6 +289,10 @@ export function generateCSS(data: VCardFormData): string {
       .profile-placeholder {
         width: 120px;
         height: 120px;
+      }
+
+      .monogram {
+        font-size: 1.75rem;
       }
 
       .profile-section h1 {

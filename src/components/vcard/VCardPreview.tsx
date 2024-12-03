@@ -3,6 +3,7 @@ import QRCode from 'qrcode.react';
 import { VCardFormData } from '../../types/vcard';
 import { Phone, Mail, Globe, MapPin, Facebook, Instagram, Twitter, Linkedin, Github, Music2 } from 'lucide-react';
 import { socialColors } from '../../lib/social-colors';
+import { generateHungarianMonogram, splitHungarianName } from '../../lib/utils/name-utils';
 
 const socialIcons: Record<string, any> = {
   'Facebook': Facebook,
@@ -20,6 +21,27 @@ interface VCardPreviewProps {
 }
 
 const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isValid }) => {
+  // Generate vCard string with proper Hungarian name format
+  const generateVCardString = () => {
+    const { familyName, givenNames } = splitHungarianName(formData.name);
+    
+    return `BEGIN:VCARD
+VERSION:3.0
+N:${familyName};${givenNames};;;
+FN:${formData.name}
+${formData.company ? `ORG:${formData.company}` : ''}
+${formData.position ? `TITLE:${formData.position}` : ''}
+${formData.phoneMobile ? `TEL;TYPE=CELL:${formData.phoneMobile}` : ''}
+${formData.phoneWork ? `TEL;TYPE=WORK:${formData.phoneWork}` : ''}
+${formData.phonePrivate ? `TEL;TYPE=HOME:${formData.phonePrivate}` : ''}
+${formData.email ? `EMAIL:${formData.email}` : ''}
+${formData.website ? `URL:${formData.website}` : ''}
+${formData.street && formData.city ? `ADR:;;${formData.street};${formData.city};${formData.state};${formData.zipcode};${formData.country}` : ''}
+${formData.description ? `NOTE:${formData.description}` : ''}
+${formData.socialLinks.map(link => `URL;type=${link.platform}:${link.url}`).join('\n')}
+END:VCARD`;
+  };
+
   const hasAnyData = Boolean(
     formData.name ||
     formData.company ||
@@ -62,7 +84,7 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
                 </div>
               ) : (
                 <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center text-2xl font-semibold shadow-lg">
-                  {formData.name ? formData.name.split(' ').map(n => n[0]).join('') : 'MT'}
+                  {formData.name ? generateHungarianMonogram(formData.name) : 'MT'}
                 </div>
               )}
             </div>
@@ -340,7 +362,7 @@ const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isVa
             {/* QR Code */}
             <div className="mt-6 flex flex-col items-center">
               <QRCode
-                value={vCardString || ' '}
+                value={generateVCardString() || ' '}
                 size={160}
                 level="M"
                 renderAs="svg"

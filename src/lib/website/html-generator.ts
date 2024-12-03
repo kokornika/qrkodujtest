@@ -2,13 +2,18 @@ import { VCardFormData } from '../../types/vcard';
 import { generateCSS } from './css-generator';
 import { socialIcons } from '../social-icons';
 import { socialColors } from '../social-colors';
+import { generateHungarianMonogram, splitHungarianName } from '../utils/name-utils';
 import * as QRCode from 'qrcode';
 
 export async function generateHTML(data: VCardFormData): Promise<string> {
-  // Generate vCard string for QR code - módosított verzió
+  // Generate vCard string for QR code
+  // In Hungarian format, we keep the original name order for display
+  // but reverse it for the vCard format as per the standard
+  const { familyName, givenNames } = splitHungarianName(data.name);
+  
   const vcard = `BEGIN:VCARD
 VERSION:3.0
-N:${data.name.split(' ').reverse().join(';')};
+N:${familyName};${givenNames};;;
 FN:${data.name}
 ${data.company ? `ORG:${data.company}` : ''}
 ${data.position ? `TITLE:${data.position}` : ''}
@@ -70,7 +75,9 @@ END:VCARD`;
                 <div class="profile-section">
                     ${data.profilePicture 
                       ? `<img src="${data.profilePicture}" alt="${data.name}" class="profile-image">`
-                      : `<div class="profile-placeholder"><i class="fas fa-user fa-3x"></i></div>`
+                      : `<div class="profile-placeholder">
+                           <span class="monogram">${generateHungarianMonogram(data.name) || 'MT'}</span>
+                         </div>`
                     }
                     <h1>${data.name}</h1>
                     ${data.position && data.company 
