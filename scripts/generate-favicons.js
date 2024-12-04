@@ -1,5 +1,5 @@
 import sharp from 'sharp';
-import { readFileSync } from 'fs';
+import { readFileSync, copyFileSync } from 'fs';
 import { resolve } from 'path';
 
 const sizes = {
@@ -19,19 +19,19 @@ async function generateFavicons() {
       await sharp(svgBuffer)
         .resize(size, size)
         .png()
-        .toFile(resolve('public', filename));
+        .toFile(resolve('dist', filename));
       
       console.log(`✅ Generated ${filename}`);
+
+      // Copy the 32x32 PNG as favicon.ico
+      if (size === 32) {
+        copyFileSync(
+          resolve('dist', filename),
+          resolve('dist', 'favicon.ico')
+        );
+        console.log('✅ Generated favicon.ico');
+      }
     }
-
-    // Generate ICO file
-    await sharp(svgBuffer)
-      .resize(32, 32)
-      .toFormat('ico')
-      .toFile(resolve('public', 'favicon.ico'));
-    
-    console.log('✅ Generated favicon.ico');
-
   } catch (error) {
     console.error('Error generating favicons:', error);
     process.exit(1);
