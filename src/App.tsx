@@ -4,7 +4,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import CookieBanner from './components/CookieBanner';
-import QRCodeGenerator from './components/QRCodeGenerator';
+import HomePage from './components/HomePage';
 import VCardForm from './components/vcard/VCardForm';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
@@ -18,11 +18,13 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import NotFound from './pages/NotFound';
 import SEO from './components/SEO';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <div className="min-h-screen bg-gray-50 flex flex-col">
           <SEO />
           <Helmet>
@@ -42,7 +44,7 @@ function App() {
           <Header />
           <main className="flex-grow pt-16">
             <Routes>
-              <Route path="/" element={<QRCodeGenerator />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/guide" element={<Guide />} />
               <Route path="/vcard" element={
                 <div className="max-w-7xl mx-auto py-4 sm:py-6 px-4 sm:px-6 lg:px-8">

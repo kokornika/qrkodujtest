@@ -5,7 +5,7 @@ import HeroSection from './home/HeroSection';
 import BusinessAdvantages from './home/BusinessAdvantages';
 import ComparisonSection from './home/ComparisonSection';
 import BenefitsSection from './BenefitsSection';
-import QRCodeGenerator from './qr/QRCodeGenerator';
+import QRCodeGenerator from './QRCodeGenerator';
 import FAQSection from './home/FAQSection';
 import ROICalculator from './home/ROICalculator';
 
