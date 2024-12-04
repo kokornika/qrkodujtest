@@ -40,7 +40,7 @@ export class GitHubRepository {
         },
         body: JSON.stringify({
           name: repoName,
-          private: false,
+          private: true,
           auto_init: true,
           description: `Digital Business Card for ${data.name}`
         })
