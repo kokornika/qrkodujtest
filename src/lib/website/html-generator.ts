@@ -2,13 +2,18 @@ import { VCardFormData } from '../../types/vcard';
 import { generateCSS } from './css-generator';
 import { socialIcons } from '../social-icons';
 import { socialColors } from '../social-colors';
+import { generateHungarianMonogram, splitHungarianName } from '../utils/name-utils';
 import * as QRCode from 'qrcode';
 
 export async function generateHTML(data: VCardFormData): Promise<string> {
-  // Generate vCard string for QR code - módosított verzió
+  // Generate vCard string for QR code
+  // In Hungarian format, we keep the original name order for display
+  // but reverse it for the vCard format as per the standard
+  const { familyName, givenNames } = splitHungarianName(data.name);
+  
   const vcard = `BEGIN:VCARD
 VERSION:3.0
-N:${data.name.split(' ').reverse().join(';')};
+N:${familyName};${givenNames};;;
 FN:${data.name}
 ${data.company ? `ORG:${data.company}` : ''}
 ${data.position ? `TITLE:${data.position}` : ''}
@@ -17,7 +22,7 @@ ${data.phoneWork ? `TEL;TYPE=WORK:${data.phoneWork}` : ''}
 ${data.phonePrivate ? `TEL;TYPE=HOME:${data.phonePrivate}` : ''}
 ${data.email ? `EMAIL:${data.email}` : ''}
 ${data.website ? `URL:${data.website}` : ''}
-${data.street && data.city ? `ADR:;;${data.street};${data.city};${data.state};${data.zipcode};${data.country}` : ''}
+${data.street && data.city ? `ADR:;;${data.street};${data.city};${data.state || ''};${data.zipcode};Magyarország` : ''}
 ${data.description ? `NOTE:${data.description}` : ''}
 ${data.socialLinks.map(link => `URL;type=${link.platform}:${link.url}`).join('\n')}
 END:VCARD`;
@@ -70,7 +75,9 @@ END:VCARD`;
                 <div class="profile-section">
                     ${data.profilePicture 
                       ? `<img src="${data.profilePicture}" alt="${data.name}" class="profile-image">`
-                      : `<div class="profile-placeholder"><i class="fas fa-user fa-3x"></i></div>`
+                      : `<div class="profile-placeholder">
+                           <span class="monogram">${generateHungarianMonogram(data.name) || 'MT'}</span>
+                         </div>`
                     }
                     <h1>${data.name}</h1>
                     ${data.position && data.company 
@@ -163,13 +170,16 @@ END:VCARD`;
     <script>
     function downloadVCard() {
         const vcard = \`${vcard}\`;
-        const blob = new Blob([vcard], { type: 'text/vcard' });
+        const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
+        a.style.display = 'none';
         a.href = url;
-        a.download = '${data.name.replace(/\s+/g, '_')}.vcf';
+        a.download = '${data.name.replace(/\\s+/g, '_')}.vcf';
+        document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
     }
 
     async function shareCard() {
@@ -183,7 +193,7 @@ END:VCARD`;
             if (navigator.share) {
                 await navigator.share(shareData);
             } else {
-                navigator.clipboard.writeText(window.location.href);
+                await navigator.clipboard.writeText(window.location.href);
                 alert('A névjegykártya linkje a vágólapra másolva!');
             }
         } catch (err) {

@@ -20,14 +20,33 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
   const [acceptTerms, setAcceptTerms] = useState(false);
   const plan = PAYMENT_PLANS[0];
 
-  const handleOrder = async () => {
+  const validateForm = () => {
+    if (!formData.email?.trim()) {
+      setError('Az email cím megadása kötelező a megrendeléshez');
+      return false;
+    }
+
+    if (!formData.name?.trim()) {
+      setError('A név megadása kötelező a megrendeléshez');
+      return false;
+    }
+
     if (!acceptTerms) {
       setError('Kérjük, fogadja el az Általános Szerződési Feltételeket a folytatáshoz');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleOrder = async () => {
+    setError(null);
+
+    if (!validateForm()) {
       return;
     }
 
     setIsLoading(true);
-    setError(null);
 
     try {
       // Store form data in session storage
@@ -153,23 +172,23 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
             </div>
 
             <div className="sticky bottom-0 bg-white pt-4 border-t">
-            <Button
-              onClick={handleOrder}
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
-              disabled={isLoading || !acceptTerms}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Feldolgozás...
-                </>
-              ) : (
-                <>
-                  <CreditCard className="w-4 h-4 mr-2" />
-                  Megrendelem
-                </>
-              )}
-            </Button>
+              <Button
+                onClick={handleOrder}
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+                disabled={isLoading || !acceptTerms}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Feldolgozás...
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-4 h-4 mr-2" />
+                    Megrendelem
+                  </>
+                )}
+              </Button>
             </div>
 
             <div className="flex items-center justify-center gap-2 text-sm text-gray-500">

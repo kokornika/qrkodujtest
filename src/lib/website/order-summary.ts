@@ -21,7 +21,7 @@ export function generateOrderSummary(data: VCardFormData): string {
       city: data.city,
       state: data.state,
       zipcode: data.zipcode,
-      country: data.country
+      country: 'Magyarország'
     },
     appearance: {
       backgroundColor: data.backgroundColor,

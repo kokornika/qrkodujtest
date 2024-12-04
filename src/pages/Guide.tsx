@@ -13,239 +13,223 @@ import {
   Globe,
   Shield,
   RefreshCw,
-  Share2
+  Share2,
+  MessageSquare,
+  Send,
+  Smartphone,
+  Users,
+  Briefcase
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import PhonePreview from '../components/ui/PhonePreview';
 
 const Guide = () => {
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gray-50 pt-0">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-white to-gray-50 pt-12 pb-20">
+      <section className="bg-gradient-to-b from-white to-gray-50 pt-12 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl font-bold text-gray-900 mb-6">
               Hogyan működik a digitális névjegykártya?
             </h1>
             <p className="text-lg text-gray-600 mb-8">
-              Részletes útmutató a digitális névjegykártya használatához és előnyeihez
+              Ismerje meg a modern névjegykezelés két egyszerű módját!
             </p>
             <div className="flex justify-center gap-4">
-              <Link to="/vcard">
-                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
-                  Digitális névjegyet készítek
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
+              
             </div>
           </div>
         </div>
       </section>
 
-      {/* Process Overview */}
-      <section className="py-20 bg-white">
+      {/* Two Methods Section */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">
-              Digitális névjegykártya: A modern kapcsolatépítés eszköze
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Hogyan osztható meg a digitális névjegykártya?
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Hozza létre saját digitális névjegykártyáját, amely azonnal elérhető az interneten és QR kóddal pillanatok alatt beolvasható
-            </p>
+           
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Personal Meeting Method */}
             <div className="space-y-8">
-              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Globe className="w-6 h-6 text-blue-600" />
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <Users className="w-6 h-6 text-blue-600" />
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Online névjegykártya</h3>
-                    <p className="text-gray-600">
-                      Adja meg adatait, és mi létrehozunk egy professzionális online névjegykártyát, 
-                      amely bármikor elérhető az interneten keresztül.
-                    </p>
+                  <h3 className="text-xl font-semibold">1. Személyes találkozón</h3>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="bg-white rounded-xl p-6 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <QrCode className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-2">Mutassa meg QR kódját</h4>
+                        <p className="text-gray-600 text-sm">
+                          Nyissa meg digitális névjegyét és mutassa meg a QR kódot partnerének.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-6 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Smartphone className="w-5 h-5 text-green-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-2">Ügyfele/Partnere beolvassa azt</h4>
+                        <p className="text-gray-600 text-sm">
+                          Partnere telefonja kamerájával beolvassa a QR kódot.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-6 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Save className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-2">Azonnali mentés</h4>
+                        <p className="text-gray-600 text-sm">
+                          Egy kattintással elmenti névjegyét a telefonkönyvébe.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Share2 className="w-6 h-6 text-green-600" />
+              {/* Online Sharing Method */}
+              <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                    <Globe className="w-6 h-6 text-indigo-600" />
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Egyszerű megosztás</h3>
-                    <p className="text-gray-600">
-                      Ossza meg névjegyét e-mailben, közösségi médián vagy személyesen 
-                      a beépített QR kód segítségével.
-                    </p>
+                  <h3 className="text-xl font-semibold">2. Online megosztás</h3>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="bg-white rounded-xl p-6 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Share2 className="w-5 h-5 text-indigo-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-2">Válasszon csatornát (Megosztás gomb)</h4>
+                        <div className="grid grid-cols-3 gap-3 mt-3">
+                          <div className="text-center">
+                            <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-1">
+                              <MessageSquare className="w-5 h-5 text-blue-600" />
+                            </div>
+                            <span className="text-xs text-gray-600">SMS</span>
+                          </div>
+                          <div className="text-center">
+                            <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center mx-auto mb-1">
+                              <Mail className="w-5 h-5 text-purple-600" />
+                            </div>
+                            <span className="text-xs text-gray-600">Email</span>
+                          </div>
+                          <div className="text-center">
+                            <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center mx-auto mb-1">
+                              <Send className="w-5 h-5 text-green-600" />
+                            </div>
+                            <span className="text-xs text-gray-600">Közösségi</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-6 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Globe className="w-5 h-5 text-green-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-2">Partner megnyitja a kapott linket</h4>
+                        <p className="text-gray-600 text-sm">
+                          A kapott linkre kattintva megnyílik digitális névjegye.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-6 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Save className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-2">Egy kattintásos mentés</h4>
+                        <p className="text-gray-600 text-sm">
+                          Partnere azonnal elmentheti névjegyét a telefonkönyvébe.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <RefreshCw className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Mindig naprakész</h3>
-                    <p className="text-gray-600">
-                      Frissítse adatait bármikor, és a változások azonnal megjelennek 
-                      minden megosztott névjegyen.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="text-center">
-                <Link to="/vcard">
-                  <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
-                    Elkészítem a névjegyem
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
               </div>
             </div>
 
             {/* Phone Preview */}
-            <div className="relative mx-auto" style={{ maxWidth: '320px' }}>
-              <div className="relative border-[12px] border-black rounded-[3rem] shadow-xl">
-                <div className="relative bg-gray-50 h-[600px] overflow-hidden rounded-[2rem]">
-                  <div className="animate-scan-steps">
-                    {/* Step 1: QR Code Scanner */}
-                    <div className="scan-step">
-                      <div className="bg-black p-4">
-                        <div className="text-center text-sm font-medium text-white">QR Kód Beolvasása</div>
-                      </div>
-                      <div className="relative p-4">
-                        <div className="w-full aspect-square bg-black/5 rounded-lg flex items-center justify-center">
-                          <QrCode className="w-32 h-32 text-gray-400" />
-                          <div className="absolute inset-0 animate-scanning-line"></div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Step 2: Contact Preview */}
-                    <div className="scan-step">
-                      <div className="bg-black p-4">
-                        <div className="text-center text-sm font-medium text-white">Névjegy Előnézet</div>
-                      </div>
-                      <div className="p-4">
-                        <div className="bg-white rounded-xl p-4 shadow-sm">
-                          <div className="flex items-center gap-4 mb-4">
-                            <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-50 rounded-full flex items-center justify-center">
-                              <span className="text-2xl font-semibold text-blue-600">MJ</span>
-                            </div>
-                            <div>
-                              <div className="font-medium">Minta János</div>
-                              <div className="text-sm text-gray-500">Ügyvezető</div>
-                            </div>
-                          </div>
-                          <div className="space-y-3">
-                            <div className="flex items-center gap-2 text-sm">
-                              <Phone className="w-4 h-4 text-gray-400" />
-                              <span>+36 30 123 4567</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-sm">
-                              <Mail className="w-4 h-4 text-gray-400" />
-                              <span>janos@minta.hu</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-sm">
-                              <MapPin className="w-4 h-4 text-gray-400" />
-                              <span>Budapest, Minta u. 1.</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Step 3: Save Contact */}
-                    <div className="scan-step">
-                      <div className="bg-black p-4">
-                        <div className="text-center text-sm font-medium text-white">Névjegy Mentése</div>
-                      </div>
-                      <div className="p-8">
-                        <div className="text-center">
-                          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <Check className="w-10 h-10 text-green-500" />
-                          </div>
-                          <div className="font-medium text-lg mb-2">Névjegy sikeresen mentve!</div>
-                          <p className="text-sm text-gray-500 mb-6">
-                            Az összes kapcsolati adat mentésre került a telefonkönyvbe
-                          </p>
-                          <button className="w-full bg-black text-white py-3 rounded-xl font-medium">
-                            Rendben
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Phone Buttons */}
-              <div className="absolute right-0 top-24 w-1 h-12 bg-black rounded-l-lg"></div>
-              <div className="absolute left-0 top-20 w-1 h-8 bg-black rounded-r-lg"></div>
-              <div className="absolute left-0 top-32 w-1 h-8 bg-black rounded-r-lg"></div>
+            <div className="lg:sticky lg:top-24 h-fit">
+              <PhonePreview />
             </div>
           </div>
         </div>
       </section>
 
-      {/* QR Code Scanning Steps */}
+      {/* Professional Impact Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">
-              Villámgyors névjegy importálás QR kóddal
+              Professzionális megjelenés minden helyzetben
             </h2>
             <p className="text-lg text-gray-600">
-              Egyetlen szkennelés, és az összes kapcsolati adat azonnal mentésre kerül
+              Tegye egyedivé és hatékonnyá üzleti kapcsolatépítését
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded-xl shadow-sm">
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <Zap className="w-6 h-6 text-blue-600" />
+                <Briefcase className="w-6 h-6 text-blue-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">1. Szkennelje be a QR kódot</h3>
-              <p className="text-gray-600 mb-4">
-                Nyissa meg telefonja kameráját és irányítsa a QR kódra
+              <h3 className="text-lg font-semibold mb-2">Modern üzleti megjelenés</h3>
+              <p className="text-gray-600">
+                Tükrözze vállalkozása innovatív szemléletét digitális névjegyével
               </p>
-              <span className="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded">
-                &lt; 1 másodperc
-              </span>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm">
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                <Clock className="w-6 h-6 text-green-600" />
+                <RefreshCw className="w-6 h-6 text-green-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">2. Automatikus felismerés</h3>
-              <p className="text-gray-600 mb-4">
-                A telefon azonnal felismeri és feldolgozza a névjegykártya adatait
+              <h3 className="text-lg font-semibold mb-2">Mindig naprakész</h3>
+              <p className="text-gray-600">
+                Frissítse adatait bármikor, partnerei mindig az aktuális információkat látják
               </p>
-              <span className="inline-block bg-green-100 text-green-800 text-xs font-medium px-2.5 py-1 rounded">
-                1-2 másodperc
-              </span>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm">
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                <Save className="w-6 h-6 text-purple-600" />
+                <Shield className="w-6 h-6 text-purple-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">3. Azonnali mentés</h3>
-              <p className="text-gray-600 mb-4">
-                Egy kattintással mentse el a kapcsolatot a telefonjába
+              <h3 className="text-lg font-semibold mb-2">Megbízható tárolás</h3>
+              <p className="text-gray-600">
+                Biztonságos és professzionális megoldás üzleti kapcsolatai kezelésére
               </p>
-              <span className="inline-block bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-1 rounded">
-                2-3 másodperc
-              </span>
             </div>
           </div>
         </div>

@@ -8,7 +8,40 @@ const PrivacyPolicy: React.FC = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Adatkezelési és Cookie Tájékoztató</h1>
 
           <div className="prose prose-lg">
-            {/* ... existing privacy policy content ... */}
+             <h2>Adatkezelési Tájékoztató</h2>
+    <h3>1. Az adatkezelés célja</h3>
+    <p>Az Adatkezelő az érintettek személyes adatait az alábbi célokból kezeli:</p>
+    <p>Digitális névjegyszolgáltatás nyújtása: az érintett által igényelt szolgáltatás megvalósítása.</p>
+    <p>Marketingtevékenység: az érintettek tájékoztatása az Adatkezelő szolgáltatásairól, promóciókról és eseményekről.</p>
+    
+    <h3>2. A kezelt személyes adatok köre</h3>
+    <p>Az Adatkezelő az érintettek alábbi személyes adatait kezeli:</p>
+    <p>Teljes név, cégnév, cég pozíció, weboldal, bemutatkozás, mobiltelefonszám, e-mail cím, cím, az érintett által feltöltött fénykép, közösségi média linkek.</p>
+    
+    <h3>3. Az adatkezelés jogalapja</h3>
+    <p>Az adatkezelés jogalapja a GDPR 6. cikk (1) bekezdés b) pontja: az adatkezelés a szerződés teljesítéséhez szükséges, amelyben az érintett az egyik fél. Az adatkezelés a digitális névjegyszolgáltatás nyújtásához elengedhetetlen.</p>
+    
+    <h3>4. Az adatkezelés módja és időtartama</h3>
+    <p>Az Adatkezelő az adatokat kizárólag az alábbi időtartamig kezeli:</p>
+    <p>Digitális névjegyszolgáltatás nyújtása céljából: az érintettel fennálló szerződéses kapcsolat időtartama alatt, illetve a szolgáltatás megszűnését követően a jogszabályban előírt megőrzési ideig.</p>
+    <p>Marketingtevékenység céljából: az érintett hozzájárulásának visszavonásáig.</p>
+    
+    <h3>5. Az adatok továbbítása</h3>
+    <p>Az Adatkezelő az érintett személyes adatait az alábbi harmadik fél részére továbbítja:</p>
+    <p>Netify szolgáltató: a digitális névjegykártya internetes elérhetőségének biztosításához.</p>
+    
+    <h3>6. Az érintettek jogai</h3>
+    <p>Az érintett az alábbi jogokkal élhet személyes adatai kezelésével kapcsolatban:</p>
+    <p>Tájékoztatáshoz való jog, hozzáféréshez való jog, helyesbítéshez való jog, törléshez való jog, adatkezelés korlátozásához való jog, adathordozhatósághoz való jog, panasztételhez való jog.</p>
+    
+    <h3>7. Az adatok védelme</h3>
+    <p>Az Adatkezelő megfelelő technikai és szervezési intézkedésekkel gondoskodik a személyes adatok védelméről, különösen azok jogosulatlan hozzáférése, megváltoztatása vagy megsemmisítése ellen.</p>
+    
+    <h3>8. Sütik kezelése</h3>
+    <p>Amennyiben az Adatkezelő weboldala sütiket használ, erről külön tájékoztatást nyújt.</p>
+    
+    <h3>9. Egyéb információk</h3>
+    <p>Az Adatkezelő fenntartja a jogot a tájékoztató módosítására. Az aktuális adatkezelési tájékoztatót az érintettek elérhetik az Adatkezelő hivatalos csatornáin.</p>
 
             <h2>Cookie (süti) kezelés</h2>
             <p>

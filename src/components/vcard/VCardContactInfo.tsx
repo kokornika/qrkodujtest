@@ -20,7 +20,7 @@ const VCardContactInfo: React.FC<VCardContactInfoProps> = ({
     <div className="space-y-4">
       <h3 className="text-lg font-medium text-gray-700">Elérhetőségek</h3>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Input
           label="Mobil telefonszám"
           value={formData.phoneMobile}
@@ -48,7 +48,6 @@ const VCardContactInfo: React.FC<VCardContactInfoProps> = ({
         />
 
         <Input
-          className="sm:col-span-2"
           label="Email cím"
           value={formData.email}
           onChange={(e) => onChange('email', e.target.value)}

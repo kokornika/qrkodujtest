@@ -24,7 +24,7 @@ const VCardAppearance: React.FC<VCardAppearanceProps> = ({ formData, onChange })
     <div className="space-y-4">
       <h3 className="text-lg font-medium text-gray-700">Megjelenés</h3>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Profilkép
@@ -52,7 +52,7 @@ const VCardAppearance: React.FC<VCardAppearanceProps> = ({ formData, onChange })
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Háttér típusa
             </label>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <label className="flex items-center">
                 <input
                   type="radio"
@@ -79,7 +79,7 @@ const VCardAppearance: React.FC<VCardAppearanceProps> = ({ formData, onChange })
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Előre beállított színek
             </label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 gap-2 max-w-[240px]">
               {colorPresets.map((preset) => (
                 <button
                   key={preset.color}
@@ -102,7 +102,7 @@ const VCardAppearance: React.FC<VCardAppearanceProps> = ({ formData, onChange })
               type="color"
               value={formData.backgroundColor}
               onChange={(e) => onChange('backgroundColor', e.target.value)}
-              className="w-full h-10 rounded-md cursor-pointer"
+              className="w-full h-10 rounded-md cursor-pointer max-w-[240px]"
             />
           </div>
         </div>
