@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && node scripts/generate-favicons.js && vite build && node scripts/generate-sitemap.js",
+    "build": "tsc && vite build && node scripts/generate-favicons.js && node scripts/generate-sitemap.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

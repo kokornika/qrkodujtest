@@ -1,5 +1,5 @@
 import sharp from 'sharp';
-import { readFileSync, copyFileSync } from 'fs';
+import { readFileSync, copyFileSync, mkdirSync, existsSync } from 'fs';
 import { resolve } from 'path';
 
 const sizes = {
@@ -12,6 +12,12 @@ const sizes = {
 
 async function generateFavicons() {
   try {
+    // Ensure dist directory exists
+    const distDir = resolve('dist');
+    if (!existsSync(distDir)) {
+      mkdirSync(distDir, { recursive: true });
+    }
+
     const svgBuffer = readFileSync(resolve('public', 'favicon.svg'));
 
     // Generate PNG favicons
