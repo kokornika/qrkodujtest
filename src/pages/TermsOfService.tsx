@@ -136,6 +136,18 @@ const TermsOfService: React.FC = () => {
               Az ÁSZF-fel kapcsolatos kérdéseivel forduljon hozzánk bizalommal az alábbi 
               elérhetőségeken:
             </p>
+
+<h2>14. Elállási jog és pénzvisszatérítés</h2>
+<p>
+A QRNevjegy szolgáltatás igénybevétele egyedi, személyre szabott digitális termékek létrehozását jelenti. Az elkészült névjegykártyák és QR kódok személyre szabott jellegük miatt nem vonhatók vissza, és nem kérhető
+  pénzvisszatérítés a szolgáltatás teljesítését követően. A szolgáltatás teljesítésének megkezdése az a pont, amikor a digitális névjegykártya weboldalát a rendszer létrehozta, a létrehozás időpontja rögzítésre került,
+  és a weboldal linkjét tartalmazó értesítő emailt a felhasználó részére kiküldtük. Az értesítő email kiküldésének időpontja tekintendő a szolgáltatás teljesítésének kezdeti időpontjának. Amennyiben a szolgáltatás technikai 
+  hibából eredően nem érhető el, vagy az ígért funkciók nem működnek megfelelően, a szolgáltató vállalja, hogy a hibát elhárítja, vagy a szolgáltatás díját részben vagy egészben visszatéríti. A felhasználót megilleti a 14 napos
+  elállási jog, amennyiben a szolgáltatás teljesítése még nem kezdődött meg. Az elállási jog gyakorlásához a felhasználónak írásban kell jeleznie szándékát az <a href="mailto:info@qrnevjegy.hu">info@qrnevjegy.hu</a> címen.
+</p>
+
+            
+            
             <ul>
               <li>Email: kokornika@gmail.com</li>
               <li>Telefon: +36303551793</li>
