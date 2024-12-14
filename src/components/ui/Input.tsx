@@ -17,14 +17,14 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className="w-full">
       {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1 sm:text-left text-center">
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       <input
         className={cn(
-          "w-full p-2 border border-gray-300 rounded-md text-sm",
+          "w-full p-2 border border-gray-300 rounded-md text-sm sm:text-left text-center",
           "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
           error && "border-red-500 focus:ring-red-500",
           className
@@ -32,7 +32,7 @@ export const Input: React.FC<InputProps> = ({
         {...props}
       />
       {error && (
-        <p className="text-sm text-red-500 mt-1">{error}</p>
+        <p className="text-sm text-red-500 mt-1 sm:text-left text-center">{error}</p>
       )}
     </div>
   );

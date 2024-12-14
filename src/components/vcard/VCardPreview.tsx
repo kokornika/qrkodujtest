@@ -58,9 +58,9 @@ END:VCARD`;
   );
 
   return (
-    <div className="relative mx-auto" style={{ maxWidth: '320px' }}>
+    <div className="relative mx-auto w-full max-w-[320px]">
       <div className="relative border-[12px] border-black rounded-[3rem] shadow-xl">
-        <div className="relative bg-white h-[600px] rounded-[2rem] overflow-hidden">
+        <div className="relative bg-white h-[500px] sm:h-[600px] rounded-[2rem] overflow-hidden">
           {/* Header with gradient background */}
           <div 
             className="h-24 w-full relative"

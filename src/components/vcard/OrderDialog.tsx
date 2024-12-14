@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { X, Loader2, Check, CreditCard, Shield, AlertCircle } from 'lucide-react';
+import { X, Loader2, Check, CreditCard, Star, Users, Lock, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { VCardFormData } from '../../types/vcard';
@@ -80,9 +80,9 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60]" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg max-h-[90vh] overflow-auto bg-white rounded-xl shadow-xl z-[60]">
-          <div className="sticky top-0 bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+        <Dialog.Overlay className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60]" />
+        <Dialog.Content className="fixed inset-x-0 bottom-0 sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-full sm:max-w-md bg-white rounded-t-2xl sm:rounded-2xl shadow-xl z-[60] h-[560px] sm:h-[640px]">
+          <div className="sticky top-0 bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center rounded-t-2xl">
             <Dialog.Title className="text-xl font-bold text-gray-900">
               Digitális névjegykártya megrendelése
             </Dialog.Title>
@@ -91,7 +91,7 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
             </Dialog.Close>
           </div>
 
-          <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+          <div className="p-6 space-y-4 bg-white h-[calc(100%-64px)]">
             {error && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
                 <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
@@ -102,7 +102,7 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
               </div>
             )}
 
-            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl p-6 text-white">
+            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl p-4 text-white mb-4">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-xl font-bold">{plan.name}</h3>
@@ -124,21 +124,7 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-xl p-3 sm:p-4">
-              <h4 className="font-medium text-gray-900 mb-3">
-                Előnyök a hagyományos névjegyekkel szemben
-              </h4>
-              <div className="space-y-2">
-                {plan.comparisonPoints.map((point, index) => (
-                  <div key={index} className="flex items-start gap-2 text-gray-600">
-                    <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-1" />
-                    <span className="text-xs sm:text-sm">{point}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-2 mb-4">
               <div className="flex items-center h-5 mt-1">
                 <input
                   type="checkbox"
@@ -171,10 +157,10 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
               </div>
             </div>
 
-            <div className="sticky bottom-0 bg-white pt-4 border-t">
+            <div className="flex flex-col gap-3">
               <Button
                 onClick={handleOrder}
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+                className="w-full h-14 text-lg font-medium bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl transition-all rounded-lg relative overflow-hidden"
                 disabled={isLoading || !acceptTerms}
               >
                 {isLoading ? (
@@ -189,11 +175,44 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
                   </>
                 )}
               </Button>
-            </div>
 
-            <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
-              <Shield className="w-4 h-4" />
-              Biztonságos fizetés a Stripe rendszerén keresztül
+              {/* Stripe Payment Text - Below button on mobile */}
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mt-2">
+                <Lock className="w-4 h-4" />
+                <span>Biztonságos fizetés a Stripe rendszerén keresztül</span>
+              </div>
+
+              {/* Social Proof */}
+              <div className="grid grid-cols-2 gap-3 mt-3">
+                <div className="bg-gray-50 rounded-lg p-3 text-center">
+                  <div className="flex items-center justify-center gap-1">
+                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <span className="font-medium text-gray-900">4.9/5</span>
+                  </div>
+                  <span className="text-xs text-gray-600 mt-1 block">értékelés</span>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-3 text-center">
+                  <div className="flex items-center justify-center gap-1">
+                    <Users className="w-4 h-4 text-blue-500" />
+                    <span className="font-medium text-gray-900">300+</span>
+                  </div>
+                  <span className="text-xs text-gray-600 mt-1 block">megrendelés</span>
+                </div>
+              </div>
+              
+              {/* Payment Methods */}
+              <div className="flex items-center justify-center gap-4 mt-3 py-2">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
+                  alt="Apple Pay"
+                  className="h-5 opacity-75"
+                />
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg"
+                  alt="Google Pay"
+                  className="h-5 opacity-75"
+                />
+              </div>
             </div>
           </div>
         </Dialog.Content>

@@ -11,7 +11,7 @@ const envSchema = z.object({
     userId: z.string().optional().default(''),
   }),
   stripe: z.object({
-    publishableKey: z.string().optional().default(''),
+    publishableKey: z.string().optional().default(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ''),
   }),
 });
 

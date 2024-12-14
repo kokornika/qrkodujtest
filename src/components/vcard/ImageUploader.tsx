@@ -113,11 +113,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, onChange }) => {
     <div className="space-y-4">
       <div
         {...getRootProps()}
-        className={`relative w-full aspect-square rounded-lg border-2 border-dashed transition-colors cursor-pointer
-          ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}
-          ${value ? 'bg-gray-50' : 'bg-white'}
-          group
-        `}
+        className={`relative w-full rounded-lg border transition-colors cursor-pointer
+          ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'} 
+          ${value ? 'bg-gray-50' : 'bg-white'} group
+          h-20 sm:h-32`}
       >
         <input {...getInputProps()} />
         {value ? (
@@ -125,7 +124,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, onChange }) => {
             <img
               src={value}
               alt="Uploaded"
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg object-center"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100">
               <button
@@ -140,17 +139,26 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, onChange }) => {
             </div>
           </>
         ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-            <ImagePlus className="w-12 h-12 text-gray-400 mb-2" />
-            <div className="text-sm text-center text-gray-600">
-              {isDragActive ? (
-                <p>Dobd ide a képet...</p>
-              ) : (
-                <>
-                  <p className="font-medium">Kattints vagy húzd ide a képet</p>
-                  <p className="text-gray-400">PNG, JPG (max. 5MB)</p>
-                </>
-              )}
+          <div className="absolute inset-0 flex items-center justify-center">
+            {/* Mobile View */}
+            <div className="block sm:hidden">
+              <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-sm">
+                Kép feltöltése
+              </button>
+            </div>
+            {/* Desktop View */}
+            <div className="hidden sm:flex flex-col items-center">
+              <ImagePlus className="w-12 h-12 text-gray-400 mb-2" />
+              <div className="text-sm text-center text-gray-600">
+                {isDragActive ? (
+                  <p>Dobd ide a képet...</p>
+                ) : (
+                  <>
+                    <p className="font-medium">Kattints vagy húzd ide a képet</p>
+                    <p className="text-gray-400">PNG, JPG (max. 5MB)</p>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         )}

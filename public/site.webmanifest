@@ -1,0 +1,21 @@
+{
+  "name": "QRNevjegy - Digitális névjegykártya készítés",
+  "short_name": "QRNevjegy",
+  "description": "Ingyenes QR kód generálás és digitális névjegykártya készítés. Környezetbarát és költséghatékony megoldás üzleti kapcsolataihoz.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366F1",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

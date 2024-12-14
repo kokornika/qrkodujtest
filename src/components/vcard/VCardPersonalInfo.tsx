@@ -39,15 +39,16 @@ const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium text-gray-700">Személyes adatok</h3>
+      <h3 className="text-lg font-medium text-gray-700 mb-6">Személyes adatok</h3>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <Input
           label="Teljes név"
           value={formData.name}
           onChange={(e) => onChange('name', e.target.value)}
           placeholder="Add meg a teljes neved..."
           error={error}
+          className="w-full text-center sm:text-left"
           required
         />
 
@@ -56,6 +57,7 @@ const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({
           value={formData.company}
           onChange={(e) => onChange('company', e.target.value)}
           placeholder="Add meg a cég nevét..."
+          className="w-full text-center sm:text-left"
         />
 
         <Input
@@ -63,6 +65,7 @@ const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({
           value={formData.position}
           onChange={(e) => onChange('position', e.target.value)}
           placeholder="Add meg a pozíciód..."
+          className="w-full text-center sm:text-left"
         />
 
         <Input
@@ -72,9 +75,10 @@ const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({
           onBlur={handleWebsiteBlur}
           placeholder="www.pelda.hu"
           type="text"
+          className="w-full text-center sm:text-left"
         />
 
-        <div className="sm:col-span-2">
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Bemutatkozás (opcionális)
           </label>
@@ -82,7 +86,7 @@ const VCardPersonalInfo: React.FC<VCardPersonalInfoProps> = ({
             value={formData.description}
             onChange={(e) => onChange('description', e.target.value)}
             placeholder="Írj egy rövid bemutatkozást..."
-            className="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center sm:text-left"
             rows={4}
           />
         </div>

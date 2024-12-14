@@ -2,13 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
   QrCode, 
-  Zap, 
-  Clock, 
   Save, 
-  Check, 
-  Phone, 
-  Mail, 
-  MapPin,
   ArrowRight,
   Globe,
   Shield,
@@ -36,9 +30,6 @@ const Guide = () => {
             <p className="text-lg text-gray-600 mb-8">
               Ismerje meg a modern névjegykezelés két egyszerű módját!
             </p>
-            <div className="flex justify-center gap-4">
-              
-            </div>
           </div>
         </div>
       </section>
@@ -50,7 +41,6 @@ const Guide = () => {
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Hogyan osztható meg a digitális névjegykártya?
             </h2>
-           
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -135,13 +125,13 @@ const Guide = () => {
                           </div>
                           <div className="text-center">
                             <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center mx-auto mb-1">
-                              <Mail className="w-5 h-5 text-purple-600" />
+                              <Send className="w-5 h-5 text-purple-600" />
                             </div>
                             <span className="text-xs text-gray-600">Email</span>
                           </div>
                           <div className="text-center">
                             <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center mx-auto mb-1">
-                              <Send className="w-5 h-5 text-green-600" />
+                              <Share2 className="w-5 h-5 text-green-600" />
                             </div>
                             <span className="text-xs text-gray-600">Közösségi</span>
                           </div>
@@ -179,11 +169,43 @@ const Guide = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Desktop CTA - Hidden on mobile */}
+              <div className="hidden lg:block bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 text-white">
+                <h3 className="text-xl font-semibold mb-4">
+                  Készítse el saját digitális névjegykártyáját most!
+                </h3>
+                <p className="text-blue-100 mb-6">
+                  Próbálja ki professzionális névjegykártya készítő szolgáltatásunkat és tegye egyszerűbbé üzleti kapcsolatépítését.
+                </p>
+                <Link to="/vcard">
+                  <Button className="w-full sm:w-auto bg-white text-blue-600 hover:bg-blue-50">
+                    Névjegykártya készítése
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
             </div>
 
             {/* Phone Preview */}
             <div className="lg:sticky lg:top-24 h-fit">
               <PhonePreview />
+              
+              {/* Mobile CTA - Only visible on mobile */}
+              <div className="lg:hidden mt-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 text-white">
+                <h3 className="text-xl font-semibold mb-4">
+                  Készítse el saját digitális névjegykártyáját most!
+                </h3>
+                <p className="text-blue-100 mb-6">
+                  Próbálja ki professzionális névjegykártya készítő szolgáltatásunkat és tegye egyszerűbbé üzleti kapcsolatépítését.
+                </p>
+                <Link to="/vcard">
+                  <Button className="w-full sm:w-auto bg-white text-blue-600 hover:bg-blue-50">
+                    Névjegykártya készítése
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

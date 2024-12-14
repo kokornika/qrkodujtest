@@ -15,6 +15,7 @@ const VCardForm: React.FC = () => {
   const [errors, setErrors] = useState<ValidationError[]>([]);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [showOrderDialog, setShowOrderDialog] = useState(false);
+  const [hasStartedEditing, setHasStartedEditing] = useState(false);
 
   const handleChange = (field: keyof VCardFormData, value: any) => {
     let processedValue = value;
@@ -32,6 +33,11 @@ const VCardForm: React.FC = () => {
       ...prev,
       [field]: true
     }));
+
+    // Set hasStartedEditing to true when any field is modified
+    if (!hasStartedEditing && processedValue) {
+      setHasStartedEditing(true);
+    }
   };
 
   useEffect(() => {
@@ -85,22 +91,48 @@ const VCardForm: React.FC = () => {
 
   return (
     <>
-      {/* Mobile Empty Form Message */}
-      {isFormEmpty && window.innerWidth < 1024 && (
-        <div className="lg:hidden bg-blue-50 border border-blue-100 rounded-lg p-4 mb-4 mx-4">
-          <div className="flex flex-col items-center text-center">
-            <p className="text-blue-700 mb-2">
-              Kezdje el kitölteni az adatlapot, és az elkészült digitális névjegykártyája előnézete lent fog megjelenni
-            </p>
-            <ArrowDown className="w-5 h-5 text-blue-500 animate-bounce" />
+      <div className="flex flex-col lg:grid lg:grid-cols-[1fr,400px] gap-4 sm:gap-6 lg:gap-8 px-4">
+        {/* Mobile Preview at the top */}
+        <div className="block lg:hidden mb-6">
+          <div className="bg-gray-50 p-4 rounded-xl">
+            <VCardPreview 
+              formData={formData} 
+              vCardString={generateVCardString()}
+              isValid={errors.length === 0}
+            />
           </div>
         </div>
-      )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,400px] gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8">
         <div className="space-y-4 sm:space-y-6 lg:space-y-8">
-          <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:p-8">
+          <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 relative">
+            {/* Form Progress Indicator */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300"
+                style={{ 
+                  width: `${Math.min(
+                    ((Object.keys(touched).length / 5) * 100),
+                    100
+                  )}%` 
+                }}
+              />
+            </div>
+            {/* Form Progress Indicator */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300"
+                style={{ 
+                  width: `${Math.min(
+                    ((Object.keys(touched).length / 5) * 100),
+                    100
+                  )}%` 
+                }}
+              />
+            </div>
+
             <div className="space-y-6 sm:space-y-8">
+              {/* Reordered sections for better mobile flow */}
+              <VCardAppearance formData={formData} onChange={handleChange} />
               <VCardPersonalInfo 
                 formData={formData} 
                 onChange={handleChange}
@@ -115,30 +147,22 @@ const VCardForm: React.FC = () => {
                 }}
               />
               <VCardAddressInfo formData={formData} onChange={handleChange} />
-              <VCardAppearance formData={formData} onChange={handleChange} />
               <VCardSocialLinks formData={formData} onChange={handleChange} />
             </div>
-            <div className="mt-8 text-center">
+            {/* Single Sticky CTA Button */}
+            <div className={`fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 shadow-lg lg:static lg:mt-8 lg:p-0 lg:border-0 lg:shadow-none z-20 transition-all duration-300 ${hasStartedEditing ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 lg:translate-y-0 lg:opacity-100'}`}>
               <button
                 onClick={() => setShowOrderDialog(true)}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+                className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-xl hover:shadow-2xl transition-all rounded-xl border-2 border-white/30 hover:scale-[1.02] animate-pulse"
               >
-                Megrendelem a digitális névjegyet
+                <span className="mr-2">🎁</span>
+                Digitális névjegykártya elkészítése
               </button>
             </div>
           </div>
         </div>
 
-        <div className="lg:sticky lg:top-24 h-fit">
-          {/* Desktop Empty Form Message */}
-          {isFormEmpty && window.innerWidth >= 1024 && (
-            <div className="hidden lg:block bg-blue-50 border border-blue-100 rounded-lg p-4 mb-4">
-              <p className="text-blue-700 text-center">
-                Kezdje el kitölteni az adatlapot a bal oldalon, és itt azonnal megjelenik 
-                a digitális névjegykártyája előnézete
-              </p>
-            </div>
-          )}
+        <div className="hidden lg:block lg:sticky lg:top-24 h-fit">
           <VCardPreview 
             formData={formData} 
             vCardString={generateVCardString()}
@@ -146,6 +170,10 @@ const VCardForm: React.FC = () => {
           />
         </div>
       </div>
+      {/* Add padding at bottom for mobile fixed CTA */}
+      <div className="h-20 lg:hidden" />
+      {/* Add padding at bottom for mobile fixed CTA */}
+      <div className="h-20 lg:hidden" />
       <OrderDialog 
         isOpen={showOrderDialog}
         onClose={() => setShowOrderDialog(false)}

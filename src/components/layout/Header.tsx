@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, QrCode, CreditCard, BookOpen } from 'lucide-react';
+import { Menu, X, CreditCard, BookOpen, Info } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,8 +8,8 @@ const Header = () => {
   const location = useLocation();
 
   const navigation = [
-    { name: 'QR Kód Generátor', href: '/', icon: QrCode },
-    { name: 'Digitális Névjegy', href: '/vcard', icon: CreditCard },
+    { name: 'Főoldal', href: '/', icon: CreditCard },
+    { name: 'Névjegykártya Készítés', href: '/vcard', icon: Info },
     { name: 'Blog', href: '/blog', icon: BookOpen },
   ];
 
@@ -37,7 +37,7 @@ const Header = () => {
         <div className="w-full py-3 flex items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <QrCode className="h-8 w-8 text-indigo-600" />
+              <CreditCard className="h-8 w-8 text-indigo-600" />
               <span className="ml-2 text-xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
                 QRNevjegy
               </span>

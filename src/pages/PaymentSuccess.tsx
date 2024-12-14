@@ -74,7 +74,8 @@ const PaymentSuccess: React.FC = () => {
             
             <div className="space-y-4 text-center">
               <p className="text-lg text-gray-700">
-                Köszönjük a megrendelést!
+                Köszönjük a megrendelést! <br />
+  A megrendelés részleteiről emailt küldtünk a megadott email címre.
               </p>
               <div className="bg-blue-50 p-4 rounded-lg">
                 <p className="text-gray-700">

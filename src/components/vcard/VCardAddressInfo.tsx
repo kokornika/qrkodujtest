@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { VCardFormData } from '../../types/vcard';
 import { Input } from '../ui/Input';
-import { MapPin, Loader2 } from 'lucide-react';
+import { MapPin, Loader2, Plus, Minus } from 'lucide-react';
 import { fetchCityByZip, ZipLocation } from '../../lib/services/zip-service';
 import { Button } from '../ui/button';
 
@@ -14,6 +14,7 @@ const VCardAddressInfo: React.FC<VCardAddressInfoProps> = ({ formData, onChange 
   const [isLoading, setIsLoading] = useState(false);
   const [cities, setCities] = useState<ZipLocation[]>([]);
   const [showCitySelector, setShowCitySelector] = useState(false);
+  const [showAddressFields, setShowAddressFields] = useState(false);
   const lastZip = useRef<string>('');
 
   useEffect(() => {
@@ -65,73 +66,99 @@ const VCardAddressInfo: React.FC<VCardAddressInfoProps> = ({ formData, onChange 
 
   return (
     <div className="space-y-4">
-      <div className="flex items-start gap-3">
-        <h3 className="text-lg font-medium text-gray-700">Cím (opcionális)</h3>
-        <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
-          Ajánlott megadni az egy kattintásos útvonaltervezéshez
-        </div>
-      </div>
-      
-      <div className="bg-blue-50 p-4 rounded-lg flex items-start gap-3">
-        <MapPin className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-        <p className="text-sm text-blue-600">
-          A megadott címre a névjegykártyán egy kattintással elindítható a navigáció 
-          Google Maps vagy Apple Maps alkalmazással.
-        </p>
-      </div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="relative">
-          <Input
-            label="Irányítószám (opcionális)"
-            value={formData.zipcode}
-            onChange={(e) => onChange('zipcode', e.target.value)}
-            placeholder="1234"
-          />
-          {isLoading && formData.zipcode.length === 4 && (
-            <div className="absolute right-3 top-8">
-              <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
-            </div>
+      {/* Mobile View */}
+      <div className="block lg:hidden">
+        <h3 className="text-lg font-medium text-gray-700 mb-4">Cím megadása</h3>
+        <Button
+          type="button" 
+          className="w-full py-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 text-blue-700 rounded-xl border border-blue-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2"
+          onClick={() => setShowAddressFields(!showAddressFields)}
+        >
+          {showAddressFields ? (
+            <>
+              <Minus className="w-4 h-4 text-blue-600" />
+              Cím elrejtése
+            </>
+          ) : (
+            <>
+              <Plus className="w-4 h-4 text-blue-600" />
+              Cím hozzáadása
+            </>
           )}
-        </div>
+        </Button>
+      </div>
 
-        <div className="relative">
-          <Input
-            label="Város (opcionális)"
-            value={formData.city}
-            onChange={(e) => onChange('city', e.target.value)}
-            placeholder="Budapest"
-          />
-          {showCitySelector && cities.length > 1 && (
-            <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200">
-              <div className="p-2">
-                <p className="text-sm text-gray-600 mb-2">
-                  Több település tartozik ehhez az irányítószámhoz:
-                </p>
-                <div className="space-y-1">
-                  {cities.map((city) => (
-                    <Button
-                      key={city.name}
-                      variant="ghost"
-                      className="w-full justify-start text-left"
-                      onClick={() => handleSelectCity(city)}
-                    >
-                      {city.name}
-                    </Button>
-                  ))}
+      {/* Desktop View or Mobile Expanded */}
+      <div className={`space-y-4 ${!showAddressFields ? 'hidden lg:block' : ''}`}>
+        <div className="space-y-3">
+          <h3 className="text-lg font-medium text-gray-700">Cím megadása</h3>
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-100">
+            <div className="flex items-start gap-3">
+              <MapPin className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-blue-700">
+                Ügyfelei egy kattintással útvonalat tervezhetnek önhöz.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          <div className="relative">
+            <Input
+              label="Irányítószám (opcionális)"
+              value={formData.zipcode}
+              onChange={(e) => onChange('zipcode', e.target.value)}
+              placeholder="1234"
+              className="text-sm text-center sm:text-left"
+            />
+            {isLoading && formData.zipcode.length === 4 && (
+              <div className="absolute right-3 top-8">
+                <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+              </div>
+            )}
+          </div>
+
+          <div className="relative">
+            <Input
+              label="Város (opcionális)"
+              value={formData.city}
+              onChange={(e) => onChange('city', e.target.value)}
+              placeholder="Budapest"
+              className="text-sm text-center sm:text-left"
+            />
+            {showCitySelector && cities.length > 1 && (
+              <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200">
+                <div className="p-2">
+                  <p className="text-xs sm:text-sm text-gray-600 mb-2">
+                    Több település tartozik ehhez az irányítószámhoz:
+                  </p>
+                  <div className="space-y-1">
+                    {cities.map((city) => (
+                      <Button
+                        key={city.name}
+                        variant="ghost"
+                        className="w-full justify-start text-left text-sm py-2"
+                        onClick={() => handleSelectCity(city)}
+                      >
+                        {city.name}
+                      </Button>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
 
-        <Input
-          className="sm:col-span-2"
-          label="Utca, házszám (opcionális)"
-          value={formData.street}
-          onChange={(e) => onChange('street', e.target.value)}
-          placeholder="Példa utca 123."
-        />
+          <div className="col-span-2">
+            <Input
+              label="Utca, házszám (opcionális)"
+              value={formData.street}
+              onChange={(e) => onChange('street', e.target.value)}
+              placeholder="Példa utca 123."
+              className="text-sm text-center sm:text-left"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
