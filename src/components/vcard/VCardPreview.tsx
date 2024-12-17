@@ -18,9 +18,10 @@ interface VCardPreviewProps {
   formData: VCardFormData;
   vCardString: string;
   isValid: boolean;
+  isFloating?: boolean;
 }
 
-const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isValid }) => {
+const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isValid, isFloating }) => {
   // Generate vCard string with proper Hungarian name format
   const generateVCardString = () => {
     const { familyName, givenNames } = splitHungarianName(formData.name);
@@ -58,7 +59,7 @@ END:VCARD`;
   );
 
   return (
-    <div className="relative mx-auto w-full max-w-[320px]">
+    <div className={`relative mx-auto w-full ${isFloating ? 'max-w-[400px]' : 'max-w-[320px]'}`}>
       <div className="relative border-[12px] border-black rounded-[3rem] shadow-xl">
         <div className="relative bg-white h-[500px] sm:h-[600px] rounded-[2rem] overflow-hidden">
           {/* Header with gradient background */}

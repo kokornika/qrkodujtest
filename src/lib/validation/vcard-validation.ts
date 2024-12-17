@@ -5,6 +5,12 @@ export interface ValidationError {
   message: string;
 }
 
+export function validatePhoneNumber(phone: string): boolean {
+  if (!phone) return false;
+  const cleanPhone = phone.replace(/[^\d+]/g, '');
+  return cleanPhone.length >= 11 && /^(\+36|06|36)?[ -]?(20|30|31|50|70)[ -]?\d{3}[ -]?\d{4}$/.test(cleanPhone);
+}
+
 export function validateEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);

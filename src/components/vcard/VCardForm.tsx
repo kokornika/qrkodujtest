@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { VCardFormData, defaultVCardData } from '../../types/vcard';
 import VCardPersonalInfo from './VCardPersonalInfo';
 import VCardContactInfo from './VCardContactInfo';
@@ -6,7 +7,8 @@ import VCardAddressInfo from './VCardAddressInfo';
 import VCardAppearance from './VCardAppearance';
 import VCardSocialLinks from './VCardSocialLinks';
 import VCardPreview from './VCardPreview';
-import { ValidationError, validateVCardForm, formatPhone } from '../../lib/validation/vcard-validation';
+import FloatingPreview from './FloatingPreview';
+import { ValidationError, validateVCardForm, formatPhone, validateEmail, validatePhoneNumber } from '../../lib/validation/vcard-validation';
 import { ArrowDown } from 'lucide-react';
 import OrderDialog from './OrderDialog';
 
@@ -15,10 +17,58 @@ const VCardForm: React.FC = () => {
   const [errors, setErrors] = useState<ValidationError[]>([]);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [showOrderDialog, setShowOrderDialog] = useState(false);
+  const [showValidationError, setShowValidationError] = useState(false);
   const [hasStartedEditing, setHasStartedEditing] = useState(false);
+  const [showFloatingPreview, setShowFloatingPreview] = useState(false);
+  const [hasShownPreview, setHasShownPreview] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  const showTemporaryPreview = () => {
+    if (hasShownPreview) return;
+    
+    setShowFloatingPreview(true);
+    setHasShownPreview(true);
+
+    setTimeout(() => {
+      setShowFloatingPreview(false);
+    }, 5000);
+  };
+
+
+  const isFormValid = () => {
+    return (
+      formData.name.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      formData.phoneMobile.trim() !== '' &&
+      validateEmail(formData.email) &&
+      validatePhoneNumber(formData.phoneMobile)
+    );
+  };
+
+  const handleOrderClick = () => {
+    if (isFormValid()) {
+      setShowOrderDialog(true);
+      setShowValidationError(false);
+    } else {
+      setShowValidationError(true);
+      // Érintettnek jelöljük a kötelező mezőket
+      setTouched(prev => ({
+        ...prev,
+        name: true,
+        email: true,
+        phoneMobile: true
+      }));
+    }
+  };
 
   const handleChange = (field: keyof VCardFormData, value: any) => {
     let processedValue = value;
+
+    // Show preview on first interaction with any field
+    if (!hasInteracted && value.trim() !== '') {
+      setHasInteracted(true);
+      showTemporaryPreview();
+    }
 
     if (field === 'phoneMobile' || field === 'phoneWork' || field === 'phonePrivate') {
       processedValue = formatPhone(value);
@@ -131,13 +181,13 @@ const VCardForm: React.FC = () => {
             </div>
 
             <div className="space-y-6 sm:space-y-8">
-              {/* Reordered sections for better mobile flow */}
-              <VCardAppearance formData={formData} onChange={handleChange} />
+              {/* Required fields first */}
               <VCardPersonalInfo 
                 formData={formData} 
                 onChange={handleChange}
                 error={getFieldError('name')}
               />
+              
               <VCardContactInfo 
                 formData={formData} 
                 onChange={handleChange}
@@ -146,18 +196,33 @@ const VCardForm: React.FC = () => {
                   phoneMobile: getFieldError('phoneMobile')
                 }}
               />
+              
+              {/* Optional sections */}
+              <VCardAppearance formData={formData} onChange={handleChange} />
               <VCardAddressInfo formData={formData} onChange={handleChange} />
               <VCardSocialLinks formData={formData} onChange={handleChange} />
             </div>
             {/* Single Sticky CTA Button */}
             <div className={`fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 shadow-lg lg:static lg:mt-8 lg:p-0 lg:border-0 lg:shadow-none z-20 transition-all duration-300 ${hasStartedEditing ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 lg:translate-y-0 lg:opacity-100'}`}>
-              <button
-                onClick={() => setShowOrderDialog(true)}
-                className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-xl hover:shadow-2xl transition-all rounded-xl border-2 border-white/30 hover:scale-[1.02] animate-pulse"
-              >
-                <span className="mr-2">🎁</span>
-                Digitális névjegykártya elkészítése
-              </button>
+              <div className="space-y-3">
+                {showValidationError && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-600">
+                    Kérjük, töltse ki a kötelező mezőket (név, email, telefonszám) a folytatáshoz!
+                  </div>
+                )}
+                <button
+                  onClick={handleOrderClick}
+                  className={`w-full h-14 text-lg font-semibold text-white shadow-xl hover:shadow-2xl transition-all rounded-xl border-2 border-white/30 hover:scale-[1.02] ${
+                    isFormValid()
+                      ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 animate-pulse'
+                      : 'bg-gray-400 hover:bg-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  <span className="mr-2">🎁</span>
+                  Digitális névjegykártya elkészítése
+                  <ArrowRight className="ml-2 h-5 w-5 inline-block" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -174,10 +239,19 @@ const VCardForm: React.FC = () => {
       <div className="h-20 lg:hidden" />
       {/* Add padding at bottom for mobile fixed CTA */}
       <div className="h-20 lg:hidden" />
+      <FloatingPreview 
+        formData={formData} 
+        isVisible={showFloatingPreview}
+      />
       <OrderDialog 
         isOpen={showOrderDialog}
-        onClose={() => setShowOrderDialog(false)}
+        onClose={() => {
+          setShowOrderDialog(false);
+          setShowValidationError(false);
+        }}
         formData={formData}
+        vCardString={generateVCardString()}
+        isValid={errors.length === 0}
       />
     </>
   );

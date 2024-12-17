@@ -81,7 +81,7 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60]" />
-        <Dialog.Content className="fixed inset-x-0 bottom-0 sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-full sm:max-w-md bg-white rounded-t-2xl sm:rounded-2xl shadow-xl z-[60] h-[560px] sm:h-[640px]">
+        <Dialog.Content className="fixed inset-x-0 bottom-0 sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-full sm:max-w-md bg-white rounded-t-2xl sm:rounded-2xl shadow-xl z-[60] h-[600px] sm:h-[680px]">
           <div className="sticky top-0 bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center rounded-t-2xl">
             <Dialog.Title className="text-xl font-bold text-gray-900">
               Digitális névjegykártya megrendelése
@@ -158,6 +158,10 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
             </div>
 
             <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-lg py-2">
+                <span>🏢 100%-ban magyar vállalkozás</span>
+              </div>
+
               <Button
                 onClick={handleOrder}
                 className="w-full h-14 text-lg font-medium bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl transition-all rounded-lg relative overflow-hidden"
@@ -201,7 +205,7 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
               </div>
               
               {/* Payment Methods */}
-              <div className="flex items-center justify-center gap-4 mt-3 py-2">
+              <div className="flex items-center justify-center gap-4 mt-3 py-4 bg-white">
                 <img 
                   src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
                   alt="Apple Pay"

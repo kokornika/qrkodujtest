@@ -24,12 +24,14 @@ const HeroSection = () => {
             <span className="text-white/90 text-sm">Több mint 300+ elégedett ügyfél</span>
           </div>
           
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight">
-            Digitális Névjegykártya<br/>
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
-              Professzionális Megjelenés
-            </span>
-          </h1>
+          <div className="max-w-3xl mx-auto text-center space-y-8">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight">
+              Digitális Névjegykártya<br/>
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text mt-4 block">
+                21. Századi Üzleti Megjelenés
+              </span>
+            </h2>
+          </div>
           
           <p className="text-lg sm:text-xl text-indigo-100/90 leading-relaxed max-w-2xl mx-auto px-4">
             Tegye egyedivé üzleti megjelenését modern digitális névjegykártyával! 
@@ -59,7 +61,7 @@ const HeroSection = () => {
 
           <div className="mt-12 pt-8 border-t border-white/10">
             <p className="text-white/80 text-sm mb-4">Csatlakozzon elégedett ügyfeleinkhez</p>
-            <div className="flex flex-wrap justify-center gap-8 text-white/60 text-sm">
+            <div className="flex flex-wrap justify-center gap-6 text-white/60 text-sm">
               <div className="flex items-center gap-2">
                 <Star className="w-4 h-4 text-yellow-400" />
                 <span>4.9/5 értékelés</span>
@@ -71,6 +73,10 @@ const HeroSection = () => {
               <div className="flex items-center gap-2">
                 <Leaf className="w-4 h-4 text-green-400" />
                 <span>100% környezetbarát</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-4 h-4 text-red-400">🏢</span>
+                <span>100%-ban magyar vállalkozás Budapestről</span>
               </div>
             </div>
           </div>

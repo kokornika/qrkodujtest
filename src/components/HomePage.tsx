@@ -12,6 +12,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 overflow-hidden">
       <HeroSection />
+      <h1 className="sr-only">Digitális Névjegykártya Készítés és QR Kód Generálás</h1>
       <BusinessAdvantages />
       <ComparisonSection />
       <ROICalculator />

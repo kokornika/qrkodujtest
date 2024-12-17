@@ -1,7 +1,7 @@
 {
-  "name": "QRNevjegy - Digitális névjegykártya készítés",
+  "name": "Digitális Névjegykártya Készítés | QRNevjegy",
   "short_name": "QRNevjegy",
-  "description": "Ingyenes QR kód generálás és digitális névjegykártya készítés. Környezetbarát és költséghatékony megoldás üzleti kapcsolataihoz.",
+  "description": "Digitális névjegykártya készítés egyszerűen és gyorsan. Modern, környezetbarát és költséghatékony megoldás üzleti kapcsolataihoz.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

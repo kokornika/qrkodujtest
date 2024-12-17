@@ -10,8 +10,8 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({
-  title = 'QR kód generálás és digitális névjegykártya | QRNevjegy',
-  description = 'Ingyenes QR kód generálás és digitális névjegykártya készítés. Környezetbarát és költséghatékony megoldás üzleti kapcsolataihoz.',
+  title = 'Digitális Névjegykártya Készítés | Modern Üzleti Megoldás | QRNevjegy',
+  description = 'Digitális névjegykártya készítés egyszerűen és gyorsan. Modern, környezetbarát és költséghatékony megoldás üzleti kapcsolataihoz. Készítse el saját digitális névjegyét most!',
   image = 'https://qrnevjegy.hu/og-image.jpg',
   article = false,
   schema,
@@ -25,7 +25,16 @@ const SEO: React.FC<SEOProps> = ({
     "@type": "WebSite",
     "name": "QRNevjegy",
     "url": "https://qrnevjegy.hu",
-    "description": description,
+    "description": "Professzionális digitális névjegykártya készítő szolgáltatás. Környezetbarát és modern megoldás üzleti kapcsolataihoz.",
+    "keywords": [
+      "digitális névjegykártya",
+      "elektronikus névjegy",
+      "online névjegykártya",
+      "üzleti névjegy",
+      "digitális kapcsolatépítés",
+      "modern névjegy",
+      "környezetbarát névjegykártya"
+    ],
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://qrnevjegy.hu/search?q={search_term_string}",
@@ -39,6 +48,7 @@ const SEO: React.FC<SEOProps> = ({
     "@type": "Organization",
     "name": "QRNevjegy",
     "url": "https://qrnevjegy.hu",
+    "description": "Digitális névjegykártya készítő szolgáltatás - Modern megoldás üzleti kapcsolatépítéshez",
     "logo": "https://qrnevjegy.hu/logo.png",
     "sameAs": [
       "https://facebook.com/qrnevjegy",
@@ -48,8 +58,18 @@ const SEO: React.FC<SEOProps> = ({
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+36-30-355-1793",
+      "email": "info@qrnevjegy.hu",
       "contactType": "customer service",
       "availableLanguage": "Hungarian"
+    },
+    "offers": {
+      "@type": "Offer",
+      "name": "Digitális Névjegykártya Szolgáltatás",
+      "description": "Professzionális digitális névjegykártya készítés vállalkozásoknak és magánszemélyeknek",
+      "priceCurrency": "HUF",
+      "price": "5990",
+      "validFrom": "2024-01-01",
+      "url": "https://qrnevjegy.hu/vcard"
     }
   };
 
