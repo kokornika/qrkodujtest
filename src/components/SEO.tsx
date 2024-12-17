@@ -20,7 +20,57 @@ const SEO: React.FC<SEOProps> = ({
 
   const schemas = [
     generateOrganizationSchema(),
-    generateProductSchema(),
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Digitális Névjegykártya",
+      "description": "Modern, környezetbarát digitális névjegykártya szolgáltatás QR kóddal",
+      "image": [
+        "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1200&h=630",
+        "https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&q=80&w=1200&h=630",
+        "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200&h=630"
+      ],
+      "brand": {
+        "@type": "Brand",
+        "name": "QRNevjegy"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "5990",
+        "priceCurrency": "HUF",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@type": "Organization",
+          "name": "QRNevjegy"
+        },
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": "0",
+            "currency": "HUF"
+          },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": {
+              "@type": "QuantitativeValue",
+              "minValue": "0",
+              "maxValue": "1",
+              "unitCode": "DAY"
+            }
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "returnWindow": {
+            "@type": "QuantitativeValue",
+            "value": "14",
+            "unitCode": "DAY"
+          }
+        }
+      }
+    },
     generateBreadcrumbSchema(pathname)
   ];
 
