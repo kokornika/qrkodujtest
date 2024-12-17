@@ -13,6 +13,7 @@ import BlogPost1 from './pages/BlogPost1';
 import BlogPost2 from './pages/BlogPost2';
 import BlogPost3 from './pages/BlogPost3';
 import BlogPost4 from './pages/BlogPost4';
+import BlogPost5 from './pages/BlogPost5'; // Add new import
 import Guide from './pages/Guide';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
@@ -34,11 +35,6 @@ function App() {
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
             <link rel="manifest" href="/site.webmanifest" />
-            
-            {/* Preload critical resources */}
-            <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           </Helmet>
           
           <Header />
@@ -59,6 +55,10 @@ function App() {
               <Route path="/blog/2" element={<BlogPost2 />} />
               <Route path="/blog/3" element={<BlogPost3 />} />
               <Route path="/blog/4" element={<BlogPost4 />} />
+              <Route 
+                path="/blog/digitalis-nevjegykartya-keszites-vallalkozasoknak" 
+                element={<BlogPost5 />} 
+              />
               <Route path="/success" element={<PaymentSuccess />} />
               <Route path="/cancel" element={<PaymentCancel />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />

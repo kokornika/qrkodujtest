@@ -1,8 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, QrCode, CreditCard, Smartphone, Share2 } from 'lucide-react';
+import { ArrowRight, QrCode, CreditCard, Smartphone, Share2, Briefcase } from 'lucide-react';
 
 const blogPosts = [
+  {
+    id: 5,
+    slug: 'digitalis-nevjegykartya-keszites-vallalkozasoknak',
+    title: 'Digitális Névjegykártya Készítés Vállalkozásoknak: Modern Megoldás a Kapcsolatépítéshez',
+    excerpt: 'Fedezze fel, hogyan teheti hatékonyabbá vállalkozása kapcsolatépítését modern digitális névjegykártyákkal. Professzionális megoldások az üzleti sikerhez.',
+    icon: Briefcase,
+    readTime: '8 perc',
+    keywords: ['vállalkozás', 'digitális névjegy', 'üzleti kapcsolatépítés', 'modern marketing']
+  },
   {
     id: 1,
     title: 'A digitális névjegykártyák 5 előnye a hagyományos névjegyekkel szemben',
@@ -34,7 +43,7 @@ const blogPosts = [
     icon: Share2,
     readTime: '3 perc',
     keywords: ['névjegykártya tippek', 'digitális marketing', 'online jelenlét', 'üzleti profil']
-  },
+  }
 ];
 
 const Blog = () => {
@@ -85,7 +94,7 @@ const Blog = () => {
                   ))}
                 </div>
                 <Link
-                  to={`/blog/${post.id}`}
+                  to={`/blog/${post.slug || post.id}`}
                   className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium"
                 >
                   Tovább olvasom
