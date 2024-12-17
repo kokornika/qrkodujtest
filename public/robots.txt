@@ -1,15 +1,15 @@
 User-agent: *
 Allow: /
 
-# Allow crawling of all content
+# Main pages - allow crawling
 Allow: /vcard
 Allow: /guide
 Allow: /blog
-Allow: /privacy
-Allow: /terms
 
-# Disallow crawling of success/cancel pages
+# Disallow crawling of transactional and legal pages
 Disallow: /success
 Disallow: /cancel
+Disallow: /privacy
+Disallow: /terms
 
 Sitemap: https://qrnevjegy.hu/sitemap.xml
