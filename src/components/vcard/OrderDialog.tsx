@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X, Loader2, Check, CreditCard, Star, Users, Lock, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -19,6 +19,18 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
   const [error, setError] = useState<string | null>(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const plan = PAYMENT_PLANS[0];
+
+  // GA4 esemény küldése amikor megnyílik a dialógus
+  useEffect(() => {
+    if (isOpen) {
+      // @ts-ignore
+      window.gtag?.('event', 'page_view', {
+        page_title: 'Megrendelés',
+        page_path: '/order',
+        page_location: window.location.href
+      });
+    }
+  }, [isOpen]);
 
   const validateForm = () => {
     if (!formData.email?.trim()) {
@@ -91,7 +103,7 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
             </Dialog.Close>
           </div>
 
-          <div className="p-6 space-y-4 bg-white h-[calc(100%-64px)]">
+          <div className="p-6 space-y-4 bg-white h-[calc(100%-64px)] overflow-y-auto">
             {error && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
                 <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
@@ -180,7 +192,7 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
                 )}
               </Button>
 
-              {/* Stripe Payment Text - Below button on mobile */}
+              {/* Stripe Payment Text */}
               <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mt-2">
                 <Lock className="w-4 h-4" />
                 <span>Biztonságos fizetés a Stripe rendszerén keresztül</span>
