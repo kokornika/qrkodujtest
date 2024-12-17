@@ -32,12 +32,13 @@ const VCardForm: React.FC = () => {
 
   const scrollToForm = () => {
     if (formRef.current) {
-      const offset = 80;
+      // Increased offset to scroll higher up
+      const offset = 120; // Increased from 80 to 120
       const elementPosition = formRef.current.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
       
       window.scrollTo({
-        top: offsetPosition,
+        top: Math.max(0, offsetPosition), // Ensure we don't scroll past the top
         behavior: 'smooth'
       });
     }

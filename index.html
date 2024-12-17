@@ -1,19 +1,20 @@
 <!doctype html>
 <html lang="hu">
   <head>
-   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16811073506"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16811073506"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  // Google Ads konfiguráció
-  gtag('config', 'AW-16811073506');
+      // Google Ads konfiguráció
+      gtag('config', 'AW-16811073506');
 
-  // Google Analytics 4 konfiguráció
-  gtag('config', 'G-WD21PX26HQ');
-</script>
+      // Google Analytics 4 konfiguráció
+      gtag('config', 'G-WD21PX26HQ');
+    </script>
+
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -26,21 +27,63 @@
     
     <title>Digitális Névjegykártya Készítés | Modern Üzleti Megoldás | QRNevjegy</title>
     
-    <!-- SEO meta tags -->
+    <!-- Facebook Meta Tags -->
     <meta property="og:title" content="Digitális Névjegykártya Készítés | Modern Üzleti Megoldás" />
-    <meta property="og:description" content="Digitális névjegykártya készítés egyszerűen és gyorsan. Modern megoldás üzleti kapcsolataihoz. Készítse el saját digitális névjegyét most!" />
+    <meta property="og:description" content="Digitális névjegykártya készítés egyszerűen és gyorsan. Modern megoldás üzleti kapcsolataihoz." />
     <meta property="og:url" content="https://qrnevjegy.hu" />
     <meta property="og:type" content="website" />
-    <link rel="canonical" href="https://qrnevjegy.hu" />
+    <meta property="og:image" content="https://qrnevjegy.hu/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="hu_HU" />
+    <meta property="og:site_name" content="QRNevjegy" />
+    <meta property="fb:app_id" content="your-fb-app-id" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@qrnevjegy" />
+    <meta name="twitter:title" content="Digitális Névjegykártya Készítés |A Modern Megoldás" />
+    <meta name="twitter:description" content="Digitális névjegykártya készítés egyszerűen és gyorsan. Modern megoldás üzleti kapcsolataihoz." />
+    <meta name="twitter:image" content="https://qrnevjegy.hu/og-image.jpg" />
+
+    <!-- Pinterest Meta Tags -->
+    <meta name="pinterest-rich-pin" content="true" />
     
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://images.unsplash.com" />
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://connect.facebook.net" />
+    <link rel="preconnect" href="https://platform.twitter.com" />
     
     <!-- Preload critical fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Facebook SDK -->
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId: 'your-fb-app-id',
+          xfbml: true,
+          version: 'v18.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/hu_HU/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- Twitter SDK -->
+    <script async src="https://platform.twitter.com/widgets.js"></script>
+
+    <!-- AddThis Sharing Buttons -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=your-addthis-id"></script>
   </head>
   <body>
     <div id="root">
