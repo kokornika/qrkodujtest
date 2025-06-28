@@ -19,7 +19,7 @@ const BlogPost6 = () => {
         {/* === BEVEZETŐ KÉP === */}
         <div className="prose prose-lg max-w-none">
           <img
-            src="https://images.unsplash.com/photo-1581094651308-968f0c8385e9?auto=format&fit=crop&q=80&w=1200&h=600"
+            src="https://i.imgur.com/eyOdxs6.jpeg"
             alt="Futurisztikus technológia és digitális trendek 2025-ben"
             className="w-full rounded-xl mb-8 shadow-lg"
           />
