@@ -14,6 +14,7 @@ const blogPosts = [
   },
   {
     id: 1,
+    slug: 'digitalis-nevjegykartyak-elonyei',
     title: 'A digitális névjegykártyák 5 előnye a hagyományos névjegyekkel szemben',
     excerpt: 'Fedezze fel, hogyan teheti hatékonyabbá kapcsolatépítését modern digitális névjegykártyákkal. Környezetbarát, költséghatékony és professzionális megoldás üzleti kapcsolataihoz.',
     icon: CreditCard,
@@ -22,6 +23,7 @@ const blogPosts = [
   },
   {
     id: 2,
+    slug: 'qr-kodok-a-modern-uzletben',
     title: 'QR kódok a modern üzleti életben: Több mint csak egy vonalkód',
     excerpt: 'Ismerje meg a QR kódok sokoldalú felhasználási lehetőségeit és azok üzleti előnyeit. Hatékony megoldások kapcsolatépítésre és információmegosztásra.',
     icon: QrCode,
@@ -30,6 +32,7 @@ const blogPosts = [
   },
   {
     id: 3,
+    slug: 'nevjegykeszites-jovoje-trendek',
     title: 'A névjegykészítés jövője: Trendek és innovációk',
     excerpt: 'Pillantson be a névjegykészítés jövőjébe, ahol a digitális és fizikai világ találkozik. Innovatív megoldások a modern üzleti kapcsolatépítéshez.',
     icon: Smartphone,
@@ -38,11 +41,21 @@ const blogPosts = [
   },
   {
     id: 4,
+    slug: 'praktikus-tippek-digitalis-nevjegyekhez',
     title: 'Praktikus tippek a digitális névjegyek hatékony használatához',
     excerpt: 'Gyakorlati tanácsok és trükkök, amelyekkel maximalizálhatja digitális névjegye hatékonyságát. Professzionális megjelenés és egyszerű kezelhetőség.',
     icon: Share2,
     readTime: '3 perc',
     keywords: ['névjegykártya tippek', 'digitális marketing', 'online jelenlét', 'üzleti profil']
+  },
+  {
+    id: 6,
+    slug: 'digitalis-nevjegykartya-trendek-2025',
+    title: 'Digitális Névjegykártya és QR Kód Trendek 2025-ben',
+    excerpt: 'Fedezze fel, milyen újdonságok várhatók 2025-ben a digitális névjegyek és QR kódok terén, és hogyan használhatja ki ezeket vállalkozásában.',
+    icon: Smartphone,
+    readTime: '7 perc',
+    keywords: ['2025 trendek', 'digitális névjegykártya', 'qr kód', 'új technológiák']
   }
 ];
 

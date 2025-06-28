@@ -13,7 +13,8 @@ import BlogPost1 from './pages/BlogPost1';
 import BlogPost2 from './pages/BlogPost2';
 import BlogPost3 from './pages/BlogPost3';
 import BlogPost4 from './pages/BlogPost4';
-import BlogPost5 from './pages/BlogPost5'; // Add new import
+import BlogPost5 from './pages/BlogPost5';
+import BlogPost6 from './pages/BlogPost6';
 import Guide from './pages/Guide';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
@@ -51,14 +52,12 @@ function App() {
                 </div>
               } />
               <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/1" element={<BlogPost1 />} />
-              <Route path="/blog/2" element={<BlogPost2 />} />
-              <Route path="/blog/3" element={<BlogPost3 />} />
-              <Route path="/blog/4" element={<BlogPost4 />} />
-              <Route 
-                path="/blog/digitalis-nevjegykartya-keszites-vallalkozasoknak" 
-                element={<BlogPost5 />} 
-              />
+              <Route path="/blog/digitalis-nevjegykartyak-elonyei" element={<BlogPost1 />} />
+              <Route path="/blog/qr-kodok-a-modern-uzletben" element={<BlogPost2 />} />
+              <Route path="/blog/nevjegykeszites-jovoje-trendek" element={<BlogPost3 />} />
+              <Route path="/blog/praktikus-tippek-digitalis-nevjegyekhez" element={<BlogPost4 />} />
+              <Route path="/blog/digitalis-nevjegykartya-keszites-vallalkozasoknak" element={<BlogPost5 />} />
+              <Route path="/blog/digitalis-nevjegykartya-trendek-2025" element={<BlogPost6 />} />
               <Route path="/success" element={<PaymentSuccess />} />
               <Route path="/cancel" element={<PaymentCancel />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
