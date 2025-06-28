@@ -42,7 +42,7 @@ async function generateSitemap() {
     const sitemapXML = await streamToPromise(smStream);
 
     // Write the sitemap to the public directory
-    const writeStream = createWriteStream(resolve('dist', 'sitemap.xml'));
+    const writeStream = createWriteStream(resolve('public', 'sitemap.xml'));
     writeStream.write(sitemapXML.toString());
     writeStream.end();
 
