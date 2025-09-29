@@ -1,0 +1,181 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, QrCode, CreditCard, Smartphone, Share2, Briefcase, BarChart3, TrendingUp } from 'lucide-react';
+
+const blogPosts = [
+  {
+    id: 10,
+    slug: 'qr-kod-nevjegykartya-keszites-minden-amit-tudni-kell',
+    title: 'QR kód névjegykártya készítés: minden amit tudni kell (2025)',
+    excerpt: 'QR kód névjegykártya készítés A-tól Z-ig. Ismerje meg a statikus és dinamikus kódok közti döntő különbséget és készítsen profi, mérhető névjegyet még ma!',
+    icon: QrCode,
+    readTime: '20 perc',
+    keywords: ['QR kód készítés', 'statikus vs dinamikus', 'technikai útmutató', 'névjegykártya']
+  },
+  {
+    id: 9,
+    slug: 'digitalis-nevjegykartyak-10-legnagyobb-elonye-vallalkozasoknak',
+    title: 'A digitális névjegykártyák 10 legnagyobb előnye vállalkozásoknak (2025-ös elemzés)',
+    excerpt: 'Fedezze fel a digitális névjegykártya 10 legfontosabb előnyét! Költségcsökkentés, mérhető ROI, és hatékonyabb marketing egyetlen eszközben. Növelje bevételét!',
+    icon: TrendingUp,
+    readTime: '18 perc',
+    keywords: ['digitális névjegy előnyei', 'vállalkozás', 'ROI', 'marketing']
+  },
+  {
+    id: 8,
+    slug: 'digitalis-nevjegykartya-vs-hagyomanyos-nevjegy-osszehasonlitas',
+    title: 'Digitális névjegykártya vs. hagyományos névjegy: teljes összehasonlítás (2025)',
+    excerpt: 'Digitális vagy hagyományos névjegykártya? Mélyreható, 2025-ös elemzésünk minden szempontot megvizsgál: költség, ROI, hatékonyság. Döntsön adatok alapján!',
+    icon: BarChart3,
+    readTime: '15 perc',
+    keywords: ['digitális vs hagyományos', 'összehasonlítás', 'költség elemzés', 'ROI']
+  },
+  {
+    id: 7,
+    slug: 'hogyan-keszitsunk-digitalis-nevjegykartyat-lepesrol-lepesre',
+    title: 'Hogyan készítsünk digitális névjegykártyát lépésről lépésre: A teljes útmutató vállalkozóknak (2025)',
+    excerpt: 'Készítse el percek alatt professzionális digitális névjegykártyáját! Részletes, 2025-ös útmutatónk lépésről lépésre segít, hogy kitűnjön a tömegből.',
+    icon: Briefcase,
+    readTime: '12 perc',
+    keywords: ['digitális névjegy készítés', 'QR kód generálás', 'útmutató', 'vállalkozók']
+  },
+  {
+    id: 5,
+    slug: 'digitalis-nevjegykartya-keszites-vallalkozasoknak',
+    title: 'Digitális Névjegykártya Készítés Vállalkozásoknak: Modern Megoldás a Kapcsolatépítéshez',
+    excerpt: 'Fedezze fel, hogyan teheti hatékonyabbá vállalkozása kapcsolatépítését modern digitális névjegykártyákkal. Professzionális megoldások az üzleti sikerhez.',
+    icon: Briefcase,
+    readTime: '8 perc',
+    keywords: ['vállalkozás', 'digitális névjegy', 'üzleti kapcsolatépítés', 'modern marketing']
+  },
+  {
+    id: 1,
+    slug: 'digitalis-nevjegykartyak-elonyei',
+    title: 'A digitális névjegykártyák 5 előnye a hagyományos névjegyekkel szemben',
+    excerpt: 'Fedezze fel, hogyan teheti hatékonyabbá kapcsolatépítését modern digitális névjegykártyákkal. Környezetbarát, költséghatékony és professzionális megoldás üzleti kapcsolataihoz.',
+    icon: CreditCard,
+    readTime: '5 perc',
+    keywords: ['digitális névjegykártya', 'online névjegy', 'elektronikus névjegy', 'környezetbarát névjegy']
+  },
+  {
+    id: 2,
+    slug: 'qr-kodok-a-modern-uzletben',
+    title: 'QR kódok a modern üzleti életben: Több mint csak egy vonalkód',
+    excerpt: 'Ismerje meg a QR kódok sokoldalú felhasználási lehetőségeit és azok üzleti előnyeit. Hatékony megoldások kapcsolatépítésre és információmegosztásra.',
+    icon: QrCode,
+    readTime: '4 perc',
+    keywords: ['qr kód készítés', 'qr kód generálás', 'üzleti qr kód', 'dinamikus qr kód']
+  },
+  {
+    id: 3,
+    slug: 'nevjegykeszites-jovoje-trendek',
+    title: 'A névjegykészítés jövője: Trendek és innovációk',
+    excerpt: 'Pillantson be a névjegykészítés jövőjébe, ahol a digitális és fizikai világ találkozik. Innovatív megoldások a modern üzleti kapcsolatépítéshez.',
+    icon: Smartphone,
+    readTime: '6 perc',
+    keywords: ['modern névjegykártya', 'digitális kapcsolatépítés', 'üzleti networking', 'smart névjegy']
+  },
+  {
+    id: 4,
+    slug: 'praktikus-tippek-digitalis-nevjegyekhez',
+    title: 'Praktikus tippek a digitális névjegyek hatékony használatához',
+    excerpt: 'Gyakorlati tanácsok és trükkök, amelyekkel maximalizálhatja digitális névjegye hatékonyságát. Professzionális megjelenés és egyszerű kezelhetőség.',
+    icon: Share2,
+    readTime: '3 perc',
+    keywords: ['névjegykártya tippek', 'digitális marketing', 'online jelenlét', 'üzleti profil']
+  },
+  {
+    id: 6,
+    slug: 'digitalis-nevjegykartya-trendek-2025',
+    title: 'Digitális Névjegykártya és QR Kód Trendek 2025-ben',
+    excerpt: 'Fedezze fel, milyen újdonságok várhatók 2025-ben a digitális névjegyek és QR kódok terén, és hogyan használhatja ki ezeket vállalkozásában.',
+    icon: Smartphone,
+    readTime: '7 perc',
+    keywords: ['2025 trendek', 'digitális névjegykártya', 'qr kód', 'új technológiák']
+  }
+];
+
+const Blog = () => {
+  return (
+    <div className="min-h-screen bg-gray-50 pt-16">
+      {/* Hero section */}
+      <div className="bg-indigo-600 text-white py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4">
+              Digitális Névjegy Blog
+            </h1>
+            <p className="text-indigo-100 text-lg">
+              Fedezze fel a digitális névjegyek és QR kódok világát. Szakértői
+              tippek, trendek és gyakorlati tanácsok.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Blog posts */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {blogPosts.map((post) => (
+            <article
+              key={post.id}
+              className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="p-6">
+                <div className="flex items-center mb-4">
+                  <post.icon className="w-8 h-8 text-indigo-600" />
+                  <span className="ml-2 text-sm text-gray-500">
+                    {post.readTime} olvasás
+                  </span>
+                </div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                  {post.title}
+                </h2>
+                <p className="text-gray-600 mb-4">{post.excerpt}</p>
+                <div className="mb-4 flex flex-wrap gap-2">
+                  {post.keywords.map((keyword, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm text-gray-600"
+                    >
+                      #{keyword}
+                    </span>
+                  ))}
+                </div>
+                <Link
+                  to={`/blog/${post.slug || post.id}`}
+                  className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium"
+                >
+                  Tovább olvasom
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* CTA section */}
+        <div className="mt-16 bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-2xl shadow-xl">
+          <div className="px-6 py-12 sm:px-12 sm:py-16 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+              Készen áll a digitális átállásra?
+            </h2>
+            <p className="text-indigo-100 mb-8 max-w-2xl mx-auto">
+              Készítse el saját digitális névjegykártyáját most, és lépjen be a
+              modern kapcsolatépítés világába!
+            </p>
+            <Link
+              to="/vcard"
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 transition-colors"
+            >
+              Névjegykártya készítése
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Blog;
