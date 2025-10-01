@@ -10,11 +10,11 @@ import { OrderError, ValidationError } from '../../lib/errors/order-errors';
 
 interface OrderDialogProps {
   isOpen: boolean;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
   formData: VCardFormData;
 }
 
-const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) => {
+const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onOpenChange, formData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // Terms are accepted implicitly by placing the order
@@ -85,7 +85,7 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onClose, formData }) 
   };
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={onClose}>
+    <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60]" />
         <Dialog.Content className="fixed inset-x-0 bottom-0 sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-full sm:max-w-md bg-white rounded-t-2xl sm:rounded-2xl shadow-xl z-[60] max-h-[90vh] flex flex-col">

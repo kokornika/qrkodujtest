@@ -29,7 +29,7 @@ const VCardContactInfo: React.FC<VCardContactInfoProps> = ({
           label="Mobil telefonszám"
           value={formData.phoneMobile}
           onChange={(e) => onChange('phoneMobile', e.target.value)}
-          placeholder="+36 ..."
+          placeholder="Telefonszám..."
           type="tel"
           error={errors.phoneMobile}
           className="text-center sm:text-left"
@@ -74,7 +74,7 @@ const VCardContactInfo: React.FC<VCardContactInfoProps> = ({
             label="Munkahelyi telefonszám (opcionális)"
             value={formData.phoneWork}
             onChange={(e) => onChange('phoneWork', e.target.value)}
-            placeholder="+36 ..."
+            placeholder="Telefonszám..."
             type="tel"
             className="text-center sm:text-left"
           />
@@ -83,7 +83,7 @@ const VCardContactInfo: React.FC<VCardContactInfoProps> = ({
             label="Privát telefonszám (opcionális)"
             value={formData.phonePrivate}
             onChange={(e) => onChange('phonePrivate', e.target.value)}
-            placeholder="+36 ..."
+            placeholder="Telefonszám..."
             type="tel"
             className="text-center sm:text-left"
           />

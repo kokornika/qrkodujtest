@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { Button } from '../ui/button';
 import VCardPersonalInfo from './VCardPersonalInfo';
@@ -9,7 +9,9 @@ import VCardSocialLinks from './VCardSocialLinks';
 import VCardPreview from './VCardPreview';
 import FloatingPreview from './FloatingPreview';
 import OrderDialog from './OrderDialog';
+import ExitIntentPopup from './ExitIntentPopup';
 import { useVCardForm } from '../../lib/hooks/useVCardForm';
+import { useExitIntent } from '../../lib/hooks/useExitIntent';
 import { generateVCardString } from '../../lib/utils/vcard-generator';
 import VCardFormContent from './VCardFormContent';
 import VCardMobilePreview from './VCardMobilePreview';
@@ -29,6 +31,38 @@ const VCardForm: React.FC = () => {
     setShowValidationError,
     isFormValid
   } = useVCardForm();
+
+  // Debug: Log when OrderDialog state changes
+  useEffect(() => {
+    console.log('OrderDialog is now:', showOrderDialog ? 'OPEN' : 'CLOSED');
+  }, [showOrderDialog]);
+
+  // Exit intent hook - only enabled when order dialog is open
+  const { showExitIntent, closeExitIntent, openExitIntent } = useExitIntent({
+    enabled: showOrderDialog, // Only active when OrderDialog is visible
+    sensitivity: 30,
+    delay: 200
+  });
+
+  // Debug: Log when exit intent state changes
+  useEffect(() => {
+    if (showExitIntent) {
+      console.log('EXIT INTENT POPUP SHOULD BE VISIBLE NOW!');
+    }
+  }, [showExitIntent]);
+
+  // Debug helper: Add to window object for testing
+  useEffect(() => {
+    // @ts-ignore
+    window.resetExitIntent = () => {
+      sessionStorage.removeItem('exitIntentShown');
+      console.log('Exit intent reset! You can now test it again.');
+    };
+    return () => {
+      // @ts-ignore
+      delete window.resetExitIntent;
+    };
+  }, []);
 
   const scrollToForm = () => {
     if (formRef.current) {
@@ -86,10 +120,21 @@ const VCardForm: React.FC = () => {
 
       <OrderDialog 
         isOpen={showOrderDialog}
-        onClose={() => {
-          setShowOrderDialog(false);
+        onOpenChange={(open) => {
+          console.log('OrderDialog onOpenChange:', open);
+          setShowOrderDialog(open);
+          if (!open) {
+            // User is closing the order dialog -> show exit intent immediately
+            openExitIntent();
+          }
           setShowValidationError(false);
         }}
+        formData={formData}
+      />
+
+      <ExitIntentPopup 
+        isOpen={showExitIntent}
+        onClose={closeExitIntent}
         formData={formData}
       />
     </>

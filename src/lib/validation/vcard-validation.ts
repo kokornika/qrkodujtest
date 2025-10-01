@@ -7,8 +7,9 @@ export interface ValidationError {
 
 export function validatePhoneNumber(phone: string): boolean {
   if (!phone) return false;
-  const cleanPhone = phone.replace(/[^\d+]/g, '');
-  return cleanPhone.length >= 11 && /^(\+36|06|36)?[ -]?(20|30|31|50|70)[ -]?\d{3}[ -]?\d{4}$/.test(cleanPhone);
+  // Elfogad bármilyen telefonszámot ami tartalmaz legalább 5 számjegyet
+  const cleanPhone = phone.replace(/[^\d]/g, '');
+  return cleanPhone.length >= 5;
 }
 
 export function validateEmail(email: string): boolean {
@@ -51,10 +52,10 @@ export function validateVCardForm(formData: {
       field: 'phoneMobile',
       message: 'A mobil telefonszám megadása kötelező'
     });
-  } else if (formData.phoneMobile.replace(/[^\d+]/g, '').length >= 11 && !validatePhoneNumber(formData.phoneMobile)) {
+  } else if (!validatePhoneNumber(formData.phoneMobile)) {
     errors.push({
       field: 'phoneMobile',
-      message: 'Érvénytelen telefonszám formátum'
+      message: 'Kérjük, adjon meg egy érvényes telefonszámot (minimum 5 számjegy)'
     });
   }
 

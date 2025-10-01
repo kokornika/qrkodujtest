@@ -47,9 +47,10 @@ export const useVCardForm = () => {
       showTemporaryPreview();
     }
 
-    if (field === 'phoneMobile' || field === 'phoneWork' || field === 'phonePrivate') {
-      processedValue = formatPhone(value);
-    }
+    // Ne formázzuk automatikusan a telefonszámot - hagyjuk, ahogy a felhasználó írja
+    // if (field === 'phoneMobile' || field === 'phoneWork' || field === 'phonePrivate') {
+    //   processedValue = formatPhone(value);
+    // }
 
     setFormData(prev => ({
       ...prev,

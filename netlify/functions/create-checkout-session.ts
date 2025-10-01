@@ -40,17 +40,23 @@ const handler: Handler = async (event) => {
     const randomStr = Math.random().toString(36).substring(2, 7);
     const orderId = `${timestamp}-${randomStr}`;
 
+    // Handle zero-decimal currency (e.g., HUF) correctly
+    const currency = 'huf' as const;
+    const zeroDecimalCurrencies = new Set(['bif','clp','djf','gnf','jpy','kmf','krw','mga','pyg','rwf','ugx','vnd','vuv','xaf','xof','xpf','huf']);
+    const isZeroDecimal = zeroDecimalCurrencies.has(currency);
+    const unitAmount = isZeroDecimal ? plan.price : plan.price * 100;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
           price_data: {
-            currency: 'huf',
+            currency,
             product_data: {
               name: plan.name,
               description: `Digitális névjegykártya - ${plan.period}`,
             },
-            unit_amount: plan.price * 100,
+            unit_amount: unitAmount,
           },
           quantity: 1,
         },
