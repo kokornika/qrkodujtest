@@ -73,7 +73,12 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ isOpen, onClose, form
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[70] animate-in fade-in duration-300" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] max-w-2xl bg-white rounded-2xl shadow-2xl z-[70] max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-300">
+        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] max-w-2xl bg-white rounded-2xl shadow-2xl z-[70] max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-300" aria-describedby="exit-intent-description">
+          <Dialog.Title className="sr-only">Különleges kedvezményes ajánlat</Dialog.Title>
+          <Dialog.Description id="exit-intent-description" className="sr-only">
+            Különleges kedvezményt biztosítunk Önnek - 4000 Ft helyett az eredeti 5990 Ft-os ár.
+          </Dialog.Description>
+          
           {/* Close Button */}
           <Dialog.Close 
             className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 bg-gray-100 rounded-full p-2 transition-all hover:scale-110 z-10"
