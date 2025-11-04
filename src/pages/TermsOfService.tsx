@@ -150,7 +150,7 @@ A QRNevjegy szolgáltatás igénybevétele egyedi, személyre szabott digitális
             
             <ul>
               <li>Email: kokornika@gmail.com</li>
-              <li>Telefon: +36303551793</li>
+             
               <li>Levelezési cím: 7171 Sióagárd, Deák u. 6.</li>
             </ul>
           </div>
