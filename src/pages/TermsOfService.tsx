@@ -17,8 +17,8 @@ const TermsOfService: React.FC = () => {
               Név: Kovács Kornél János E.V.<br />
               Székhely: 7171 Sióagárd, Deák u. 6.<br />
               Adószám: 48348474-1-37<br />
-              Email: kokornika@gmail.com<br />
-              Telefon: +36303551793
+              Email: info@qrnevjegy.hu<br />
+             
             </p>
 
             <h2>2. Általános rendelkezések</h2>
