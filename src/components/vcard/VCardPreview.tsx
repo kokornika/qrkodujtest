@@ -6,6 +6,9 @@ import { socialColors } from '../../lib/social-colors';
 import { socialIcons } from '../../lib/social-icons';
 import { generateHungarianMonogram, splitHungarianName } from '../../lib/utils/name-utils';
 import { Button } from '../ui/button';
+import { formatWebsiteDisplay } from '../../lib/utils/url-utils';
+import { formatPhoneDisplay } from '../../lib/utils/phone-utils';
+import { getContrastColor } from '../../lib/utils/color-utils';
 
 interface VCardPreviewProps {
   formData: VCardFormData;
@@ -15,6 +18,9 @@ interface VCardPreviewProps {
 }
 
 const VCardPreview: React.FC<VCardPreviewProps> = ({ formData, vCardString, isValid, isFloating }) => {
+  const { textColor, isLight } = getContrastColor(formData.backgroundColor);
+  const contactItemBg = isLight ? 'bg-black/10' : 'bg-white/10';
+
   // Generate vCard string with proper Hungarian name format
   const generateVCardString = () => {
     const { familyName, givenNames } = splitHungarianName(formData.name);
@@ -61,7 +67,7 @@ END:VCARD`;
               className="pt-8 px-6 pb-6"
               style={{
                 background: formData.backgroundType === 'gradient'
-                  ? `linear-gradient(135deg, ${formData.backgroundColor}, ${formData.backgroundColor}66)`
+                  ? `linear-gradient(135deg, ${formData.backgroundColor}, ${formData.backgroundColor}99)`
                   : formData.backgroundColor,
               }}
             >
@@ -87,10 +93,10 @@ END:VCARD`;
                     />
                   </div>
                 )}
-                <h1 className="text-white text-2xl font-semibold drop-shadow-sm">
+                <h1 className="text-2xl font-semibold drop-shadow-sm" style={{ color: textColor }}>
                   {formData.name || (!hasAnyData && 'Minta Tamás')}
                 </h1>
-                <p className="text-white/90 mt-2">
+                <p className="mt-2" style={{ color: textColor, opacity: 0.85 }}>
                   {[formData.position, formData.company].filter(Boolean).join(' - ') || (!hasAnyData && 'Marketingmenedzser - Tech Kft.')}
                 </p>
 
@@ -99,16 +105,18 @@ END:VCARD`;
                   {(formData.phoneMobile || !hasAnyData) && (
                     <a
                       href={formData.phoneMobile ? `tel:${formData.phoneMobile}` : undefined}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 backdrop-blur text-white"
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl ${contactItemBg} backdrop-blur`}
+                      style={{ color: textColor }}
                     >
                       <Phone className="w-5 h-5" />
-                      <span className="text-sm">{formData.phoneMobile || '+36 30 123 4567'}</span>
+                      <span className="text-sm">{formData.phoneMobile ? formatPhoneDisplay(formData.phoneMobile) : '+36 30 123 4567'}</span>
                     </a>
                   )}
                   {(formData.email || !hasAnyData) && (
                     <a
                       href={formData.email ? `mailto:${formData.email}` : undefined}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 backdrop-blur text-white"
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl ${contactItemBg} backdrop-blur`}
+                      style={{ color: textColor }}
                     >
                       <Mail className="w-5 h-5" />
                       <span className="text-sm">{formData.email || 'minta@minta.hu'}</span>
@@ -119,10 +127,11 @@ END:VCARD`;
                       href={formData.website || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 backdrop-blur text-white"
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl ${contactItemBg} backdrop-blur`}
+                      style={{ color: textColor }}
                     >
                       <Globe className="w-5 h-5" />
-                      <span className="text-sm">{formData.website || 'https://qrnevjegy.hu/'}</span>
+                      <span className="text-sm">{formData.website ? formatWebsiteDisplay(formData.website) : 'qrnevjegy.hu'}</span>
                     </a>
                   )}
                 </div>

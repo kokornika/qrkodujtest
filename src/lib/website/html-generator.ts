@@ -3,6 +3,8 @@ import { generateCSS } from './css-generator';
 import { socialIcons } from '../social-icons';
 import { socialColors } from '../social-colors';
 import { generateHungarianMonogram, splitHungarianName } from '../utils/name-utils';
+import { formatWebsiteDisplay } from '../utils/url-utils';
+import { formatPhoneDisplay } from '../utils/phone-utils';
 import * as QRCode from 'qrcode';
 
 export async function generateHTML(data: VCardFormData): Promise<string> {
@@ -91,7 +93,7 @@ END:VCARD`;
                     ${data.phoneMobile ? `
                     <a href="tel:${data.phoneMobile}" class="contact-item">
                         <i class="fas fa-mobile-alt"></i>
-                        <span>${data.phoneMobile}</span>
+                        <span>${formatPhoneDisplay(data.phoneMobile)}</span>
                     </a>
                     ` : ''}
                     
@@ -112,7 +114,7 @@ END:VCARD`;
                     ${data.website ? `
                     <a href="${data.website}" target="_blank" class="contact-item">
                         <i class="fas fa-globe"></i>
-                        <span>${data.website}</span>
+                        <span>${formatWebsiteDisplay(data.website)}</span>
                     </a>
                     ` : ''}
                     

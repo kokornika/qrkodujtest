@@ -67,19 +67,6 @@ const VCardOptionalInfo: React.FC<VCardOptionalInfoProps> = ({
           type="text"
           className="w-full text-center sm:text-left"
         />
-
-        <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Bemutatkozás
-          </label>
-          <textarea
-            value={formData.description}
-            onChange={(e) => onChange('description', e.target.value)}
-            placeholder="Írj egy rövid bemutatkozást..."
-            className="w-full p-4 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center sm:text-left min-h-[120px] transition-all duration-200"
-            rows={4}
-          />
-        </div>
       </div>
     </div>
   );

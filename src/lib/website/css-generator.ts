@@ -1,4 +1,11 @@
+import { VCardFormData } from '../../types/vcard';
+import { getContrastColor } from '../utils/color-utils';
+
 export function generateCSS(data: VCardFormData): string {
+  const { textColor, isLight } = getContrastColor(data.backgroundColor);
+  const contactBg = isLight ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.10)';
+  const contactBgHover = isLight ? 'rgba(0,0,0,0.12)' : 'rgba(255,255,255,0.15)';
+
   return `
     /* Reset & Base Styles */
     *, *::before, *::after {
@@ -9,6 +16,7 @@ export function generateCSS(data: VCardFormData): string {
 
     :root {
       --primary-color: ${data.backgroundColor};
+      --panel-text-color: ${textColor};
       --text-primary: #1a1a1a;
       --text-secondary: #666666;
       --background: #ffffff;
@@ -44,8 +52,8 @@ export function generateCSS(data: VCardFormData): string {
 
     /* Left Panel */
     .left-panel {
-      background: linear-gradient(135deg, var(--primary-color), ${data.backgroundType === 'gradient' ? `${data.backgroundColor}66` : data.backgroundColor});
-      color: white;
+      background: linear-gradient(135deg, var(--primary-color), ${data.backgroundType === 'gradient' ? `${data.backgroundColor}99` : data.backgroundColor});
+      color: var(--panel-text-color);
       padding: 3rem;
       position: relative;
       display: flex;
@@ -110,15 +118,15 @@ export function generateCSS(data: VCardFormData): string {
       gap: 1rem;
       padding: 1rem;
       border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.1);
+      background: ${contactBg};
       backdrop-filter: blur(10px);
-      color: white;
+      color: var(--panel-text-color);
       text-decoration: none;
       transition: transform 0.2s, background-color 0.2s;
     }
 
     .contact-item:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: ${contactBgHover};
       transform: translateX(4px);
     }
 
@@ -227,7 +235,7 @@ export function generateCSS(data: VCardFormData): string {
 
     .action-button.primary {
       background: var(--primary-color);
-      color: white;
+      color: var(--panel-text-color);
     }
 
     .action-button.secondary {
