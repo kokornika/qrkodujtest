@@ -1,6 +1,6 @@
-import { VCardFormData } from '../../types/vcard';
+import { VCardFormData, BillingData } from '../../types/vcard';
 
-export function generateOrderSummary(data: VCardFormData): string {
+export function generateOrderSummary(data: VCardFormData, billingData?: BillingData): string {
   return JSON.stringify({
     personalInfo: {
       name: data.name,
@@ -28,6 +28,12 @@ export function generateOrderSummary(data: VCardFormData): string {
       backgroundType: data.backgroundType,
       profilePicture: data.profilePicture ? 'Van' : 'Nincs'
     },
-    socialLinks: data.socialLinks
+    socialLinks: data.socialLinks,
+    billingInfo: billingData ? {
+      type: billingData.type === 'company' ? 'Cég' : 'Magánszemély',
+      name: billingData.name,
+      ...(billingData.type === 'company' && billingData.taxNumber ? { taxNumber: billingData.taxNumber } : {}),
+      address: `${billingData.zipcode} ${billingData.city}, ${billingData.street}`
+    } : 'Nincs megadva'
   }, null, 2);
 }

@@ -29,7 +29,11 @@ const VCardForm: React.FC = () => {
     getFieldError,
     setShowOrderDialog,
     setShowValidationError,
-    isFormValid
+    isFormValid,
+    billingData,
+    billingErrors,
+    updateBilling,
+    switchBillingType,
   } = useVCardForm();
 
   // Debug: Log when OrderDialog state changes
@@ -99,6 +103,10 @@ const VCardForm: React.FC = () => {
             showValidationError={showValidationError}
             hasStartedEditing={hasStartedEditing}
             isFormValid={isFormValid()}
+            billingData={billingData}
+            billingErrors={billingErrors}
+            onBillingUpdate={updateBilling}
+            onBillingTypeChange={switchBillingType}
           />
         </div>
 
@@ -118,7 +126,7 @@ const VCardForm: React.FC = () => {
         isVisible={showFloatingPreview}
       />
 
-      <OrderDialog 
+      <OrderDialog
         isOpen={showOrderDialog}
         onOpenChange={(open) => {
           console.log('OrderDialog onOpenChange:', open);
@@ -130,6 +138,7 @@ const VCardForm: React.FC = () => {
           setShowValidationError(false);
         }}
         formData={formData}
+        billingData={billingData}
       />
 
       <ExitIntentPopup 

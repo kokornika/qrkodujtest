@@ -7,7 +7,8 @@ import VCardOptionalInfo from './VCardOptionalInfo';
 import VCardAddressInfo from './VCardAddressInfo';
 import VCardAppearance from './VCardAppearance';
 import VCardSocialLinks from './VCardSocialLinks';
-import { VCardFormData } from '../../types/vcard';
+import VCardBillingInfo from './VCardBillingInfo';
+import { VCardFormData, BillingData, BillingType } from '../../types/vcard';
 
 interface VCardFormContentProps {
   formData: VCardFormData;
@@ -17,6 +18,10 @@ interface VCardFormContentProps {
   showValidationError: boolean;
   hasStartedEditing: boolean;
   isFormValid: boolean;
+  billingData: BillingData;
+  billingErrors: Partial<Record<keyof BillingData, string>>;
+  onBillingUpdate: (field: Exclude<keyof BillingData, 'type'>, value: string) => void;
+  onBillingTypeChange: (type: BillingType) => void;
 }
 
 const VCardFormContent: React.FC<VCardFormContentProps> = ({
@@ -26,12 +31,18 @@ const VCardFormContent: React.FC<VCardFormContentProps> = ({
   onOrder,
   showValidationError,
   hasStartedEditing,
-  isFormValid
+  isFormValid,
+  billingData,
+  billingErrors,
+  onBillingUpdate,
+  onBillingTypeChange,
 }) => {
+  const hasBillingError = Object.keys(billingErrors).length > 0;
+
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 relative">
       <div className="absolute top-0 left-0 right-0 h-1 bg-gray-100 rounded-t-xl overflow-hidden">
-        <div 
+        <div
           className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300"
           style={{ width: `${Math.min(((Object.keys(formData).filter(k => formData[k as keyof VCardFormData]).length) / 5) * 100, 100)}%` }}
         />
@@ -39,33 +50,45 @@ const VCardFormContent: React.FC<VCardFormContentProps> = ({
 
       <div className="space-y-6 sm:space-y-8">
         {/* Kötelező adatok előre */}
-        <VCardPersonalInfo 
-          formData={formData} 
+        <VCardPersonalInfo
+          formData={formData}
           onChange={onChange}
           error={getFieldError('name')}
         />
-        
-        <VCardContactInfo 
-          formData={formData} 
+
+        <VCardContactInfo
+          formData={formData}
           onChange={onChange}
           errors={{
             email: getFieldError('email'),
             phoneMobile: getFieldError('phoneMobile')
           }}
         />
-        
+
         {/* Opcionális adatok utána */}
         <VCardOptionalInfo formData={formData} onChange={onChange} />
         <VCardAppearance formData={formData} onChange={onChange} />
         <VCardAddressInfo formData={formData} onChange={onChange} />
         <VCardSocialLinks formData={formData} onChange={onChange} />
+
+        {/* Számlázási adatok */}
+        <div className={`border rounded-xl p-4 sm:p-5 transition-colors ${hasBillingError ? 'border-red-300 bg-red-50/30' : 'border-gray-200'}`}>
+          <VCardBillingInfo
+            billingData={billingData}
+            billingErrors={billingErrors}
+            onUpdate={onBillingUpdate}
+            onTypeChange={onBillingTypeChange}
+          />
+        </div>
       </div>
 
       <div className={`fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 shadow-lg lg:static lg:mt-8 lg:p-0 lg:border-0 lg:shadow-none z-20 transition-all duration-300 ${hasStartedEditing ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 lg:translate-y-0 lg:opacity-100'}`}>
         <div className="space-y-3">
           {showValidationError && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-600">
-              Kérjük, töltse ki a kötelező mezőket (név, email, telefonszám) a folytatáshoz!
+              {hasBillingError
+                ? 'Kérjük, töltse ki a számlázási adatokat és a kötelező névjegymezőket!'
+                : 'Kérjük, töltse ki a kötelező mezőket (név, email, telefonszám) a folytatáshoz!'}
             </div>
           )}
           <Button

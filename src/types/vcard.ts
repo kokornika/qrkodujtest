@@ -1,3 +1,14 @@
+export type BillingType = 'individual' | 'company';
+
+export interface BillingData {
+  type: BillingType;
+  name: string;
+  taxNumber?: string;
+  zipcode: string;
+  city: string;
+  street: string;
+}
+
 export interface VCardFormData {
   name: string;
   company: string;

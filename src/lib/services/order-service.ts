@@ -30,7 +30,7 @@ export class OrderService {
         throw new Error('Order data not found');
       }
 
-      const { formData, plan } = JSON.parse(orderDataStr);
+      const { formData, plan, billingData } = JSON.parse(orderDataStr);
 
       // Create GitHub repository and get URLs
       const { repoUrl, deployUrl } = await this.githubRepo.createRepository(formData, orderId);
@@ -40,8 +40,8 @@ export class OrderService {
 
       // Send confirmation emails
       await Promise.all([
-        this.emailService.sendCustomerEmail(formData, plan, deployUrl, orderId),
-        this.emailService.sendAdminEmail(formData, plan, repoUrl, deployUrl, orderId, paymentIntentId)
+        this.emailService.sendCustomerEmail(formData, plan, deployUrl, orderId, billingData),
+        this.emailService.sendAdminEmail(formData, plan, repoUrl, deployUrl, orderId, paymentIntentId, billingData)
       ]);
 
       // Clear session storage

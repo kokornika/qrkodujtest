@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
-import { VCardFormData, defaultVCardData } from '../../types/vcard';
-import { ValidationError, validateVCardForm, formatPhone, validateEmail, validatePhoneNumber } from '../validation/vcard-validation';
+import { VCardFormData, defaultVCardData, BillingData, BillingType } from '../../types/vcard';
+import { ValidationError, validateVCardForm, validateEmail, validatePhoneNumber } from '../validation/vcard-validation';
+
+const defaultBillingData: BillingData = {
+  type: 'individual',
+  name: '',
+  zipcode: '',
+  city: '',
+  street: '',
+};
 
 export const useVCardForm = () => {
   const [formData, setFormData] = useState<VCardFormData>(defaultVCardData);
@@ -13,6 +21,9 @@ export const useVCardForm = () => {
   const [hasShownPreview, setHasShownPreview] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
 
+  const [billingData, setBillingData] = useState<BillingData>(defaultBillingData);
+  const [billingErrors, setBillingErrors] = useState<Partial<Record<keyof BillingData, string>>>({});
+
   const isFormValid = () => {
     return (
       formData.name.trim() !== '' &&
@@ -23,18 +34,70 @@ export const useVCardForm = () => {
     );
   };
 
+  const updateBilling = (field: Exclude<keyof BillingData, 'type'>, value: string) => {
+    setBillingData(prev => ({ ...prev, [field]: value }));
+    if (billingErrors[field]) {
+      setBillingErrors(prev => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const switchBillingType = (type: BillingType) => {
+    setBillingData(prev => ({ ...prev, type, taxNumber: undefined }));
+    setBillingErrors({});
+  };
+
+  const validateBilling = (): boolean => {
+    const errors: Partial<Record<keyof BillingData, string>> = {};
+
+    if (!billingData.name.trim()) {
+      errors.name = billingData.type === 'company'
+        ? 'A cégnév megadása kötelező'
+        : 'A számlázási név megadása kötelező';
+    }
+
+    if (billingData.type === 'company') {
+      if (!billingData.taxNumber?.trim()) {
+        errors.taxNumber = 'Az adószám megadása kötelező';
+      } else if (!/^\d{8}-\d{1}-\d{2}$/.test(billingData.taxNumber.trim())) {
+        errors.taxNumber = 'Helytelen formátum (pl. 12345678-1-23)';
+      }
+    }
+
+    if (!billingData.zipcode.trim()) {
+      errors.zipcode = 'Az irányítószám megadása kötelező';
+    } else if (!/^\d{4}$/.test(billingData.zipcode.trim())) {
+      errors.zipcode = 'Az irányítószám 4 számjegyből áll';
+    }
+
+    if (!billingData.city.trim()) {
+      errors.city = 'A város megadása kötelező';
+    }
+
+    if (!billingData.street.trim()) {
+      errors.street = 'A cím megadása kötelező';
+    }
+
+    setBillingErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleOrderClick = () => {
-    if (isFormValid()) {
+    const cardValid = isFormValid();
+    const billingValid = validateBilling();
+
+    if (cardValid && billingValid) {
       setShowOrderDialog(true);
       setShowValidationError(false);
     } else {
       setShowValidationError(true);
-      setTouched(prev => ({
-        ...prev,
-        name: true,
-        email: true,
-        phoneMobile: true
-      }));
+      if (!cardValid) {
+        setTouched(prev => ({
+          ...prev,
+          name: true,
+          email: true,
+          phoneMobile: true
+        }));
+      }
     }
   };
 
@@ -47,11 +110,6 @@ export const useVCardForm = () => {
       showTemporaryPreview();
     }
 
-    // Ne formázzuk automatikusan a telefonszámot - hagyjuk, ahogy a felhasználó írja
-    // if (field === 'phoneMobile' || field === 'phoneWork' || field === 'phonePrivate') {
-    //   processedValue = formatPhone(value);
-    // }
-
     setFormData(prev => ({
       ...prev,
       [field]: processedValue
@@ -63,7 +121,7 @@ export const useVCardForm = () => {
     }));
 
     if (!hasStartedEditing && (
-      (typeof processedValue === 'string' && processedValue.trim()) || 
+      (typeof processedValue === 'string' && processedValue.trim()) ||
       (Array.isArray(processedValue) && processedValue.length > 0)
     )) {
       setHasStartedEditing(true);
@@ -72,7 +130,7 @@ export const useVCardForm = () => {
 
   const showTemporaryPreview = () => {
     if (hasShownPreview) return;
-    
+
     setShowFloatingPreview(true);
     setHasShownPreview(true);
 
@@ -85,7 +143,7 @@ export const useVCardForm = () => {
     const touchedFields = Object.keys(touched).filter(key => touched[key]);
     if (touchedFields.length > 0) {
       const validationErrors = validateVCardForm(formData);
-      setErrors(validationErrors.filter(error => 
+      setErrors(validationErrors.filter(error =>
         touchedFields.includes(error.field)
       ));
     }
@@ -109,6 +167,10 @@ export const useVCardForm = () => {
     handleChange,
     getFieldError,
     setShowOrderDialog,
-    setShowValidationError
+    setShowValidationError,
+    billingData,
+    billingErrors,
+    updateBilling,
+    switchBillingType,
   };
 };
