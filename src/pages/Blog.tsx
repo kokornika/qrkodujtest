@@ -1,8 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, QrCode, CreditCard, Smartphone, Share2, Briefcase, BarChart3, TrendingUp } from 'lucide-react';
+import { ArrowRight, QrCode, Smartphone, Share2, Briefcase, BarChart3, TrendingUp } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const blogPosts = [
+  {
+    id: 12,
+    slug: 'digitalis-nevjegykartya-szakmaknak',
+    title: 'Digitális névjegykártya ingatlanosoknak, értékesítőknek és freelancereknek',
+    excerpt: 'Hogyan használják a digitális névjegykártyát különböző szakmákban? Konkrét tippek ingatlanosoknak, értékesítőknek, szabadúszóknak.',
+    icon: Briefcase,
+    readTime: '10 perc',
+    keywords: ['ingatlanos', 'értékesítő', 'freelancer', 'szakmák szerint']
+  },
+  {
+    id: 11,
+    slug: 'qr-kod-nevjegykartya-keszites-utmutato',
+    title: 'QR kód névjegykártya készítés: útmutató vállalkozóknak',
+    excerpt: 'Hogyan készítsen QR kódos névjegykártyát percek alatt? Lépésről lépésre útmutató vállalkozóknak — költségek, beállítások, tippek.',
+    icon: QrCode,
+    readTime: '8 perc',
+    keywords: ['QR kód névjegykártya', 'útmutató', 'vállalkozóknak', 'lépésről lépésre']
+  },
   {
     id: 10,
     slug: 'qr-kod-nevjegykartya-keszites-minden-amit-tudni-kell',
@@ -49,33 +68,6 @@ const blogPosts = [
     keywords: ['vállalkozás', 'digitális névjegy', 'üzleti kapcsolatépítés', 'modern marketing']
   },
   {
-    id: 1,
-    slug: 'digitalis-nevjegykartyak-elonyei',
-    title: 'A digitális névjegykártyák 5 előnye a hagyományos névjegyekkel szemben',
-    excerpt: 'Fedezze fel, hogyan teheti hatékonyabbá kapcsolatépítését modern digitális névjegykártyákkal. Környezetbarát, költséghatékony és professzionális megoldás üzleti kapcsolataihoz.',
-    icon: CreditCard,
-    readTime: '5 perc',
-    keywords: ['digitális névjegykártya', 'online névjegy', 'elektronikus névjegy', 'környezetbarát névjegy']
-  },
-  {
-    id: 2,
-    slug: 'qr-kodok-a-modern-uzletben',
-    title: 'QR kódok a modern üzleti életben: Több mint csak egy vonalkód',
-    excerpt: 'Ismerje meg a QR kódok sokoldalú felhasználási lehetőségeit és azok üzleti előnyeit. Hatékony megoldások kapcsolatépítésre és információmegosztásra.',
-    icon: QrCode,
-    readTime: '4 perc',
-    keywords: ['qr kód készítés', 'qr kód generálás', 'üzleti qr kód', 'dinamikus qr kód']
-  },
-  {
-    id: 3,
-    slug: 'nevjegykeszites-jovoje-trendek',
-    title: 'A névjegykészítés jövője: Trendek és innovációk',
-    excerpt: 'Pillantson be a névjegykészítés jövőjébe, ahol a digitális és fizikai világ találkozik. Innovatív megoldások a modern üzleti kapcsolatépítéshez.',
-    icon: Smartphone,
-    readTime: '6 perc',
-    keywords: ['modern névjegykártya', 'digitális kapcsolatépítés', 'üzleti networking', 'smart névjegy']
-  },
-  {
     id: 4,
     slug: 'praktikus-tippek-digitalis-nevjegyekhez',
     title: 'Praktikus tippek a digitális névjegyek hatékony használatához',
@@ -98,6 +90,10 @@ const blogPosts = [
 const Blog = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
+      <SEO
+        title="Blog | Digitális Névjegykártya Tippek | QRNevjegy"
+        description="Szakértői tippek, trendek és gyakorlati tanácsok a digitális névjegyek és QR kódok modern üzleti felhasználásáról."
+      />
       {/* Hero section */}
       <div className="bg-indigo-600 text-white py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

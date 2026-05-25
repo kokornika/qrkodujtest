@@ -77,7 +77,7 @@ END:VCARD`;
                     <img
                       src={formData.profilePicture}
                       alt={formData.name || 'Profile'}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover" loading="lazy" decoding="async"
                     />
                   </div>
                 ) : hasAnyData ? (
@@ -89,7 +89,7 @@ END:VCARD`;
                     <img
                       src="/minta-profil.jpg"
                       alt="Minta profil"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover" loading="lazy" decoding="async"
                     />
                   </div>
                 )}

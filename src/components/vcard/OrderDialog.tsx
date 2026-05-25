@@ -158,8 +158,8 @@ const OrderDialog: React.FC<OrderDialogProps> = ({ isOpen, onOpenChange, formDat
                 <span>Biztonságos Stripe fizetés</span>
               </div>
               <div className="flex items-center gap-2">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" className="h-3.5 opacity-60" />
-                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" className="h-3.5 opacity-60" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" className="h-3.5 opacity-60" loading="lazy" decoding="async" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" className="h-3.5 opacity-60" loading="lazy" decoding="async" />
               </div>
             </div>
           </div>

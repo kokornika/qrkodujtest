@@ -31,7 +31,7 @@ const BlogPost10 = () => {
           <img
             src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200&h=600"
             alt="QR kód névjegykártya készítés technikai útmutató"
-            className="w-full rounded-xl mb-8"
+            className="w-full rounded-xl mb-8" loading="lazy" decoding="async"
           />
 
           <div className="bg-gradient-to-r from-purple-50 to-blue-50 border-l-4 border-purple-400 p-6 mb-8">

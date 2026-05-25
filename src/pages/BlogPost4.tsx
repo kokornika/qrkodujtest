@@ -1,10 +1,16 @@
 import React from 'react';
 import { Share2 } from 'lucide-react';
 import BlogCTA from '../components/blog/BlogCTA';
+import SEO from '../components/SEO';
 
 const BlogPost4 = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
+      <SEO
+        title="Praktikus tippek a digitális névjegyek hatékony használatához | QRNevjegy"
+        description="Gyakorlati tanácsok és trükkök, amelyekkel maximalizálhatja digitális névjegye hatékonyságát. Professzionális megjelenés és egyszerű kezelhetőség."
+        article
+      />
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
           Praktikus tippek a digitális névjegyek hatékony használatához
@@ -19,7 +25,7 @@ const BlogPost4 = () => {
           <img
             src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1200&h=600"
             alt="Digitális névjegy használata"
-            className="w-full rounded-xl mb-8"
+            className="w-full rounded-xl mb-8" loading="lazy" decoding="async"
           />
 
           <h2>Optimalizálja digitális névjegyét a maximális hatékonyságért</h2>
@@ -33,7 +39,7 @@ const BlogPost4 = () => {
           <img
             src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&q=80&w=1200&h=600"
             alt="Profi megjelenés kialakítása"
-            className="w-full rounded-xl my-8"
+            className="w-full rounded-xl my-8" loading="lazy" decoding="async"
           />
 
           <h3>1. Profi megjelenés kialakítása</h3>
@@ -55,7 +61,7 @@ const BlogPost4 = () => {
           <img
             src="https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&q=80&w=1200&h=600"
             alt="Tartalom optimalizálás"
-            className="w-full rounded-xl my-8"
+            className="w-full rounded-xl my-8" loading="lazy" decoding="async"
           />
 
           <h3>2. Tartalom optimalizálás</h3>
@@ -79,7 +85,7 @@ const BlogPost4 = () => {
           <img
             src="https://images.unsplash.com/photo-1553484771-371a605b060b?auto=format&fit=crop&q=80&w=1200&h=600"
             alt="Analitika és követés"
-            className="w-full rounded-xl my-8"
+            className="w-full rounded-xl my-8" loading="lazy" decoding="async"
           />
 
           <h2>Összegzés</h2>

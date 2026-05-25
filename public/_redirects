@@ -1,1 +1,7 @@
-/* /index.html 200
+# 301 redirects for removed blog posts (consolidated into stronger pillar articles)
+/blog/digitalis-nevjegykartyak-elonyei    /blog/digitalis-nevjegykartyak-10-legnagyobb-elonye-vallalkozasoknak    301
+/blog/qr-kodok-a-modern-uzletben    /blog/qr-kod-nevjegykartya-keszites-minden-amit-tudni-kell    301
+/blog/nevjegykeszites-jovoje-trendek    /blog/digitalis-nevjegykartya-trendek-2025    301
+
+# SPA fallback
+/*    /index.html    200

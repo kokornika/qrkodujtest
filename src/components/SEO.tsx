@@ -83,20 +83,7 @@ const SEO: React.FC<SEOProps> = ({
       <meta name="robots" content="index, follow" />
       <link rel="canonical" href={url} />
       <meta name="language" content="Hungarian" />
-      <meta name="revisit-after" content="7 days" />
       <meta name="author" content="QRNevjegy" />
-      
-      {/* Additional SEO Meta Tags */}
-      <meta name="keywords" content="digitális névjegykártya, QR kód generálás, elektronikus névjegy, online névjegykártya, digitális névjegy készítés, QR kód névjegy, modern névjegykártya, környezetbarát névjegy, üzleti névjegy, kapcsolatépítés" />
-      <meta name="geo.region" content="HU" />
-      <meta name="geo.placename" content="Magyarország" />
-      <meta name="geo.position" content="47.1625;19.5033" />
-      <meta name="ICBM" content="47.1625, 19.5033" />
-      <meta name="distribution" content="global" />
-      <meta name="rating" content="general" />
-      <meta name="target" content="all" />
-      <meta name="HandheldFriendly" content="True" />
-      <meta name="MobileOptimized" content="320" />
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={article ? 'article' : 'website'} />

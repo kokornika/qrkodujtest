@@ -124,7 +124,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, onChange }) => {
             <img
               src={value}
               alt="Uploaded"
-              className="w-full h-full object-cover rounded-full object-center"
+              className="w-full h-full object-cover rounded-full object-center" loading="lazy" decoding="async"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100">
               <button

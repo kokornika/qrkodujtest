@@ -89,7 +89,7 @@ const LandingPage = () => {
               <img 
                 src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80" 
                 alt="Digital Business Card Preview"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover" loading="lazy" decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             </div>

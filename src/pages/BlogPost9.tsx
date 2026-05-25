@@ -31,7 +31,7 @@ const BlogPost9 = () => {
           <img
             src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200&h=600"
             alt="Digitális névjegykártya előnyei vállalkozásoknak"
-            className="w-full rounded-xl mb-8"
+            className="w-full rounded-xl mb-8" loading="lazy" decoding="async"
           />
 
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-400 p-6 mb-8">

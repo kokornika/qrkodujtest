@@ -16,13 +16,12 @@ const routes = [
   { url: '/blog', changefreq: 'daily', priority: 0.8 },
   
   // Blog posts - optimized for SEO
+  { url: '/blog/digitalis-nevjegykartya-szakmaknak', changefreq: 'monthly', priority: 0.9 },
+  { url: '/blog/qr-kod-nevjegykartya-keszites-utmutato', changefreq: 'monthly', priority: 0.9 },
   { url: '/blog/qr-kod-nevjegykartya-keszites-minden-amit-tudni-kell', changefreq: 'monthly', priority: 0.9 },
   { url: '/blog/digitalis-nevjegykartyak-10-legnagyobb-elonye-vallalkozasoknak', changefreq: 'monthly', priority: 0.9 },
   { url: '/blog/digitalis-nevjegykartya-vs-hagyomanyos-nevjegy-osszehasonlitas', changefreq: 'monthly', priority: 0.9 },
   { url: '/blog/hogyan-keszitsunk-digitalis-nevjegykartyat-lepesrol-lepesre', changefreq: 'monthly', priority: 0.9 },
-  { url: '/blog/digitalis-nevjegykartyak-elonyei', changefreq: 'monthly', priority: 0.8 },
-  { url: '/blog/qr-kodok-a-modern-uzletben', changefreq: 'monthly', priority: 0.8 },
-  { url: '/blog/nevjegykeszites-jovoje-trendek', changefreq: 'monthly', priority: 0.7 },
   { url: '/blog/praktikus-tippek-digitalis-nevjegyekhez', changefreq: 'monthly', priority: 0.7 },
   { url: '/blog/digitalis-nevjegykartya-keszites-vallalkozasoknak', changefreq: 'monthly', priority: 0.9 },
   { url: '/blog/digitalis-nevjegykartya-trendek-2025', changefreq: 'monthly', priority: 0.8 },
